@@ -2,11 +2,16 @@
   "name": "hexo-site",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "dev": "harp server & browser-sync start --proxy 'localhost:9000' --files 'public/**/*.jade, public/**/*.md, public/**/*.less, public/**/_data.json'"
+  },
   "hexo": {
     "version": "3.3.9"
   },
   "dependencies": {
+    "browser-sync-ejs": "^0.2.2",
     "hexo": "^3.2.0",
+    "hexo-browsersync": "^0.2.0",
     "hexo-deployer-git": "^0.3.1",
     "hexo-generator-archive": "^0.1.4",
     "hexo-generator-category": "^0.1.3",

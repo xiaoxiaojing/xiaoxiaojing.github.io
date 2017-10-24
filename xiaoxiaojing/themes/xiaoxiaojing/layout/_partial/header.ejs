@@ -1,0 +1,16 @@
+<header class="d-flex flex-row justify-content-around header">
+    <div class="blog-logo">
+        <a href="<%- url_for() %>" class="logo">
+            <%= config.title %>
+        </a>
+    </div>
+    <nav class="navbar">
+        <ul class="nav justify-content-end">
+            <% for (name in theme.menu){ %>
+                <li class="nav-item">
+                    <a href="<%- url_for(theme.menu[name])%>" class="nav-link"><%= name %></a>
+                </li>
+            <%}%>
+        </ul>
+    </nav>
+</header>

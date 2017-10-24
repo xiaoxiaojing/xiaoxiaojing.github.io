@@ -76,6 +76,7 @@ git push origin hexo
 1. 为什么要创建分支hexo?
     * 因为使用`hexo g -d`只会把编译后的文件push到master分支下。如果你有多台电脑，你不能在其他电脑上编辑文章。所以创建一个分支用来保存开发文件。
 2. [参考链接](https://www.zhihu.com/question/21193762)
+
 ### hexo分支下的文件操作
 1. 添加文章
     ```
@@ -87,3 +88,8 @@ git push origin hexo
     git commit -am "提交信息"
     git push origin hexo
     ```
+- - -
+* 参考链接：
+    - [创建Github Pages](https://pages.github.com/)
+    - [hexo 官网](https://hexo.io/)
+    - [备份hexo开发文件](https://www.zhihu.com/question/21193762)

@@ -1,3 +1,8 @@
+# mac
+.DS_Store
+.deploy_git
+public
+
 # Logs
 logs
 *.log
@@ -56,4 +61,3 @@ typings/
 
 # dotenv environment variables file
 .env
-

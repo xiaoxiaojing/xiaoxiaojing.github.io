@@ -2,6 +2,7 @@
 menu:
   Home: /
   Archives: /archives
+  HTTP: /categories/HTTP
 rss: /atom.xml
 
 # Content
