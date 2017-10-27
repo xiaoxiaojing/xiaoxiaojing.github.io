@@ -5,7 +5,7 @@ tags: http
 categories: HTTP
 ---
 
-## 1. 网络基础TCP/IP
+## 一、网络基础TCP/IP
 * 通常使用的网络是在TCP/IP协议族的基础上运作的。HTTP（超文本传输协议）是它的一个子集
 
 ### TCP/IP的分层管理
@@ -22,7 +22,7 @@ categories: HTTP
 {% asset_img 数据传输.jpg %}
 </div>
 
-## 与HTTP关系密切的协议：IP、TCP和DNS
+## 二、与HTTP关系密切的协议：IP、TCP和DNS
 ### IP协议：负责传输
 * IP协议的作用：把各种数据包传送给对方，（需要确定IP地址和MAC地址）
   - IP地址：指明了节点被分配到的地址
@@ -46,10 +46,10 @@ categories: HTTP
 ### DNS服务：负责域名解析
 * DNS服务：位于应用层，提供域名到IP地址之间的解析服务
 
-## 2. URI（Uniform Resource Identifier）和URL（Uniform Resource Locator）
+## 三、URI（Uniform Resource Identifier）和URL（Uniform Resource Locator）
 * URI：由某个协议方案表示的资源的定位标识符。协议方案是指访问资源所使用的协议类型名称，如http，ftp，file等
 * URL：URL是URI的子集
-### URI
+* URI结构如下：
 <div style="width:600px">
 {% asset_img URI的格式.jpg %}
 </div>
