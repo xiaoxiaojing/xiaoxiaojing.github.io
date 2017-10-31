@@ -3,6 +3,8 @@ menu:
   Home: /
   Archives: /archives
   HTTP: /categories/HTTP
+  REACT: /categories/REACT
+  ES6: /categories/ES6
 rss: /atom.xml
 
 # Content
