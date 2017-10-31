@@ -6,7 +6,7 @@ categories: REACT
 ---
 
 ## 一、组件间抽象
-* [代码示例](https://github.com/xiaoxiaojing/xiaoxiaojing.github.io/tree/hexo/example/react-stack/src/)
+* [代码示例](https://github.com/xiaoxiaojing/xiaoxiaojing.github.io/tree/hexo/example/react-stack/src)
 
 ### mixin
 1. 作用：实现多重继承
