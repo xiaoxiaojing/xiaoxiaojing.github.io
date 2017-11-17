@@ -266,3 +266,45 @@ categories: REACT
     //...
   }
   ```
+
+## 二、组件性能优化
+### 1. 防止不必要的渲染，即（PureRender）
+* Pure：是纯函数的概念
+* 使用`PureComponent`： {% post_link PureComponent的使用 %}
+* 使用`Immutable`
+* 给动态子项添加合适的`key prop`
+
+#### 纯函数
+1. 纯函数的三大原则：
+  * 给定相同的输入，它总是返回相同的输出：`y = f(x)`
+    - 例如：Math.random()就是不纯的
+  * 过程没有副作用（side effect）（即不改变外部状态）
+    - 在JavaScript中，如果方法的参数是对象或数组，那么这些对象和数组有可能被方法执行的过程改变
+  * 没有额外的状态依赖
+    - 方法内的状态都只在方法的生命周期内存活
+2. React组件本身就是纯函数
+  * React的`createElement`方法保证了组件是纯净的，即传入指定`props`得到一定的`Virtual DOM`
+3. 优点
+  * 可以让方法或组件更加专注（focused）、体积更小（small）、更独立（independent）、更具有复用性（reusability）和可测试性（testability）
+
+#### Immutable
+1. 使用普通变量存在的问题：
+  * 对象或数组是可变的且是引用类型，新的对象简单地引用了原始对象，改变新的对象将影响到原始对象
+  * PureComponent在判断组件是否需要更新时，不正确的对象或数组的使用会导致组件更新出现问题，参考{% post_link PureComponent的使用 %}
+2. Immutable Data
+  * 是不可变数据
+  * 对Immutable对象进行修改、添加或删除操作，都会返回一个新的Immutable对象
+3. 实现原理：
+  * Immutable是持久化的数据结构（persistent data structure)：使用旧数据创建新数据时，要保证旧数据同时可用且不变
+  * 使用了结构共享（structural sharing)：如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其他节点则进行共享
+4. 注意点
+  * 使用了结构共享，没有变化的节点会被共享，使用`===`来比较`Immutable`对象的内存地址
+    ```
+    let a = Immutable.Map({
+       select: 'user',
+       filter: Immutable.Map({name: 'a'})
+    })
+    let b = a.set('select', 'people')
+    a === b // false
+    a.get('filter') === b.get('filter') // true
+    ```

@@ -1,0 +1,13 @@
+{
+  "private":"true",
+  "workspaces": [
+    "packages/*"
+  ],
+  "name": "yarn-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "simple-json-logger": "^1.2.0"
+  }
+}
