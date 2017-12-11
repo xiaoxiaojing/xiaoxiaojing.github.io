@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import SetStateDemo from './demo-setState'
+import TickTock from './demo-mixin-2/react-mixin'
+import MyComponent from './demo-higher-oerder-component-1/props_proxy'
+import MyComponent1 from './demo-higher-oerder-component-2/inheritance_inversion'
+import Select from './demo-higher-oerder-component-3/Select'
+import Search from './demo-higher-oerder-component-3/Search'
+import SearchSelect from './demo-higher-oerder-component-3/SearchSelect'
+import ReactChildrenTest from './demo-children'
+const items = ["text", "text1", "text2", "text3", "new", "new1", "pro", "pro1"]
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1>demo list</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul className="demo-content">
+          <li><span>mixins demo:</span><TickTock/></li>
+          <li>
+            <span>higher order component demo:</span>
+            <MyComponent/>
+            <MyComponent1 loggedIn={false}/>
+            <Select items={items}/>
+            <Search items={items}/>
+            <SearchSelect items={items}/>
+          </li>
+          <li><span>setState demo:</span><SetStateDemo/></li>
+          <li><span>children demo:<ReactChildrenTest/></span></li>
+        </ul>
       </div>
     );
   }

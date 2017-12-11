@@ -15,7 +15,7 @@ class Search extends Component {
             items
         } = this.props
         return (
-            <div style={{background: "#aaa", width:400, height:200, padding: 20}}>
+            <div style={{background: "#aaa", width:400, height:150, padding: 20}}>
                 <SearchInput value={value} onChange={onChange}/>
                 <List items={items} isOpen={true} onSelect={(item)=>{console.log(item);}}/>
             </div>

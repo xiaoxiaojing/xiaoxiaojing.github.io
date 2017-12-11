@@ -17,7 +17,7 @@ class Select extends Component {
             isOpen
         } = this.props
         return (
-            <div style={{background: "#aaa", width:400, height:200, padding: 20}}>
+            <div style={{background: "#aaa", width:400, height:150, padding: 20}}>
                 <SelectInput selectItem={selectItem} onClick={onClick}/>
                 <List items={items} isOpen={isOpen} onSelect={onSelect}/>
             </div>

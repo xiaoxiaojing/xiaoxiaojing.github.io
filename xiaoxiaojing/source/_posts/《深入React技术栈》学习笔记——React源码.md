@@ -5,6 +5,161 @@ tags: react
 categories: REACT
 ---
 
+* 源码版本：React 16.1.1
+
+## React项目总览：[项目地址]（https://github.com/facebook/react）
+* 使用的构建工具：{% post_link yarn概览 yarn概览 %}
+* packages中的modules
+  ```
+  react
+  ```
+
+## `react`源码解读
+* 先了解几个常量：[ReactSymbols.js](https://github.com/facebook/react/blob/master/packages/shared/ReactSymbols.js)
+  ```
+  REACT_ELEMENT_TYPE   //Symbol(react.element)
+  ```
+
+### 1.[入口文件](https://github.com/facebook/react/blob/master/packages/react/index.js)
+```
+var React = require('./src/React');
+// 暴露了React实例，使用React.default方便测试
+module.exports = React.default ? React.default : React;
+```
+
+### 2.[React.js](https://github.com/facebook/react/blob/master/packages/react/src/React.js)
+```
+// 这个文件是定义一个有各类方法和属性的React对象，从源码中可以看出React有以下属性和方法
+{
+  Children,
+  Component,
+  PureComponent,
+  unstable_AsyncComponent,
+  createElement,
+  cloneElement,
+  createFactory,
+  isValidElement,
+  version,
+
+}
+```
+### 3.[ReactNoopUpdateQueue.js](https://github.com/facebook/react/blob/v16.1.1/packages/react/src/ReactNoopUpdateQueue.js)
+```
+// 声明了几个空函数，从这里的命名可以看出React是通过队列来做更新操作的
+var ReactNoopUpdateQueue = {
+  isMounted: function(publicInstance) {
+    return false;
+  },
+  enqueueForceUpdate: function(publicInstance, callback, callerName) {
+  },
+  enqueueReplaceState: function(publicInstance, completeState, callback, callerName) {
+  },
+  enqueueSetState: function(publicInstance, partialState, callback, callerName) {
+  }
+}
+```
+
+### 4.[ReactBaseClasses.js](https://github.com/facebook/react/blob/v16.1.1/packages/react/src/ReactBaseClasses.js)
+* 返回用于构造组件的几个基类：Component，PureComponent，AsyncComponent
+  - 构造Component
+  ```
+  // 定义Component，有私有的props，context，refs，updater属性
+  function Component(props, context, updater) {
+    this.props = props;
+    this.context = context;
+    this.refs = emptyObject;
+    this.updater = updater || ReactNoopUpdateQueue;
+  }
+  Component.prototype.isReactComponent = {};
+  // this.state是不可变的，只能通过this.setState来更新
+  // 使用this.setState更新state是批量更新，所以调用this.setState后不会马上更新this.state，调用方法后马上访问this.state将会得到旧的state
+  Component.prototype.setState = function(partialState, callback) {
+    this.updater.enqueueSetState(this, partialState, callback, 'setState');
+  };
+  Component.prototype.forceUpdate = function(callback) {
+    this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
+  };
+  ```
+  - 构造`PureComponent`(`AsyncComponent`的构造和`PureComponent`同理，🤔？为什么要这样写继承？🤔🤔)
+  ```
+  function PureComponent(props, context, updater) {
+    this.props = props;
+    this.context = context;
+    this.refs = emptyObject;
+    this.updater = updater || ReactNoopUpdateQueue;
+  }
+  function ComponentDummy() {}
+  ComponentDummy.prototype = Component.prototype;
+  var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
+  pureComponentPrototype.constructor = PureComponent;
+  // Avoid an extra prototype jump for these methods.
+  Object.assign(pureComponentPrototype, Component.prototype);
+  pureComponentPrototype.isPureReactComponent = true;
+  ```
+
+* 源码中对`setState`的解释
+  - `this.state`应该被认为是不可变的，只能通过`this.setState`来更新
+  - 由于使用`this.setState`更新`state`是批量更新，所以调用`this.setState`不会马上更新`this.state`，调用方法后马上访问`this.state`将会得到旧的state
+
+### 5.[ReactChildren.js](https://github.com/facebook/react/blob/master/packages/react/src/ReactChildren.js)
+* 几个功能函数
+  ```
+  getPooledTraverseContext(map, key, func, context) // 汇总上下文
+  releaseTraverseContext(traverseContext) // release上下文
+  ```
+* `forEach`、`map`、`count`、`toArray`都调用了同一个函数：`traverseAllChildrenImpl`  
+  - 如果Children为：`undefined`, `boolean`, `string`, `object`（且`$$typeof`为特定值）， 执行callback，并返回1
+  - 如果Children为Array：**循环数组** 计算节点数量，**递归** 调用callback
+    ```
+    for (var i = 0; i < children.length; i++) {
+      child = children[i];
+      nextName = nextNamePrefix + getComponentKey(child, i);
+      subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext); // 递归时，invokeCallback为真，会调用callback，并返回1
+    }
+    ```
+  - 如果Children为Iterator(即可迭代对象)：**迭代对象** 计算节点数量，**递归** 调用callback
+
+* `React.Children.only`：判断是否只有一个Children
+  ```
+  function onlyChild(children) {
+    invariant(
+      isValidElement(children), // 当chidlren.$$typeof为REACT_ELEMENT_TYPE才会为真
+      'React.Children.only expected to receive a single React element child.',
+    );
+    return children;
+  }
+  ```
+
+### 6.[ReactElement.js](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js)
+* 从源码中可以看到，React的Element的结构
+  ```
+  var element = {
+    $$typeof: REACT_ELEMENT_TYPE,
+    type: type,
+    key: key,
+    ref: ref,
+    props: props,
+    _owner: owner,
+  }
+  ```
+* createElement
+  ```
+
+  ```
+  createFactory,
+  cloneElement,
+  isValidElement
+* isValidElement, cloneElement, cloneAndReplaceKey, createFactory, createElement
+
+
+
+
+
+
+
+
+
+
 * 源码版本：React 15.0.0
 
 ## React源码总览
