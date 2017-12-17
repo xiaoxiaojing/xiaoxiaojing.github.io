@@ -9,6 +9,8 @@ import Select from './demo-higher-oerder-component-3/Select'
 import Search from './demo-higher-oerder-component-3/Search'
 import SearchSelect from './demo-higher-oerder-component-3/SearchSelect'
 import ReactChildrenTest from './demo-children'
+import TestCreateElement from './demo-reactElement/createElement'
+import Fiber from './demo-fiber'
 const items = ["text", "text1", "text2", "text3", "new", "new1", "pro", "pro1"]
 
 class App extends Component {
@@ -30,6 +32,8 @@ class App extends Component {
           </li>
           <li><span>setState demo:</span><SetStateDemo/></li>
           <li><span>children demo:<ReactChildrenTest/></span></li>
+          <li><span>reactElement demo:<TestCreateElement/></span></li>
+          <li><span>Fiber demo:<Fiber/></span></li>
         </ul>
       </div>
     );

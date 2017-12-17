@@ -9,12 +9,8 @@ categories: REACT
 
 ## React项目总览：[项目地址]（https://github.com/facebook/react）
 * 使用的构建工具：{% post_link yarn概览 yarn概览 %}
-* packages中的modules
-  ```
-  react
-  ```
 
-## `react`源码解读
+## React源码解读
 * 先了解几个常量：[ReactSymbols.js](https://github.com/facebook/react/blob/master/packages/shared/ReactSymbols.js)
   ```
   REACT_ELEMENT_TYPE   //Symbol(react.element)
@@ -40,7 +36,6 @@ module.exports = React.default ? React.default : React;
   createFactory,
   isValidElement,
   version,
-
 }
 ```
 ### 3.[ReactNoopUpdateQueue.js](https://github.com/facebook/react/blob/v16.1.1/packages/react/src/ReactNoopUpdateQueue.js)
@@ -60,7 +55,7 @@ var ReactNoopUpdateQueue = {
 ```
 
 ### 4.[ReactBaseClasses.js](https://github.com/facebook/react/blob/v16.1.1/packages/react/src/ReactBaseClasses.js)
-* 返回用于构造组件的几个基类：Component，PureComponent，AsyncComponent
+* 1）返回用于构造组件的几个基类：Component，PureComponent，AsyncComponent
   - 构造Component
   ```
   // 定义Component，有私有的props，context，refs，updater属性
@@ -72,7 +67,8 @@ var ReactNoopUpdateQueue = {
   }
   Component.prototype.isReactComponent = {};
   // this.state是不可变的，只能通过this.setState来更新
-  // 使用this.setState更新state是批量更新，所以调用this.setState后不会马上更新this.state，调用方法后马上访问this.state将会得到旧的state
+  // 使用this.setState更新state是批量更新
+  // 所以调用this.setState后不会马上更新this.state，调用方法后马上访问this.state将会得到旧的state
   Component.prototype.setState = function(partialState, callback) {
     this.updater.enqueueSetState(this, partialState, callback, 'setState');
   };
@@ -80,7 +76,7 @@ var ReactNoopUpdateQueue = {
     this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
   };
   ```
-  - 构造`PureComponent`(`AsyncComponent`的构造和`PureComponent`同理，🤔？为什么要这样写继承？🤔🤔)
+  - 构造`PureComponent`(`AsyncComponent`的构造和`PureComponent`同理)，继承关系如图所示
   ```
   function PureComponent(props, context, updater) {
     this.props = props;
@@ -97,7 +93,17 @@ var ReactNoopUpdateQueue = {
   pureComponentPrototype.isPureReactComponent = true;
   ```
 
-* 源码中对`setState`的解释
+  <div style="width:680px">
+  {% asset_img 继承关系.jpg %}
+  </div>
+
+    * 本质上采用了 {% post_link 面向对象的程序设计之继承 寄生组合式继承  %} （通过构造函数继承属性，通过寄生式继承来继承方法）
+    * ComponentDummy：是一个中间类，它的prototype指向Component的原型对象
+    * ComponentDummy实例：通过new关键字创建，它的[[prototype]]指向Component的原型对象
+    * 扩展ComponentDummy实例：使其`constructor`指向`PureComponent`，并将`Component.prototype`上的属性赋给它（由于`Component.prototyp`的`constructor`属性是不可枚举的，所以不会覆盖之前的属性），并添加了`isPureReactComponent`属性
+    * 这样继承后的结果：当访问`setState`方法，会先看`PureComponent`的原型对象上是否有该方法，再去看`Component`的原型对象上是否有该方法。也就是说，当`Component`的原型对象发生改变时，不会影响到PureComponent；且这样继承后，声明的PureComponent实例的属性是通过PureComponent的构造函数构造的，而不是通过Component的构造函数。（总得来说这样继承拷贝了Component.prototype上的方法到PureComponent.prototype上，在之后对原型对象的操作时，将会互不影响。）
+
+* 2）源码中对`setState`的解释
   - `this.state`应该被认为是不可变的，只能通过`this.setState`来更新
   - 由于使用`this.setState`更新`state`是批量更新，所以调用`this.setState`不会马上更新`this.state`，调用方法后马上访问`this.state`将会得到旧的state
 
@@ -131,25 +137,23 @@ var ReactNoopUpdateQueue = {
   ```
 
 ### 6.[ReactElement.js](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js)
-* 从源码中可以看到，React的Element的结构
+* 使用【工厂模式】创建`ReactElement`对象
   ```
-  var element = {
-    $$typeof: REACT_ELEMENT_TYPE,
-    type: type,
-    key: key,
-    ref: ref,
-    props: props,
-    _owner: owner,
+  const ReactElement = function () {
+    const element = {
+      $$typeof: REACT_ELEMENT_TYPE,
+      type: type,
+      key: key,
+      ref: ref,
+      props: props,
+      _owner: owner,
+    }
+    return element
   }
   ```
-* createElement
-  ```
+* 提供了一系列方法：`createElement`、`createFactory`、`cloneAndReplaceKey`、`cloneElement`、isValidElement
 
-  ```
-  createFactory,
-  cloneElement,
-  isValidElement
-* isValidElement, cloneElement, cloneAndReplaceKey, createFactory, createElement
+
 
 
 
