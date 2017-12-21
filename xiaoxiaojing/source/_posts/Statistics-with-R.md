@@ -1,7 +1,8 @@
 ---
 title: 概率论和统计学
 date: 2017-09-18 20:43:07
-tags:
+tags: 概率论
+categories: Other
 ---
 
 ## install the R
@@ -18,7 +19,7 @@ brew install r
 3. 随机事件（用A,B,C...表示）：是事件空间的子集
 4. 必然事件 和 不可能事件
 5. 事件的计算
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img 事件运算.png%}
   </div>
 
@@ -29,7 +30,7 @@ brew install r
 1. 传统概率（拉普拉斯概率）：如果一个随机试验所包含的事件是有限的，并且每个事件发生的可能性均相等，则这个试验叫做拉普拉斯试验
   * 事件A在事件空间S中的概率记为P(A)：P(A) = 构成事件A的元素数目/构成事件空间S的所有元素数目
 2. 统计概率：对一个事件做相互独立的n次随机试验，随着次数n的增加，相对频率会趋向于一个极限值，这个极限值被称为统计概率
-<div style="width:200px">
+<div style="max-width:200px">
 {% asset_img 统计概率.png%}
 </div>
 3. 现代概率论
@@ -60,7 +61,7 @@ brew install r
 * 离散分布
   - 均匀分布：其中有限个数值拥有相同的概率
   - 二项分布：计算概率的前提是每次抽出样品后再放回去，并且只能有两种试验结果
-    <div style="width:300px">
+    <div style="max-width:300px">
     {% asset_img 二项分布.png%}
     </div>
   - 正态分布（normal distribution）：
@@ -74,11 +75,11 @@ brew install r
 ## 统计学
 ### 变量
 1. 将变量定义为：数字（numerical）和分类（categorical）
-  <div style="width: 300px;">
+  <div style="max-width: 300px;">
   {% asset_img type_of_variables.png %}
   </div>
   * 对numerical进一步分类：连续的（continuous）和 离散的（discrete）
-  <div style="width: 300px;">
+  <div style="max-width: 300px;">
   {% asset_img type_of_variables_numerical.png %}
   </div>
   * 对categorical进一步分类：有序的（ordinal）和无序的（regular categorical）
@@ -122,7 +123,7 @@ brew install r
 * 零假设（null hypothesis）：零假设的内容一般是希望能证明为错误的假设，或者是需要着重考虑的假设。
 * 备择假设（alternative hypothesis）：也叫对立假设，即希望证明是正确的另一种可能
 * 两种基本误差：
-<div style="width: 400px;">
+<div style="max-width: 400px;">
 {% asset_img 第一型和第二型错误.png %}
 </div>
 * 步骤：
@@ -141,7 +142,7 @@ brew install r
   * Random Sample：occur when subjects are being selected for a study
   * Random Assignment：occur only in experimental setting
 2. 使用和不使用Random Sample/Random Assignment
-  <div style="width: 300px;">
+  <div style="max-width: 300px;">
   {% asset_img random_simple.png %}
   </div>
 

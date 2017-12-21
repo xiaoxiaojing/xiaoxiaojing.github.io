@@ -1,5 +1,5 @@
 ---
-title: PureComponent的使用
+title: React学习：PureComponent的使用
 date: 2017-11-06 19:13:11
 tags: React
 categories: REACT

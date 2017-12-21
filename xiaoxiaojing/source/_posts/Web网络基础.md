@@ -18,7 +18,7 @@ categories: HTTP
 |网络层|用来处理网络上流动的数据包（数据包是网络传输的最小数据单位）||
 |链路层|用来处理连接网络的硬件部分||
 
-<div style="width:600px">
+<div style="max-width:600px">
 {% asset_img 数据传输.jpg %}
 </div>
 
@@ -39,7 +39,7 @@ categories: HTTP
   - 可靠的传输服务：TCP协议能够确认数据最终是否送达到对方
 * 三次握手（three-way handshaking）策略
   - flag：SYN（synchronize）、ACK（acknowledgement）
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img 三次握手.jpg %}
   </div>
 
@@ -50,6 +50,6 @@ categories: HTTP
 * URI：由某个协议方案表示的资源的定位标识符。协议方案是指访问资源所使用的协议类型名称，如http，ftp，file等
 * URL：URL是URI的子集
 * URI结构如下：
-<div style="width:600px">
+<div style="max-width:600px">
 {% asset_img URI的格式.jpg %}
 </div>

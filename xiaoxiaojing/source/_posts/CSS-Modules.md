@@ -1,7 +1,8 @@
 ---
 title: CSS Modules
 date: 2017-09-20 14:26:30
-tags:
+tags: css, css-module
+categories: REACT, Other
 ---
 
 ## 初探

@@ -10,17 +10,17 @@ categories: HTTP
   - 比较：SSH是具备协议级别的认证及会话管理等功能
   - 解决方案：自行设计并开发认证及会话管理功能来满足web应用的安全
 * 在客户端即可篡改请求
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img attack_example.png%}
   </div>
 
 ## 针对web应用的攻击模式
 1. 以服务器为目标的主动攻击：主要攻击服务器上的资源
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img 主动攻击.png%}
   </div>
 2. 以服务器为目标的被动攻击：主要攻击用户的资源和权限
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img 被动攻击.png%}
   </div>
 
@@ -29,7 +29,7 @@ categories: HTTP
 2. Web应用端（服务器端）的验证
   - 输入值验证
   - 输出值转义
-<div style="width:500px">
+<div style="max-width:500px">
 {% asset_img attack_check_area.png%}
 </div>
 

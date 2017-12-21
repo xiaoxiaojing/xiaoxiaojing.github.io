@@ -1,7 +1,7 @@
 ---
-title: 《深入React技术栈》学习笔记二
+title: 《深入React技术栈》学习笔记：高阶函数
 date: 2017-10-31 19:51:09
-tags:
+tags: react
 categories: REACT
 ---
 
@@ -162,15 +162,15 @@ categories: REACT
 
 ### 组合式组件开发实践
 * 组合式组件开发：基础组件与高阶组件相结合，使得组件更灵活，更易扩展。其架构如下：
-  <div style="width:600px;">
+  <div style="max-width:600px;">
   {% asset_img 组合式组件架构.jpg %}
   </div>
 * 结合Decorator，来封装基础组件
-  <div style="width:600px;">
+  <div style="max-width:600px;">
   {% asset_img 使用Decorator来封装基础组件.png %}
   </div>
 * 完成一个小demo：有三个组件（Select，Search，SearchSelect），如下图所示：
-  <div style="width:400px;">
+  <div style="max-width:400px;">
   {% asset_img 三个公共组件.jpg %}
   </div>
 
@@ -270,7 +270,7 @@ categories: REACT
 ## 二、组件性能优化
 ### 1. 防止不必要的渲染，即（PureRender）
 * Pure：是纯函数的概念
-* 使用`PureComponent`： {% post_link PureComponent的使用 %}
+* 使用`PureComponent`： {% post_link React学习：PureComponent的使用 %}
 * 使用`Immutable`
 * 给动态子项添加合适的`key prop`
 
@@ -290,7 +290,7 @@ categories: REACT
 #### Immutable
 1. 使用普通变量存在的问题：
   * 对象或数组是可变的且是引用类型，新的对象简单地引用了原始对象，改变新的对象将影响到原始对象
-  * PureComponent在判断组件是否需要更新时，不正确的对象或数组的使用会导致组件更新出现问题，参考{% post_link PureComponent的使用 %}
+  * PureComponent在判断组件是否需要更新时，不正确的对象或数组的使用会导致组件更新出现问题，参考{% post_link React学习：PureComponent的使用 %}
 2. Immutable Data
   * 是不可变数据
   * 对Immutable对象进行修改、添加或删除操作，都会返回一个新的Immutable对象

@@ -1,7 +1,7 @@
 ---
-title: 《深入React技术栈》学习笔记一
+title: 《深入React技术栈》学习笔记：基础知识
 date: 2017-10-29 14:45:40
-tags:
+tags: react
 categories: REACT
 ---
 ## 一、 React的特性
@@ -83,12 +83,12 @@ categories: REACT
 * `React.createClass`
 * `ES6 classes`
 * 无状态函数（`stateless function`）：没有state，也没有生命周期。无状态组件创建时只会保存一个实例，避免了不必要的检查和内存分配，做到了内存优化
-<div style="width:400px;">
+<div style="max-width:400px;">
 {% asset_img ES6Class和createClass创建组件的区别.jpg %}
 </div>
 
 ### 2）组成：属性（props）+ 状态（state）+ 生命周期
-<div style="width:400px;">
+<div style="max-width:400px;">
 {% asset_img react_component_1.png %}
 </div>
 1. 属性（props）
@@ -99,7 +99,7 @@ categories: REACT
         - 调用这个方法后，组件会尝试重新渲染
         - setState是一个异步的方法，一个生命周期内所有的setState方法会合并操作
 3. 生命周期
-<div style="width:600px;">
+<div style="max-width:600px;">
 {% asset_img react_lifecycle_1.png %}
 </div>
     * 组件第一次加载：（主要做组件状态的初始化）
@@ -185,7 +185,7 @@ categories: REACT
 ### 1）合成事件（SyntheticEvent）的实现机制
 1. 在React底层主要对合成事件做了两件事：事件委派和自动绑定
 2. 事件委派：将事件绑定到结构的最外层
-  <div style="width: 300px;">
+  <div style="max-width: 300px;">
   {% asset_img react_event1.png %}
   </div>
 3. 自动绑定

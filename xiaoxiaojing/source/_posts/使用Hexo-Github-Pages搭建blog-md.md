@@ -1,7 +1,8 @@
 ---
 title: 使用Hexo + Github Pages 搭建Blog
 date: 2017-09-14 22:13:37
-tags:
+tags: hexo
+categories: Other
 ---
 
 ## 快速搭建

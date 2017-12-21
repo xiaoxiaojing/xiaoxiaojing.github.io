@@ -1,0 +1,10 @@
+const later = require('later')
+
+const sched = later.parse.recur().every(5).minute()
+console.log(sched)
+const schedReal = later.schedule(sched)
+console.log(schedReal)
+console.log(schedReal.next(2))
+console.log(schedReal.prev(2))
+console.log(schedReal.nextRange(2))
+console.log(schedReal.prevRange(2))

@@ -29,7 +29,7 @@ categories: HTTP
   - 通信慢（SSL通信部分消耗网络资源；SSL通信部分需要对通信进行处理所以时间上又延长了）
 
 ### 1.HTTPS通信步骤
-<div style="width:600px">
+<div style="max-width:600px">
 {% asset_img HTTPS请求步骤.jpg %}
 </div>
 
@@ -49,7 +49,7 @@ categories: HTTP
 
 #### 1）BASIC认证
 1. 步骤：
-  <div style="width:500px">
+  <div style="max-width:500px">
   {% asset_img basic认证.jpg %}
   </div>
 2. 缺点：
@@ -58,11 +58,11 @@ categories: HTTP
 
 #### 2）DIGEST认证
 1. 特点：采用质询/响应的方式（challenge/response)
-  <div style="width:500px">
+  <div style="max-width:500px">
   {% asset_img 质询/响应.jpg %}
   </div>
 2. 步骤
-  <div style="width:500px">
+  <div style="max-width:500px">
   {% asset_img DIGEST认证.jpg %}
   </div>
 
@@ -78,7 +78,7 @@ categories: HTTP
 1. 定义：基于表单的认证时通过服务器端的Web应用，将客户端发送过来的用户ID和密码与之前登录过的信息做匹配来进行认证的
 2. 特点：使用了Cookie来管理Session（会话）
 3. 步骤：
-  <div style="width:500px">
+  <div style="max-width:500px">
   {% asset_img 基于表单的认证.jpg %}
   </div>
 
@@ -108,12 +108,12 @@ categories: HTTP
   - 减少通信量：与HTTP相比，连接时的总开销减少；由于WebSocket的首部信息很小，通行量也相应减少了。
 3. 实现WebSocket通信，在HTTP连接建立后，需要完成一次“握手”（Handshaking）的步骤
 
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img WebSocket通信步骤.jpg %}
   </div>
 
   - 握手·请求：
-    <div style="width:600px">
+    <div style="max-width:600px">
     {% asset_img 建立WebSocket的请求.jpg %}
     </div>
   - 握手·响应：返回状态码`101 Switching Protocols`的响应
@@ -130,6 +130,6 @@ categories: HTTP
 
 ## HTTP/2.0
 * HTTP/2.0围绕着7项技术进行讨论
-  <div style="width:600px">
+  <div style="max-width:600px">
   {% asset_img 七项技术.jpg %}
   </div>

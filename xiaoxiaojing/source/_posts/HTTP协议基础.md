@@ -10,7 +10,7 @@ categories: HTTP
   - **响应报文**：协议版本 + 状态码 + 用于解释状态码的原因短语 + 可选的响应首部字段 + 实体主体
 * HTTP是不保存状态的协议，引入Cookie来实现保存状态的功能
   - Cookie技术通过在请求和响应报文中写入Cookie信息来控制客户端的状态
-  <div style="width:500px">
+  <div style="max-width:500px">
   {% asset_img Cookie.jpg %}
   </div>
 
@@ -28,12 +28,12 @@ categories: HTTP
 
 ## 二、HTTP报文内的HTTP信息
 * HTTP报文：HTTP协议交互的信息，是由多行数据构成的字符串文本
-  <div style="width:460px">
+  <div style="max-width:460px">
   {% asset_img 报文的结构.jpg %}
   </div>
 
 * HTTP请求报文和响应报文的结构
-  <div style="width:400px">
+  <div style="max-width:400px">
   {% asset_img HTTP请求报文.png %}
   {% asset_img HTTP响应报文.png %}
   </div>

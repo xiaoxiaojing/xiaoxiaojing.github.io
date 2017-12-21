@@ -1,8 +1,8 @@
 ---
 title: yarn概览
 date: 2017-11-15 14:03:33
-tags:
-categories:
+tags: react
+categories: Other
 ---
 
 ## yarn

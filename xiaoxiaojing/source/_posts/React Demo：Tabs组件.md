@@ -1,10 +1,12 @@
 ---
-title: React入门之实现Tabs组件
+title: React Demo：Tabs组件
 date: 2017-09-19 13:59:06
-tags:
+tags: react, tabs
+categories: REACT
 ---
+
 ## 效果展示
-<div style="width: 250px">
+<div style="max-width: 250px">
   {% asset_img tab1.png %}
 </div>
 
