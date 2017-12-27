@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.css';
 import TickTock from './demo-mixin-2/react-mixin'
 import MyComponent from './demo-higher-oerder-component-1/props_proxy'
 import MyComponent1 from './demo-higher-oerder-component-2/inheritance_inversion'
@@ -11,16 +10,17 @@ import SetStateDemo from './demo-setState'
 import ReactChildrenTest from './demo-children'
 import TestCreateElement from './demo-reactElement/createElement'
 import Feature from './demo-new-feature'
+import ContextDemo from './demo-context'
 const items = ["text", "text1", "text2", "text3", "new", "new1", "pro", "pro1"]
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className={styles.App}>
+        <header className={styles['App-header']}>
           <h1>demo list</h1>
         </header>
-        <ul className="demo-content">
+        <ul className={styles['demo-content']}>
           <li><span>mixins demo:</span><TickTock/></li>
           <li>
             <span>higher order component demo:</span>
@@ -33,6 +33,7 @@ class App extends Component {
           <li><span>setState demo:</span><SetStateDemo/></li>
           <li><span>children demo:<ReactChildrenTest/></span></li>
           <li><span>reactElement demo:<TestCreateElement/></span></li>
+          <li><span>Context demo:<ContextDemo/></span></li>
           <li><span>React v16.0 new feature demo:<Feature/></span></li>
         </ul>
       </div>

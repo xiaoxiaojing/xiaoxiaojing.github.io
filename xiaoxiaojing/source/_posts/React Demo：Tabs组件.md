@@ -1,7 +1,7 @@
 ---
 title: React Demo：Tabs组件
 date: 2017-09-19 13:59:06
-tags: react, tabs
+tags: [react, tabs]
 categories: REACT
 ---
 
