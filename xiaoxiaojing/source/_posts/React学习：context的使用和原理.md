@@ -10,7 +10,7 @@ categories: REACT
 
 ## 用法
 1. 改写父组件：添加`getChildContext`方法和`childContextTypes`属性
-```
+```js
 class ParentComponent extends React.Component {
   getChildContext() {
     return {color: "purple"};
@@ -19,6 +19,7 @@ class ParentComponent extends React.Component {
     // ....
   }
 }
+
 ParentComponent.childContextTypes = {
   color: PropTypes.string
 }
@@ -56,7 +57,7 @@ function ChildComponent (props, context) {
 
 ### 使用 injection system
 * 使用一个特殊的数据结构，监听state的变化，强制更新组件。参考这个库：[react-broadcast](https://github.com/ReactTraining/react-broadcast)，它使用了这种模式。
-```
+```js
 // 数据结构如下
 class Theme {
   constructor(color) {
@@ -71,6 +72,7 @@ class Theme {
     this.subscriptions.push(f) // 注册listener
   }
 }
+
 // 在父组件上只要color变化，调用setColor
 class MessageBox extends React.Component {
   constructor (props, context) {
@@ -88,9 +90,11 @@ class MessageBox extends React.Component {
     return <MessageList messages={this.props.messages}/>
   }
 }
+
 MessageBox.childContextTypes = {
   theme: PropTypes.object
 }
+
 // 在子组件上注册listener，并通过this.context.theme访问color
 class Button extends React.Component {
   componentDidMount () {
@@ -105,6 +109,7 @@ class Button extends React.Component {
     );
   }
 }
+
 Button.contextTypes = {
   theme: PropTypes.object
 };
@@ -114,19 +119,19 @@ Button.contextTypes = {
 ## react如何实现context
 ### [ReactFiberContext.js](https://github.com/facebook/react/blob/v16.2.0/packages/react-reconciler/src/ReactFiberContext.js)
 * isContextProvider：通过判断父组件是否定义了`childContextTypes`，来确定父组件是否是一个`contextProvider`
-```
+```js
 export function isContextProvider(fiber: Fiber): boolean {
   return fiber.tag === ClassComponent && fiber.type.childContextTypes != null;
 }
 ```
 * isContextConsumer：通过判断组件是否定义了`contextTypes`，来确定组件是否是一个`contextConsumer`
-```
+```js
 export function isContextConsumer(fiber: Fiber): boolean {
   return fiber.tag === ClassComponent && fiber.type.contextTypes != null;
 }
 ```
 * processChildContext：通过父组件获取子组件的context
-```
+```js
 export function processChildContext(
   fiber: Fiber,
   parentContext: Object,
@@ -152,7 +157,7 @@ export function processChildContext(
 }
 ```
 * getMaskedContext：在子组件上获取context
-```
+```js
 export function getMaskedContext(
   workInProgress: Fiber,
   unmaskedContext: Object,
@@ -186,7 +191,7 @@ export function getMaskedContext(
 
 ### [ReactFiberReconciler.js](https://github.com/facebook/react/blob/v16.2.0/packages/react-reconciler/src/ReactFiberReconciler.js)
 * 更新的时候，子组件会重新获取它的context
-```
+```js
 updateContainer(
   element: ReactNodeList,
   container: OpaqueRoot,
@@ -205,7 +210,7 @@ updateContainer(
 }
 ```
 * 根据父组件获取子组件的context
-```
+```js
 function getContextForSubtree(
   parentComponent: ?React$Component<any, any>,
 ): Object {
