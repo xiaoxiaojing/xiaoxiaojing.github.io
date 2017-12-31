@@ -18,14 +18,25 @@ class Theme {
 }
 
 class Button extends React.Component {
+  constructor (props, context) {
+    super(props, context)
+    this.state = {
+      color: context.theme.color
+    }
+  }
   componentDidMount () {
-    this.context.theme.subscribe(() => this.forceUpdate())
+    // this.context.theme.subscribe(() => this.forceUpdate())
+    this.context.theme.subscribe(()=>{
+      this.setState({
+        color: this.context.theme.color
+      })
+    })
   }
 
   render() {
     console.log("test render");
     return (
-      <button style={{background: this.context.theme.color}}>
+      <button style={{background: this.state.color}}>
         {this.props.children}
       </button>
     );

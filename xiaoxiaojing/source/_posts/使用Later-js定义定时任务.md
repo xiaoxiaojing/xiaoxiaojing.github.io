@@ -93,10 +93,11 @@ month(); year();
   prevRange: [Function: prevRange]
 }
 ```
-
 ### 1)isValid(date)
 * 用于判断某个时间是schedules设置的时间点，如果是返回true
+
 ### 2)next(count, start, end)/prev
 * 计算出schedules表示的某个时间
+
 ### 3)nextRange(count, start, end)/preRange
 * 计算出一个时间范围：[第一个有效的时间，第一个无效的时间]
