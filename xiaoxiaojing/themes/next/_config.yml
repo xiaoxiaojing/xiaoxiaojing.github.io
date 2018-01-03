@@ -352,7 +352,7 @@ disqus:
   count: true
 
 # Hypercomments
-#hypercomments_id:
+# hypercomments_id: 99601
 
 # changyan
 changyan:
@@ -378,7 +378,7 @@ valine:
 
 # Support for LiveRe comments system.
 # You can get your uid from https://livere.com/insight/myCode (General web site)
-#livere_uid: your uid
+livere_uid: MTAyMC8zMjg3NC85NDM1
 
 # Baidu Share
 # Available value:
