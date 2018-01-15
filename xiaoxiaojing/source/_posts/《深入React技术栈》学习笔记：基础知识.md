@@ -4,7 +4,7 @@ date: 2017-10-29 14:45:40
 tags: react
 categories: REACT
 ---
-## 一、 React的特性
+## React的特性
 * 专注于View层
 * Virtual DOM
 * 函数式编程
@@ -50,7 +50,7 @@ categories: REACT
 	}
 	```
 
-## 二、JSX基本语法
+## JSX基本语法
 1. XML基本语法
 	* 最外层需要有一个标签包裹
 	* 标签一定要闭合
@@ -76,84 +76,93 @@ categories: REACT
 6. HTML转义：JSX会将特殊字符转义
     * 属性<span style="color:red">`dangerouslySetInnerHTML`</span>：用于设置要渲染的HTML，这时React不会转义字符
 
-## 三、React组件
-* 数据流：自顶向下单向流动（作用：让组件之间的关系变得简单且可预测）
+## React Component
+数据流：自顶向下单向流动（作用：让组件之间的关系变得简单且可预测）
 
-### 1）组件构建方法
-* `React.createClass`
-* `ES6 classes`
-* 无状态函数（`stateless function`）：没有state，也没有生命周期。无状态组件创建时只会保存一个实例，避免了不必要的检查和内存分配，做到了内存优化
+### Component的构建方法
+1. `React.createClass`（这个方法在React v16.0已经移除）
+2. `ES6 classes`
+3. 无状态函数（`stateless function`）：没有state。无状态组件没有生命周期，无状态组件每次都会被渲染。无状态组件创建时只会保存一个实例，避免了不必要的检查和内存分配，做到了内存优化
 <div style="max-width:400px;">
-{% asset_img ES6Class和createClass创建组件的区别.jpg %}
+{% asset_img ES6Class和createClass创建组件的区别.jpg ES6Class和createClass创建组件的区别%}
 </div>
 
-### 2）组成：属性（props）+ 状态（state）+ 生命周期
+### Component的组成
+属性（props）+ 状态（state）+ 生命周期
 <div style="max-width:400px;">
 {% asset_img react_component_1.png %}
 </div>
-1. 属性（props）
-    * 不可变的
-    * 类型检查：`propTypes`（开发环境下才会进行类型检查，生成环境不会）
-2. 状态（state）：管理组件的内部状态
-    * 改变状态：`setState`。
-        - 调用这个方法后，组件会尝试重新渲染
-        - setState是一个异步的方法，一个生命周期内所有的setState方法会合并操作
-3. 生命周期
+
+#### 属性（props）
+props是不可变的，使用`propTypes`对props进行类型检查（开发环境下才会进行类型检查，生成环境不会）
+
+#### 状态（state）
+调用`setState`改变`state`，调用这个方法后，组件会尝试重新渲染。
+`setState`是一个异步的方法，一个生命周期内所有的`setState`方法会合并操作
+
+#### 生命周期
 <div style="max-width:600px;">
 {% asset_img react_lifecycle_1.png %}
 </div>
-    * 组件第一次加载：（主要做组件状态的初始化）
-        - 初始化props
-        - 执行componentWillMount
-        - 执行render
-        - 执行componentDidMount
-    * 组件卸载：
-        - 执行componentWillUnmount：在这个方法中，执行一些清理方法，如事件回收或者清除定时器
-    * 组件更新：父组件更新props或者子组件更新自身的state时会让子组件更新
-        - 执行 componentWillReceiveProps(nextProps)：**只有父组件更新props时**，才会执行这个方法
-        - 执行 shouldComponentUpdate(nextProps, nextState)：返回`false`时，下面的周期函数不会执行
-        - 执行 componentWillUpdate(nextProps, nextState)
-        - 执行 render
-        - 执行 componentDidUpdate(prevProps, prevState)
-    * 其他
-        - 在生命周期方法里调用`setState`
-            - componentWillMount: 组件会更新state，但是不会重新渲染，因为在这个阶段还没有开始渲染
-            - componentDidMount: 组件会更新state, 会使得组件重新渲染
-            - 不能在componentWillUpdate中执行
-            - componentDidUpdate: 在这个方法中调用，会使得组件重新渲染
-                ```
-                // 这样更新state，组件会一直更新，最后会抛出溢出的错误（`warning.js:55 Uncaught RangeError: Maximum call stack size exceeded`)
-                componentDidUpdate () {
-                    this.setState({
-                        count: count + 1
-                    })
-                }
-                ```
-            - componentWillReceiveProps: 在这个方法中调用，组件不会二次渲染
-        - 无状态组件没有生命周期，无状态组件每次都会被渲染
+组件第一次加载：（主要做组件状态的初始化）
+- 初始化props
+- 执行componentWillMount
+- 执行render
+- 执行componentDidMount
 
-### 3）React组件与真实DOM
-1. ReactDOM：作用于DOM，只适用于Web端
-    * ReactDOM.findDOMNode：
-        - 语法：`ReactDOM.findDOMNode()`
-        - 只能在componentDidMount,componentDidUpdate中调用，这个时候DOM才真正被添加到HTML中
-        - 如果组件的render方法返回null，findDOMNode也返回null
-    * ReactDOM.render：将Virtual DOM渲染到浏览器的DOM中
-        - 语法：`ReactDOM.render(ReactElement element, DOMElement container, [function callback])`
-        - 该方法把元素挂载到container中，并返回element的实例（即refs引用），如果ReactElement是无状态组件，那么ReactDOM.render()返回值为null
-        - 组件再次更新时， React进行DOM diff算法做局部更新
-    * ReactDOM.unmountComponentAtNode：卸载
-    * **ReactDOM.unstable_renderSubtreeIntoContainer**：更新组件到传入的DOM节点上
-        - 语法：`ReactDOM.unstable_renderSubtreeIntoContainer(parentComponent, nextElement, container, callback)`
-2. refs：组件被创建时会新建一个该组件的实例，而refs就会指向这个实例。`ref`有两种值：
-  - 回调函数：
+组件卸载：
+- 执行componentWillUnmount：在这个方法中，执行一些清理方法，如事件回收或者清除定时器
+
+组件更新：父组件更新props或者子组件更新自身的state时会让子组件更新
+- 执行 componentWillReceiveProps(nextProps)：**只有父组件更新props时**，才会执行这个方法
+- 执行 shouldComponentUpdate(nextProps, nextState)：返回`false`时，下面的周期函数不会执行
+- 执行 componentWillUpdate(nextProps, nextState)
+- 执行 render
+- 执行 componentDidUpdate(prevProps, prevState)
+
+在生命周期方法里调用`setState`
+- componentWillMount: 组件会更新state，但是不会重新渲染，因为在这个阶段还没有开始渲染
+- componentDidMount: 组件会更新state, 会使得组件重新渲染
+- 不能在componentWillUpdate中执行
+- componentDidUpdate: 在这个方法中调用，会使得组件重新渲染
+  ```
+  // 这样更新state，组件会一直更新，最后会抛出溢出的错误（`warning.js:55 Uncaught RangeError: Maximum call stack size exceeded`)
+  componentDidUpdate () {
+      this.setState({
+          count: count + 1
+      })
+  }
+  ```
+- componentWillReceiveProps: 在这个方法中调用，组件不会二次渲染
+
+
+### Component与真实DOM
+#### ReactDOM
+ReactDOM作用于DOM，只适用于Web端，有以下方法：
+  1. ReactDOM.findDOMNode：
+    - 语法：`ReactDOM.findDOMNode()`
+    - 只能在`componentDidMount`, `componentDidUpdate`中调用，这个时候DOM才真正被添加到HTML中
+    - 如果组件的render方法返回null，findDOMNode也返回null
+
+  2. ReactDOM.render：将`Virtual DOM`渲染到浏览器的DOM中
+    - 语法：`ReactDOM.render(ReactElement element, DOMElement container, [function callback])`
+    - 该方法把元素挂载到container中，并返回element的实例（即refs引用），如果ReactElement是无状态组件，那么ReactDOM.render()返回值为null
+    - 组件再次更新时， React进行DOM diff算法做局部更新
+
+  3. ReactDOM.unmountComponentAtNode：卸载
+  4. **ReactDOM.unstable_renderSubtreeIntoContainer**：更新组件到传入的DOM节点上
+    - 语法：`ReactDOM.unstable_renderSubtreeIntoContainer(parentComponent, nextElement, container, callback)`
+
+#### refs
+组件被创建时会新建一个该组件的实例，而refs就会指向这个实例。`ref`有两种值：
+  1. 回调函数：
   ```
   // 设置
   <input ref={(ref)=> this.myInput = ref}/>
   // 使用
   this.myInput.focus()
   ```
-  - 字符串：
+  2. 字符串：
   ```
   // 设置
   <input ref="myInput"/>
@@ -161,21 +170,20 @@ categories: REACT
   const myComp = this.refs.myInput //获取的是一个ReactElement的实例
   const dom = findDOMNode(myComp) //获取真实的DOM
   ```
-3. React事件绑定
-  * React提供了事件绑定功能，但是有些特殊情况需要自行绑定事件
-  * 使用`addEventListener`和`removeEventListener`去自行绑定和解绑事件
 
-### 4）智能组件（smart component）和木偶组件（dumb component）
-* smart component：组件自己管理状态
-* dumb component：父组件管理子组件的状态值，并将状态值传递给子组件
+### Component的分类
+智能组件（smart component）和木偶组件（dumb component）
+  * smart component：组件自己管理状态
+  * dumb component：父组件管理该组件的状态值，并将状态值传递给该组件，这个组件只做渲染操作，不管理状态
 
-### 5）组件间通信
-1. 父组件向子组件通信：通过props向子组件传递信息
-2. 子组件向父组件通信：
+### 组件间通信
+1.父组件向子组件通信：通过props向子组件传递信息
+2.子组件向父组件通信：
   * 利用回调函数
   * 利用自定义事件机制
-3. 跨级组件通信：使用context来实现
-4. 没有嵌套关系的组件通信：使用发布/订阅模式，（EventEmitter）
+
+3.跨级组件通信：使用context来实现
+4.没有嵌套关系的组件通信：使用发布/订阅模式，（EventEmitter）
 
 ## 四、事件系统
 * React基于Virtual DOM实现了一个SyntheticEvent（合成事件）层。
