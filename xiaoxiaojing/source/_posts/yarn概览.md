@@ -6,10 +6,10 @@ categories: Other
 ---
 
 ## yarn
-### 1.yarn是什么 —— JavaScript package manager
+### yarn是什么 —— JavaScript package manager
 * yarn是Facebook，Google，Exponent和Tilde开发的新的JavaScript包管理工具
 
-### 2.yarn解决了什么 —— 解决使用npm面对的少数问题
+### yarn解决了什么 —— 解决使用npm面对的少数问题
 1. 安装的时候无法保证速度和一致性（fast/consistent）
 2. 安全问题（security ），the npm client executes code from some of those dependencies automatically
 

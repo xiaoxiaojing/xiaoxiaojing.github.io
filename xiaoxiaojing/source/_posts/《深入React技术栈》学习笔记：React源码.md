@@ -7,7 +7,8 @@ categories: REACT
 
 * 源码版本：React 16.2.0
 
-## React项目总览：[项目地址]（https://github.com/facebook/react）
+## React项目总览
+* [项目地址]（https://github.com/facebook/react/tree/v16.2.0）
 * 使用的构建工具：{% post_link yarn概览 yarn概览 %}
 
 ## react源码解读

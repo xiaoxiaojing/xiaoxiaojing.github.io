@@ -4,7 +4,12 @@ date: 2017-10-29 14:45:40
 tags: react
 categories: REACT
 ---
-## React的特性
+
+## React全貌
+React是用于创建用户界面的库。由于其强大的算法，React可以快速的渲染更新用户界面，更新时只更新改变了的部分。React是基于组件开发的，使得它具有可复用性。
+React本身是一个纯函数：`y=f(x)`。相同的数据会渲染出相同的页面。
+
+### React的特性
 * 专注于View层
 * Virtual DOM
 * 函数式编程
@@ -51,30 +56,32 @@ categories: REACT
 	```
 
 ## JSX基本语法
-1. XML基本语法
-	* 最外层需要有一个标签包裹
-	* 标签一定要闭合
-    * 表达式要使用`{}`包裹
-2. 元素类型
-	* DOM元素: 首字母小写
-	* 组件元素：首字母大写
-3. 元素属性
-	* `class`对应`className`
-  * `for`对应`htmlFor`
-  * 省略的Boolean属性，默认值是`true`
-4. 通过命名空间的方式来分组元素，区分元素
+* 语法：最外层需要有一个标签包裹；标签一定要闭合；表达式要使用`{}`包裹
+* 注释：
+  ```
+  {/*注释*/}
+  /* 多行
+     注释 */
+  ```
+
+### 元素类型
+* DOM元素: 首字母小写
+* 组件元素：首字母大写
+
+### 元素属性
+* `class`对应`className`
+* `for`对应`htmlFor`
+* 省略的Boolean属性，默认值是`true`
+
+### 命名空间
+* 通过命名空间的方式来分组元素，区分元素
   ```
   <MUI.RalseButton label="Default"/>
   ```
 
-5. 注释
-	```
-	{/*注释*/}
-	/* 多行
-	   注释 */
-	```
-6. HTML转义：JSX会将特殊字符转义
-    * 属性<span style="color:red">`dangerouslySetInnerHTML`</span>：用于设置要渲染的HTML，这时React不会转义字符
+### 转义
+* HTML转义：JSX会将特殊字符转义
+* 属性`dangerouslySetInnerHTML`：用于设置要渲染的HTML，这时React不会转义字符
 
 ## React Component
 数据流：自顶向下单向流动（作用：让组件之间的关系变得简单且可预测）
