@@ -84,15 +84,17 @@ componentWillUpdate(newProps, newState, newContext)
 componentDidUpdate(prevProps, prevState)
 componentWillUnmount()
 render()
+componentDidCatch(error, info)
 ```
 他们的执行情况如下图所示
 <div style="max-width:600px;">
 {% asset_img react_lifecycle_1.png %}
 </div>
 
-## Unmount阶段
+## Unmounting阶段
 在组件卸载阶段，这个阶段会调用`componentWillUnmount`。
 会导致组件卸载的情况：组件被删除。
+在`componentWillUnmount`中可以做：清除定时器、取消网络请求、清除在componentDidMount中定义的监听器
 
 ### 源码分析
 当组件卸载的时候，对于`ES6 class`创建的组件，会执行tag为`ClassComponent`的对应系列程序，最终会调用`callComponentWillUnmountWithTimer`这个方法，进而调用`componentWillUnmount`方法。（[ReactFiberCommitWork.js](https://github.com/facebook/react/blob/v16.2.0/packages/react-reconciler/src/ReactFiberCommitWork.js)）
@@ -155,7 +157,7 @@ class ChildComponent extends Component {
 }
 ```
 
-## Mount阶段
+## Mounting阶段
 这个阶段会依次调用`constructor`、`componentWillMount`、`render`、`componentDidMount`。
 其中`constructor`、`componentWillMount`、`componentDidMount`有且只会被调用一次。
 
@@ -177,7 +179,8 @@ function updateClassComponent (current, workInProgress, renderExpirationTime) {
 ```
 
 ### constructor(props, context)
-在`constructor`可以初始化`state`。执行`this.state={...}`，相当于调用`getInitialState`方法。
+在`constructor`初始化`state`，执行`this.state={...}`（相当于调用`getInitialState`方法）
+在`constructor`中必须调用`super(props)`，这样才能使得`this.props`有值
 
 `workInProgress.type`其指向当前正在被装载的组件，执行`new ctor(props, context)`时，会调用组件的生命周期函数`constructor`。（[ReactFiberClassComponent.js](https://github.com/facebook/react/blob/v16.2.0/packages/react-reconciler/src/ReactFiberClassComponent.js)）
 ```
@@ -222,6 +225,8 @@ function callComponentWillMount(workInProgress, instance) {
 ```
 
 ### componentDidMount()
+组件装载完成后调用`componentDidMount`，可以在这个方法中建立网络连接获取数据，或者声明监听器
+
 在`mountClassInstance`方法中，也有`componentDidMount`的对应逻辑。在这里只是将`effectTag`的值设置为`Update`。 （[ReactFiberClassComponent.js](https://github.com/facebook/react/blob/v16.2.0/packages/react-reconciler/src/ReactFiberClassComponent.js)）
 ```
 function mountClassInstance () {
@@ -260,7 +265,7 @@ function commitLifeCycles(current: Fiber | null, finishedWork: Fiber): void {
 }
 ```
 
-## Update阶段
+## Updating阶段
 这个阶段会依次调用`componentWillReceiveProps`、`shouldComponentUpdate`、`componentWillUpdate`、`render`、`componentDidUpdate`。
 只有当props有变化时，才会调用`componentWillReceiveProps`。
 如果`shouldComponentUpdate`返回false，`componentWillUpdate`、`render`、`componentDidUpdate`不会再执行。
@@ -389,6 +394,24 @@ if (current === null) {
 }
 ```
 
+## Error Handing
+### componentDidCatch(error, info)
+当子组件的周期函数中有错误发生时，错误会被父组件的componentDidCatch捕获
+```
+function commitErrorHandling(effectfulFiber: Fiber) {
+  // 如果effectfulFiber.tag为ClassComponent，就调用componentDidCatch来处理错误
+  switch (effectfulFiber.tag) {
+    case ClassComponent:
+      const instance = effectfulFiber.stateNode;
+      const info: HandleErrorInfo = {
+        componentStack: capturedError.componentStack,
+      };
+      instance.componentDidCatch(capturedError.error, info);
+      return;
+  }
+}
+```
+
 ## 总结
 ### React宏观上的渲染
 React数据传递是置顶向下的，React整体上的渲染也是置顶向下的。可以将React组件的渲染操作想象成一个先入先出的队列，组件入队列之前执行render以及render之前的生命周期函数，出队列之前执行render之后的生命周期函数。如下所示：
@@ -412,6 +435,7 @@ parent will update → parent render → child will update → child render → 
 这类组件的渲染分为了三个阶段：Mount、Unmount、Update。组件的Mount阶段只会在组件装载的时候执行一次，Update阶段会在组件props或state有变化时执行。
 Mount阶段会执行的周期函数有：constructor、componentWillMount、render、componentDidMount。
 Update阶段会执行的周期函数有：componentWillReceiveProps、shouldComponentUpdate、componentWillUpdate、render、componentDidUpdate
+在React v16.0以后新增一个阶段：Error Handing，这个阶段会执行周期函数：componentDidCatch
 
 #### props变化引起的update
 组件的props变化导致组件更新时，会调用componentWillReceiveProps。

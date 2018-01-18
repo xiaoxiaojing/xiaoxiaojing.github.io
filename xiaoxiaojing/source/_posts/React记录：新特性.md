@@ -1,6 +1,6 @@
 ---
 title: React记录：新特性
-date: 2019-01-18 11:49:33
+date: 2018-01-18 11:49:33
 tags: react
 categories: REACT
 ---
@@ -73,7 +73,7 @@ render() {
 需要主要的地方：
 - Only class components can be error boundaries；
 - 可以定义一个`error boundaries`，并重复使用
-- `error boundaries`只会捕获他子树产生的错误
+- `error boundaries`只会捕获他子树的 **生命周期函数** 产生的错误
 一个例子
 ```
 // 定义了componentDidCatch的就是一个`error boundaries`
