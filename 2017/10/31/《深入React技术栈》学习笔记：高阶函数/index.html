@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、组件间抽象 代码示例  mixin 作用：实现多重继承 广义的mixin方法：就是用赋值的方法将mixin对象里的方法都挂载到原对象上，来实现对对象的混入。 React中的mixin  多个mixin有相同方法时 生命周期方法：会将各个mixin的生命周期方法叠加在一起顺序执行 普通方法：不同的mixin里实现两个名字一样的普通方法，会报错Uncaught Error: ReactClassI">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《深入React技术栈》学习笔记：高阶函数">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="一、组件间抽象 代码示例  mixin 作用：实现多重继承 广义的mixin方法：就是用赋值的方法将mixin对象里的方法都挂载到原对象上，来实现对对象的混入。 React中的mixin  多个mixin有相同方法时 生命周期方法：会将各个mixin的生命周期方法叠加在一起顺序执行 普通方法：不同的mixin里实现两个名字一样的普通方法，会报错Uncaught Error: ReactClassI">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/组合式组件架构.jpg">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/使用Decorator来封装基础组件.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/三个公共组件.jpg">
+<meta property="og:updated_time" content="2017-12-21T06:50:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《深入React技术栈》学习笔记：高阶函数">
+<meta name="twitter:description" content="一、组件间抽象 代码示例  mixin 作用：实现多重继承 广义的mixin方法：就是用赋值的方法将mixin对象里的方法都挂载到原对象上，来实现对对象的混入。 React中的mixin  多个mixin有相同方法时 生命周期方法：会将各个mixin的生命周期方法叠加在一起顺序执行 普通方法：不同的mixin里实现两个名字一样的普通方法，会报错Uncaught Error: ReactClassI">
+<meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/组合式组件架构.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/"/>
+
+
+
+
+
+  <title>《深入React技术栈》学习笔记：高阶函数 | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/10/31/《深入React技术栈》学习笔记：高阶函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《深入React技术栈》学习笔记：高阶函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-31T19:51:09+08:00">
+                2017-10-31
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2017-12-21T14:50:50+08:00">
+                2017-12-21
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/REACT/" itemprop="url" rel="index">
+                    <span itemprop="name">REACT</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、组件间抽象"><a href="#一、组件间抽象" class="headerlink" title="一、组件间抽象"></a>一、组件间抽象</h2><ul>
+<li><a href="https://github.com/xiaoxiaojing/xiaoxiaojing.github.io/tree/hexo/example/react-stack/src" target="_blank" rel="external">代码示例</a></li>
+</ul>
+<h3 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h3><ol>
+<li>作用：实现多重继承</li>
+<li>广义的mixin方法：就是用赋值的方法将mixin对象里的方法都挂载到原对象上，来实现对对象的混入。</li>
+<li><p>React中的mixin</p>
+<ul>
+<li>多个mixin有相同方法时<ul>
+<li>生命周期方法：会将各个mixin的生命周期方法叠加在一起顺序执行</li>
+<li>普通方法：不同的mixin里实现两个名字一样的普通方法，会报错<code>Uncaught Error: ReactClassInterface</code>，指出你尝试在组件中多次定义一个方法，这会造成冲突<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">// 这段代码执行后，会依次输出mixin1, mixin2, class，表明生命周期方法合并在一起顺序执行</div><div class="line">var Mixin1 = &#123;</div><div class="line">  componentWillMount: function() &#123;</div><div class="line">    console.log(&apos;mixin1&apos;)</div><div class="line">  &#125;,</div><div class="line">  setInterval: function() &#123;</div><div class="line">    console.log(&apos;setInterval&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var Mixin2 = &#123;</div><div class="line">    componentWillMount: function() &#123;</div><div class="line">      console.log(&apos;mixin2&apos;)</div><div class="line">    &#125;,</div><div class="line">    //这个方法和Mixin1中的重名，且它是一个普通方法。会报错ReactClassInterface</div><div class="line">    /*setInterval: function() &#123;</div><div class="line">      console.log(&apos;setInterval&apos;)</div><div class="line">    &#125;*/</div><div class="line">&#125;</div><div class="line">React.createClass(&#123;</div><div class="line">  mixins: [Mixin1, Mixin2]</div><div class="line">  componentWillMount: function()&#123;</div><div class="line">    console.log(&apos;class&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ES6 Classes 与 decorator： 实现mixin</p>
+</li>
+<li>mixin的问题<ul>
+<li>破坏了原有组件的封装</li>
+<li>命名冲突</li>
+<li>增加了复杂性</li>
+</ul>
+</li>
+</ol>
+<h3 id="高阶组件（higher-order-component）"><a href="#高阶组件（higher-order-component）" class="headerlink" title="高阶组件（higher-order component）"></a>高阶组件（higher-order component）</h3><ol>
+<li>概念：接受一个React组件作为输入，输出一个新的React组件</li>
+<li><p>实现高阶组件的方法</p>
+<ul>
+<li><p>属性代理（props proxy）</p>
+<ul>
+<li>使用属性代理构建高阶组件时，组件执行生命周期的过程类似于<strong>堆栈调用</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// HOC didmount：指的是高阶组件的didmount （以此类推）</div><div class="line">didmount -&gt; HOC didmount -&gt; (HOCs didmount) -&gt; (HOCs will umount) -&gt; HOC will unmount -&gt; unmount</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>反向继承（inheritance inversion）</p>
+<ul>
+<li>高阶组件返回的组件继承于WrappedComponent</li>
+<li>使用反向继承构建高阶组件时，组件执行生命周期的过程类似于<strong>队列</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">didmount -&gt; HOC didmount -&gt; (HOCs didmount) -&gt; will unmount -&gt; HOC will unmount -&gt; (HOCs will unmount)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>高阶组件的组件命名：当使用高阶组件生成新组件时，新组件的<code>displayName</code>为<code>undefined</code></p>
+<ul>
+<li>使用属性<code>displayName</code>为新组件添加名字，两种方式<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 组件外部</div><div class="line">class HOC extends WrappedComponent &#123;</div><div class="line">&#125;</div><div class="line">HOC.displayName = `HOC($&#123;getDisplayName(WrappedComponent)&#125;)`</div><div class="line">// 组件内部</div><div class="line">class HOC extends WrappedComponent &#123;</div><div class="line">  static displayName = `HOC($&#123;getDisplayName(WrappedComponent)&#125;)`</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>高阶组件传参</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function HOCFactoryFactory(...params) &#123;</div><div class="line">    return function HOCFactory(WrappedComponent) &#123;</div><div class="line">        return class HOC extends Component &#123;</div><div class="line">            render () &#123;</div><div class="line">                return &lt;WrappedComponent &#123;...this.props&#125;/&gt;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// 调用</div><div class="line">@HOCFactoryFactory(params)</div><div class="line">class WrappedComponent extends Component &#123;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="属性代理实现的高阶组件的功能"><a href="#属性代理实现的高阶组件的功能" class="headerlink" title="属性代理实现的高阶组件的功能"></a>属性代理实现的高阶组件的功能</h4><ol>
+<li><p>控制props</p>
+<ul>
+<li>可以读取、增加、编辑或者移除从<code>WrappedCompoent</code>传进来的props</li>
+<li>🌰：给原组件增加一个props：text。（对于原组件来说，只要套用这个高阶组件，得到的新组件就会多一个prop：text）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const MyContainer = (WrappedComponent) =&gt;</div><div class="line">    class extends Component &#123;</div><div class="line">        render () &#123;</div><div class="line">            // 新增的props</div><div class="line">            const newProps = &#123;</div><div class="line">                text: &apos;newText&apos;</div><div class="line">            &#125;</div><div class="line">            return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125;/&gt;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通过refs获取原组件的引用</p>
+<ul>
+<li>🌰：当<code>WrappedComponent</code>被渲染时，refs回调函数就会被执行，例子中的<code>proc</code>函数就会拿到<code>WrappedComponent</code>的引用。这样就可以调用原组件的方法。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">const MyContainer = (WrappedComponent) =&gt;</div><div class="line">    class extends Component &#123;</div><div class="line">        proc (instance) &#123;  //获取到原组件实例的引用</div><div class="line">            console.log(instance.method());</div><div class="line">        &#125;</div><div class="line">        render () &#123;</div><div class="line">            // 新增的props</div><div class="line">            const newProps = &#123;</div><div class="line">                text: &apos;newText&apos;,</div><div class="line">                ref: this.proc.bind(this)</div><div class="line">            &#125;</div><div class="line">            return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125;/&gt;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>抽象state</p>
+<ul>
+<li>无状态的组件（展示组件）：不需要管理state</li>
+<li>高阶组件可以将原组件抽象成无状态组件。即是：将原组件的状态管理提到高阶组件中进行。</li>
+</ul>
+</li>
+<li>使用其他元素包裹<code>WrappedComponent</code><ul>
+<li>通过这个功能给可以给原组件添加 <strong>样式</strong>、<strong>布局</strong> 等</li>
+</ul>
+</li>
+</ol>
+<h4 id="反向继承实现的高阶组件的功能"><a href="#反向继承实现的高阶组件的功能" class="headerlink" title="反向继承实现的高阶组件的功能"></a>反向继承实现的高阶组件的功能</h4><ol>
+<li><p>渲染劫持</p>
+<ul>
+<li>概念：就是在render阶段，通过控制props或操作原组件的RenderTree来渲染不同的结果。(注意使用<code>super.render()</code>)<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const MyContainer = (WrappedComponent) =&gt;</div><div class="line">    class extends WrappedComponent &#123;</div><div class="line">        render () &#123;</div><div class="line">            if (this.props.loggedIn) &#123;</div><div class="line">                return super.render()</div><div class="line">            &#125; else &#123;</div><div class="line">                return null</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>控制state</p>
+<ul>
+<li>高阶组件可以读取、修改或删除原组件实例的state。也可以增加state，但是可能会让原组件内部状态变得一团糟。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">componentDidMount () &#123;</div><div class="line">    this.setState(&#123;</div><div class="line">        msg: &quot;msg be changed&quot;, //修改</div><div class="line">        copyMsg: this.state.msg, //读取</div><div class="line">        newMsg: &apos;new msg&apos; //增加</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="组合式组件开发实践"><a href="#组合式组件开发实践" class="headerlink" title="组合式组件开发实践"></a>组合式组件开发实践</h3><ul>
+<li>组合式组件开发：基础组件与高阶组件相结合，使得组件更灵活，更易扩展。其架构如下：<div style="max-width:600px;"><br><img src="/2017/10/31/《深入React技术栈》学习笔记：高阶函数/组合式组件架构.jpg" alt="组合式组件架构.jpg" title=""><br></div></li>
+<li>结合Decorator，来封装基础组件<div style="max-width:600px;"><br><img src="/2017/10/31/《深入React技术栈》学习笔记：高阶函数/使用Decorator来封装基础组件.png" alt="使用Decorator来封装基础组件.png" title=""><br></div></li>
+<li>完成一个小demo：有三个组件（Select，Search，SearchSelect），如下图所示：<div style="max-width:400px;"><br><img src="/2017/10/31/《深入React技术栈》学习笔记：高阶函数/三个公共组件.jpg" alt="三个公共组件.jpg" title=""><br></div>
+
+</li>
+</ul>
+<h4 id="组件再分离"><a href="#组件再分离" class="headerlink" title="组件再分离"></a>组件再分离</h4><ul>
+<li>将组件分成更小的粒度<ul>
+<li>Select = SelectInput + List</li>
+<li>Search = SearchInput + List</li>
+<li>SearchSelect = SelectInput + SearchInput + List</li>
+</ul>
+</li>
+<li>最小粒度的组件应该是一个<strong>无状态组件</strong>，如<code>SelectInput</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default function SelectInput (&#123;</div><div class="line">    selectItem,</div><div class="line">    onClick</div><div class="line">&#125;) &#123;</div><div class="line">    return (</div><div class="line">        &lt;input value=&#123;selectItem&#125; onClick=&#123;onClick&#125;/&gt;</div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="逻辑再抽象"><a href="#逻辑再抽象" class="headerlink" title="逻辑再抽象"></a>逻辑再抽象</h4><ul>
+<li><p>使用高阶组件完成组件逻辑上的抽象，假设有两个高阶组件</p>
+<ul>
+<li><p>SelectDecorator：修饰Select，在高阶组件中管理Select的事件和state</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">const SelectDecorator = (WrappedComponent) =&gt;</div><div class="line">    class extends Component &#123;</div><div class="line">        constructor (props) &#123;</div><div class="line">            super(props)</div><div class="line">            this.state = &#123;</div><div class="line">                isOpen: false,</div><div class="line">                selectItem: &quot;&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        onSelect = (value) =&gt; &#123;</div><div class="line">            this.setState(&#123;</div><div class="line">                isOpen: false,</div><div class="line">                selectItem: value</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">        onClick = () =&gt; &#123;</div><div class="line">            this.setState(&#123;</div><div class="line">                isOpen: true</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">        render () &#123;</div><div class="line">            const newProps = &#123;</div><div class="line">                onSelect: this.onSelect,</div><div class="line">                onClick: this.onClick,</div><div class="line">                isOpen: this.state.isOpen,</div><div class="line">                selectItem: this.state.selectItem</div><div class="line">            &#125;</div><div class="line">            return (</div><div class="line">                &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125;/&gt;</div><div class="line">            )</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>SearchDecorator：修饰Search，在高阶组件中管理Search的事件和state，并控制传入的props</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const SearchDecorator = (WrappedComponent) =&gt;</div><div class="line">    class extends Component &#123;</div><div class="line">        constructor (props) &#123;</div><div class="line">            super(props)</div><div class="line">            this.state = &#123;</div><div class="line">                value: &quot;&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        onChange = (e) =&gt; &#123;</div><div class="line">            this.setState(&#123;</div><div class="line">                value: e.target.value</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">        render () &#123;</div><div class="line">            const value = this.state.value</div><div class="line">            const newProps = &#123;</div><div class="line">                value,</div><div class="line">                onChange: this.onChange,</div><div class="line">                items: this.props.items.filter((item)=&gt;&#123;</div><div class="line">                    return item.match(value)</div><div class="line">                &#125;)</div><div class="line">            &#125;</div><div class="line">            return (</div><div class="line">                &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125;/&gt;</div><div class="line">            )</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>对于SearchSelect就可以使用<code>SelectDecorator</code>和<code>SearchDecorator</code>来修饰，使其同时具有Select和Search的功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@SelectDecorator</div><div class="line">@SearchDecorator</div><div class="line">export default class SearchSelect extends Component &#123;</div><div class="line">  //...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="二、组件性能优化"><a href="#二、组件性能优化" class="headerlink" title="二、组件性能优化"></a>二、组件性能优化</h2><h3 id="1-防止不必要的渲染，即（PureRender）"><a href="#1-防止不必要的渲染，即（PureRender）" class="headerlink" title="1. 防止不必要的渲染，即（PureRender）"></a>1. 防止不必要的渲染，即（PureRender）</h3><ul>
+<li>Pure：是纯函数的概念</li>
+<li>使用<code>PureComponent</code>： <a href="/2017/11/06/React学习：PureComponent的使用/" title="React学习：PureComponent的使用">React学习：PureComponent的使用</a></li>
+<li>使用<code>Immutable</code></li>
+<li>给动态子项添加合适的<code>key prop</code></li>
+</ul>
+<h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h4><ol>
+<li>纯函数的三大原则：<ul>
+<li>给定相同的输入，它总是返回相同的输出：<code>y = f(x)</code><ul>
+<li>例如：Math.random()就是不纯的</li>
+</ul>
+</li>
+<li>过程没有副作用（side effect）（即不改变外部状态）<ul>
+<li>在JavaScript中，如果方法的参数是对象或数组，那么这些对象和数组有可能被方法执行的过程改变</li>
+</ul>
+</li>
+<li>没有额外的状态依赖<ul>
+<li>方法内的状态都只在方法的生命周期内存活</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>React组件本身就是纯函数<ul>
+<li>React的<code>createElement</code>方法保证了组件是纯净的，即传入指定<code>props</code>得到一定的<code>Virtual DOM</code></li>
+</ul>
+</li>
+<li>优点<ul>
+<li>可以让方法或组件更加专注（focused）、体积更小（small）、更独立（independent）、更具有复用性（reusability）和可测试性（testability）</li>
+</ul>
+</li>
+</ol>
+<h4 id="Immutable"><a href="#Immutable" class="headerlink" title="Immutable"></a>Immutable</h4><ol>
+<li>使用普通变量存在的问题：<ul>
+<li>对象或数组是可变的且是引用类型，新的对象简单地引用了原始对象，改变新的对象将影响到原始对象</li>
+<li>PureComponent在判断组件是否需要更新时，不正确的对象或数组的使用会导致组件更新出现问题，参考<a href="/2017/11/06/React学习：PureComponent的使用/" title="React学习：PureComponent的使用">React学习：PureComponent的使用</a></li>
+</ul>
+</li>
+<li>Immutable Data<ul>
+<li>是不可变数据</li>
+<li>对Immutable对象进行修改、添加或删除操作，都会返回一个新的Immutable对象</li>
+</ul>
+</li>
+<li>实现原理：<ul>
+<li>Immutable是持久化的数据结构（persistent data structure)：使用旧数据创建新数据时，要保证旧数据同时可用且不变</li>
+<li>使用了结构共享（structural sharing)：如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其他节点则进行共享</li>
+</ul>
+</li>
+<li>注意点<ul>
+<li>使用了结构共享，没有变化的节点会被共享，使用<code>===</code>来比较<code>Immutable</code>对象的内存地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">let a = Immutable.Map(&#123;</div><div class="line">   select: &apos;user&apos;,</div><div class="line">   filter: Immutable.Map(&#123;name: &apos;a&apos;&#125;)</div><div class="line">&#125;)</div><div class="line">let b = a.set(&apos;select&apos;, &apos;people&apos;)</div><div class="line">a === b // false</div><div class="line">a.get(&apos;filter&apos;) === b.get(&apos;filter&apos;) // true</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/29/《深入React技术栈》学习笔记：基础知识/" rel="next" title="《深入React技术栈》学习笔记：基础知识">
+                <i class="fa fa-chevron-left"></i> 《深入React技术栈》学习笔记：基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/06/React学习：PureComponent的使用/" rel="prev" title="React学习：PureComponent的使用">
+                React学习：PureComponent的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、组件间抽象"><span class="nav-number">1.</span> <span class="nav-text">一、组件间抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mixin"><span class="nav-number">1.1.</span> <span class="nav-text">mixin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高阶组件（higher-order-component）"><span class="nav-number">1.2.</span> <span class="nav-text">高阶组件（higher-order component）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性代理实现的高阶组件的功能"><span class="nav-number">1.2.1.</span> <span class="nav-text">属性代理实现的高阶组件的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反向继承实现的高阶组件的功能"><span class="nav-number">1.2.2.</span> <span class="nav-text">反向继承实现的高阶组件的功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合式组件开发实践"><span class="nav-number">1.3.</span> <span class="nav-text">组合式组件开发实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组件再分离"><span class="nav-number">1.3.1.</span> <span class="nav-text">组件再分离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑再抽象"><span class="nav-number">1.3.2.</span> <span class="nav-text">逻辑再抽象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、组件性能优化"><span class="nav-number">2.</span> <span class="nav-text">二、组件性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-防止不必要的渲染，即（PureRender）"><span class="nav-number">2.1.</span> <span class="nav-text">1. 防止不必要的渲染，即（PureRender）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#纯函数"><span class="nav-number">2.1.1.</span> <span class="nav-text">纯函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Immutable"><span class="nav-number">2.1.2.</span> <span class="nav-text">Immutable</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

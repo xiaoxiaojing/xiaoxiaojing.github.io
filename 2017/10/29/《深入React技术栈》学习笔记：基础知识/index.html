@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="React全貌React是用于创建用户界面的库。由于其强大的算法，React可以快速的渲染更新用户界面，更新时只更新改变了的部分。React是基于组件开发的，使得它具有可复用性。React本身是一个纯函数：y=f(x)。相同的数据会渲染出相同的页面。 React的特性 专注于View层 Virtual DOM 函数式编程  虚拟元素（Virtual element） Virtual element">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《深入React技术栈》学习笔记：基础知识">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="React全貌React是用于创建用户界面的库。由于其强大的算法，React可以快速的渲染更新用户界面，更新时只更新改变了的部分。React是基于组件开发的，使得它具有可复用性。React本身是一个纯函数：y=f(x)。相同的数据会渲染出相同的页面。 React的特性 专注于View层 Virtual DOM 函数式编程  虚拟元素（Virtual element） Virtual element">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/ES6Class和createClass创建组件的区别.jpg">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/react_component_1.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/react_lifecycle_1.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/react_event1.png">
+<meta property="og:updated_time" content="2018-01-20T10:32:44.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《深入React技术栈》学习笔记：基础知识">
+<meta name="twitter:description" content="React全貌React是用于创建用户界面的库。由于其强大的算法，React可以快速的渲染更新用户界面，更新时只更新改变了的部分。React是基于组件开发的，使得它具有可复用性。React本身是一个纯函数：y=f(x)。相同的数据会渲染出相同的页面。 React的特性 专注于View层 Virtual DOM 函数式编程  虚拟元素（Virtual element） Virtual element">
+<meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/ES6Class和createClass创建组件的区别.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/"/>
+
+
+
+
+
+  <title>《深入React技术栈》学习笔记：基础知识 | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/10/29/《深入React技术栈》学习笔记：基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《深入React技术栈》学习笔记：基础知识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-29T14:45:40+08:00">
+                2017-10-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-20T18:32:44+08:00">
+                2018-01-20
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/REACT/" itemprop="url" rel="index">
+                    <span itemprop="name">REACT</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="React全貌"><a href="#React全貌" class="headerlink" title="React全貌"></a>React全貌</h2><p>React是用于创建用户界面的库。由于其强大的算法，React可以快速的渲染更新用户界面，更新时只更新改变了的部分。React是基于组件开发的，使得它具有可复用性。<br>React本身是一个纯函数：<code>y=f(x)</code>。相同的数据会渲染出相同的页面。</p>
+<h3 id="React的特性"><a href="#React的特性" class="headerlink" title="React的特性"></a>React的特性</h3><ul>
+<li>专注于View层</li>
+<li>Virtual DOM</li>
+<li>函数式编程</li>
+</ul>
+<h3 id="虚拟元素（Virtual-element）"><a href="#虚拟元素（Virtual-element）" class="headerlink" title="虚拟元素（Virtual element）"></a>虚拟元素（Virtual element）</h3><ol>
+<li>Virtual element的构建与更新都是在内存中完成的。</li>
+<li><p>Virtual element包括：DOM element 和 component element</p>
+<ul>
+<li><strong>DOM element</strong>：是一个JSON对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	type: &apos;button&apos;</div><div class="line">	props: &#123;</div><div class="line">		className: &apos;btn&apos;,</div><div class="line">		children: [&#123;</div><div class="line">			type: &apos;em&apos;,</div><div class="line">			props: &#123;</div><div class="line">				children: &apos;confirm&apos;</div><div class="line">			&#125;</div><div class="line">		&#125;]</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">// 以上对象可以对应下面这个真实DOM</div><div class="line">&lt;button class=&quot;btn&quot;&gt;&lt;em&gt;confirm&lt;/em&gt;&lt;/button&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>component element</strong>：是一个函数，这个函数返回一个DOM element</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">const Button = (&#123;color,  text&#125;) =&gt; &#123;</div><div class="line">	return &#123;</div><div class="line">		type: &apos;button&apos;,</div><div class="line">		props: &#123;</div><div class="line">			className: &apos;btn&apos;,</div><div class="line">			children: &#123;</div><div class="line">				type: &apos;em&apos;,</div><div class="line">				props: &#123;</div><div class="line">					children: text</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="JSX基本语法"><a href="#JSX基本语法" class="headerlink" title="JSX基本语法"></a>JSX基本语法</h2><ul>
+<li>语法：最外层需要有一个标签包裹；标签一定要闭合；表达式要使用<code>{}</code>包裹</li>
+<li>注释：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;/*注释*/&#125;</div><div class="line">/* 多行</div><div class="line">   注释 */</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="元素类型"><a href="#元素类型" class="headerlink" title="元素类型"></a>元素类型</h3><ul>
+<li>DOM元素: 首字母小写</li>
+<li>组件元素：首字母大写</li>
+</ul>
+<h3 id="元素属性"><a href="#元素属性" class="headerlink" title="元素属性"></a>元素属性</h3><ul>
+<li><code>class</code>对应<code>className</code></li>
+<li><code>for</code>对应<code>htmlFor</code></li>
+<li>省略的Boolean属性，默认值是<code>true</code></li>
+</ul>
+<h3 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h3><ul>
+<li>通过命名空间的方式来分组元素，区分元素<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;MUI.RalseButton label=&quot;Default&quot;/&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h3><ul>
+<li>HTML转义：JSX会将特殊字符转义</li>
+<li>属性<code>dangerouslySetInnerHTML</code>：用于设置要渲染的HTML，这时React不会转义字符</li>
+</ul>
+<h2 id="React-Component"><a href="#React-Component" class="headerlink" title="React Component"></a>React Component</h2><p>数据流：自顶向下单向流动（作用：让组件之间的关系变得简单且可预测）</p>
+<h3 id="Component的构建方法"><a href="#Component的构建方法" class="headerlink" title="Component的构建方法"></a>Component的构建方法</h3><ol>
+<li><code>React.createClass</code>（这个方法在React v16.0已经移除）</li>
+<li><code>ES6 classes</code></li>
+<li>无状态函数（<code>stateless function</code>）：没有state。无状态组件没有生命周期，无状态组件每次都会被渲染。无状态组件创建时只会保存一个实例，避免了不必要的检查和内存分配，做到了内存优化<div style="max-width:400px;"><br><img src="/2017/10/29/《深入React技术栈》学习笔记：基础知识/ES6Class和createClass创建组件的区别.jpg" alt="ES6Class和createClass创建组件的区别" title="ES6Class和createClass创建组件的区别"><br></div>
+
+</li>
+</ol>
+<h3 id="Component的组成"><a href="#Component的组成" class="headerlink" title="Component的组成"></a>Component的组成</h3><p>属性（props）+ 状态（state）+ 生命周期</p>
+<div style="max-width:400px;"><br><img src="/2017/10/29/《深入React技术栈》学习笔记：基础知识/react_component_1.png" alt="react_component_1.png" title=""><br></div>
+
+<h4 id="属性（props）"><a href="#属性（props）" class="headerlink" title="属性（props）"></a>属性（props）</h4><p>props是不可变的，使用<code>propTypes</code>对props进行类型检查（开发环境下才会进行类型检查，生成环境不会）</p>
+<h4 id="状态（state）"><a href="#状态（state）" class="headerlink" title="状态（state）"></a>状态（state）</h4><p>调用<code>setState</code>改变<code>state</code>，调用这个方法后，组件会尝试重新渲染。<br><code>setState</code>是一个异步的方法，一个生命周期内所有的<code>setState</code>方法会合并操作</p>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p><div style="max-width:600px;"><br><img src="/2017/10/29/《深入React技术栈》学习笔记：基础知识/react_lifecycle_1.png" alt="react_lifecycle_1.png" title=""><br></div><br>组件第一次加载：（主要做组件状态的初始化）</p>
+<ul>
+<li>初始化props</li>
+<li>执行componentWillMount</li>
+<li>执行render</li>
+<li>执行componentDidMount</li>
+</ul>
+<p>组件卸载：</p>
+<ul>
+<li>执行componentWillUnmount：在这个方法中，执行一些清理方法，如事件回收或者清除定时器</li>
+</ul>
+<p>组件更新：父组件更新props或者子组件更新自身的state时会让子组件更新</p>
+<ul>
+<li>执行 componentWillReceiveProps(nextProps)：<strong>只有父组件更新props时</strong>，才会执行这个方法</li>
+<li>执行 shouldComponentUpdate(nextProps, nextState)：返回<code>false</code>时，下面的周期函数不会执行</li>
+<li>执行 componentWillUpdate(nextProps, nextState)</li>
+<li>执行 render</li>
+<li>执行 componentDidUpdate(prevProps, prevState)</li>
+</ul>
+<p>在生命周期方法里调用<code>setState</code></p>
+<ul>
+<li>componentWillMount: 组件会更新state，但是不会重新渲染，因为在这个阶段还没有开始渲染</li>
+<li>componentDidMount: 组件会更新state, 会使得组件重新渲染</li>
+<li>不能在componentWillUpdate中执行</li>
+<li><p>componentDidUpdate: 在这个方法中调用，会使得组件重新渲染</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 这样更新state，组件会一直更新，最后会抛出溢出的错误（`warning.js:55 Uncaught RangeError: Maximum call stack size exceeded`)</div><div class="line">componentDidUpdate () &#123;</div><div class="line">    this.setState(&#123;</div><div class="line">        count: count + 1</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>componentWillReceiveProps: 在这个方法中调用，组件不会二次渲染</p>
+</li>
+</ul>
+<h3 id="Component与真实DOM"><a href="#Component与真实DOM" class="headerlink" title="Component与真实DOM"></a>Component与真实DOM</h3><h4 id="ReactDOM"><a href="#ReactDOM" class="headerlink" title="ReactDOM"></a>ReactDOM</h4><p>ReactDOM作用于DOM，只适用于Web端，有以下方法：</p>
+<ol>
+<li><p>ReactDOM.findDOMNode：</p>
+<ul>
+<li>语法：<code>ReactDOM.findDOMNode()</code></li>
+<li>只能在<code>componentDidMount</code>, <code>componentDidUpdate</code>中调用，这个时候DOM才真正被添加到HTML中</li>
+<li>如果组件的render方法返回null，findDOMNode也返回null</li>
+</ul>
+</li>
+<li><p>ReactDOM.render：将<code>Virtual DOM</code>渲染到浏览器的DOM中</p>
+<ul>
+<li>语法：<code>ReactDOM.render(ReactElement element, DOMElement container, [function callback])</code></li>
+<li>该方法把元素挂载到container中，并返回element的实例（即refs引用），如果ReactElement是无状态组件，那么ReactDOM.render()返回值为null</li>
+<li>组件再次更新时， React进行DOM diff算法做局部更新</li>
+</ul>
+</li>
+<li><p>ReactDOM.unmountComponentAtNode：卸载</p>
+</li>
+<li><strong>ReactDOM.unstable_renderSubtreeIntoContainer</strong>：更新组件到传入的DOM节点上<ul>
+<li>语法：<code>ReactDOM.unstable_renderSubtreeIntoContainer(parentComponent, nextElement, container, callback)</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="refs"><a href="#refs" class="headerlink" title="refs"></a>refs</h4><p>组件被创建时会新建一个该组件的实例，而refs就会指向这个实例。<code>ref</code>有两种值：</p>
+<ol>
+<li><p>回调函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 设置</div><div class="line">&lt;input ref=&#123;(ref)=&gt; this.myInput = ref&#125;/&gt;</div><div class="line">// 使用</div><div class="line">this.myInput.focus()</div></pre></td></tr></table></figure>
+</li>
+<li><p>字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 设置</div><div class="line">&lt;input ref=&quot;myInput&quot;/&gt;</div><div class="line">// 使用</div><div class="line">const myComp = this.refs.myInput //获取的是一个ReactElement的实例</div><div class="line">const dom = findDOMNode(myComp) //获取真实的DOM</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Component的分类"><a href="#Component的分类" class="headerlink" title="Component的分类"></a>Component的分类</h3><p>智能组件（smart component）和木偶组件（dumb component）</p>
+<ul>
+<li>smart component：组件自己管理状态</li>
+<li>dumb component：父组件管理该组件的状态值，并将状态值传递给该组件，这个组件只做渲染操作，不管理状态</li>
+</ul>
+<h3 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h3><p>1.父组件向子组件通信：通过props向子组件传递信息<br>2.子组件向父组件通信：</p>
+<ul>
+<li>利用回调函数</li>
+<li>利用自定义事件机制</li>
+</ul>
+<p>3.跨级组件通信：使用context来实现<br>4.没有嵌套关系的组件通信：使用发布/订阅模式，（EventEmitter）</p>
+<h2 id="事件系统"><a href="#事件系统" class="headerlink" title="事件系统"></a>事件系统</h2><p>React基于Virtual DOM实现了一个SyntheticEvent（合成事件）层。SyntheticEvent是一个基于浏览器原生事件的跨浏览器实现。<br>不支持使用<code>return false</code>阻止默认时间和冒泡，支持<code>stopPropagation()</code>和<code>preventDefault()</code>。<br>所有事件会以事件委托的形式自动绑定到最外层上。</p>
+<h3 id="事件池（Event-Pooling）？？？"><a href="#事件池（Event-Pooling）？？？" class="headerlink" title="事件池（Event Pooling）？？？"></a>事件池（Event Pooling）？？？</h3><p>SyntheticEvent是共享的(SyntheticEvent is pooled)：为了优化性能，事件回调被执行后，SyntheticEvent会被重用，它上面的所有属性会被清空。所以在事件回调中的异步操作中获取到的事件对象是被清空属性值的对象。<br>如果想在异步操作中使用事件对象，需要调用<code>event.persist()</code>，调用这个方法后，会在线程池中删除这个事件对象，并在用户代码中保存这个事件对象的引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">handler = (event) =&gt; &#123;</div><div class="line">  // event.persist(), 调用persist方法后，在异步方法中访问event.target就不会是null</div><div class="line">  console.log(event)</div><div class="line">  console.log(event.target)</div><div class="line">  setTimeout(() =&gt; &#123;</div><div class="line">    console.log(event) // event对象仍然存在，但是它的属性的值已经被清空了</div><div class="line">    console.log(event.target) // null</div><div class="line">  &#125;, 0)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="SyntheticEvent的实现机制"><a href="#SyntheticEvent的实现机制" class="headerlink" title="SyntheticEvent的实现机制"></a>SyntheticEvent的实现机制</h3><ol>
+<li>在React底层主要对合成事件做了两件事：事件委派和自动绑定</li>
+<li>事件委派：将事件绑定到结构的最外层<div style="max-width: 300px;"><br><img src="/2017/10/29/《深入React技术栈》学习笔记：基础知识/react_event1.png" alt="react_event1.png" title=""><br></div></li>
+<li>自动绑定<ul>
+<li>使用<code>React.createClass</code>创建的组件的每个方法的上下文都会指向该组件的实例。React还会对这种引用进行缓存，以达到CPU和内存的最优化。</li>
+<li>使用<code>ES6 classes</code>或者<code>纯函数</code>创建的组件，没有自动绑定的特性。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 在ES6 classes创建的组件中手动绑定this</div><div class="line">// 1. 使用bind</div><div class="line">constructor()&#123;</div><div class="line">  super()</div><div class="line">  this.eventHandler = this.eventHandler.bind(this)</div><div class="line">&#125;</div><div class="line">// 2. 使用箭头函数</div><div class="line">eventHandler = () =&gt; &#123;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="在React中使用原生事件"><a href="#在React中使用原生事件" class="headerlink" title="在React中使用原生事件"></a>在React中使用原生事件</h3><p>通过<code>ref</code>获取组件实例并为其绑定原生事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this.refs.button.addEventListener(&apos;click&apos;, e =&gt; &#123;&#125;)</div></pre></td></tr></table></figure></p>
+<p>给<code>&lt;body&gt;</code>绑定事件，body在组件范围之外只能通过绑定原生事件来实现<br>合成事件中调用<code>e.stopPropagation</code>，只能阻止React合成事件系统中的冒泡，无法阻止原生事件上的冒泡。但是原生事件中的阻止冒泡行为，可以阻止React合成事件系统中的冒泡<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 综上所诉：给className为div的元素绑定合成事件，通过调用e.stopPropagation来阻止冒泡是没有效果的</div><div class="line">// 解决方案：通过以下方法来实现阻止冒泡：如果点击className为div的元素，不会继续执行下去</div><div class="line">document.body.addEventListener(&quot;click&quot;, (e)=&gt;&#123;</div><div class="line">    if ( e.target &amp;&amp; e.target.matches(&quot;.div&quot;) ) &#123;</div><div class="line">        return</div><div class="line">    &#125;</div><div class="line">    this.setState(&#123;isOpen: false&#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="React合成事件和JavaScript原生事件的对比"><a href="#React合成事件和JavaScript原生事件的对比" class="headerlink" title="React合成事件和JavaScript原生事件的对比"></a>React合成事件和JavaScript原生事件的对比</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">项目</th>
+<th style="text-align:left">JavaScript原生事件</th>
+<th style="text-align:left">React合成事件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">事件传播</td>
+<td style="text-align:left">事件捕获-&gt;自身事件处理-&gt;事件冒泡</td>
+<td style="text-align:left">自身事件处理-&gt;事件冒泡</td>
+</tr>
+<tr>
+<td style="text-align:left">阻止事件传播</td>
+<td style="text-align:left"><code>e.preventDefault()</code>(可能有兼容问题)</td>
+<td style="text-align:left"><code>e.preventDefault()</code></td>
+</tr>
+<tr>
+<td style="text-align:left">事件类型</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">React合成事件的事件类型是JavaScript原生事件类型的一个子集</td>
+</tr>
+<tr>
+<td style="text-align:left">事件绑定方式</td>
+<td style="text-align:left">三种：<br><code>&lt;a onclick=&quot;alert(1);&quot;&gt;&lt;/a&gt;</code><br><code>el.onclick=()=&gt;{}</code><br><code>el.addEventListener(&#39;click&#39;, ()=&gt;{})</code></td>
+<td style="text-align:left">一种：<br><code>&lt;a onClick={this.handler}&gt;&lt;/a&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>注：React中不能使用<code>return false</code>阻止默认事件，应该通过调用<code>e.preventDefault</code>来阻止。React的合成事件也有捕获阶段，<code>onClickCapture</code>会在捕获阶段触发</p>
+<h2 id="五、表单"><a href="#五、表单" class="headerlink" title="五、表单"></a>五、表单</h2><h3 id="受控组件与不受控组件"><a href="#受控组件与不受控组件" class="headerlink" title="受控组件与不受控组件"></a>受控组件与不受控组件</h3><ol>
+<li>受控组件<ul>
+<li>表单的值通过state来管理的组件是受控组件</li>
+<li>使用受控组件消除了组件的局部状态</li>
+</ul>
+</li>
+<li>不受控组件<ul>
+<li>通过<code>defaultValue</code>和<code>defaultChecked</code>来设置组件默认状态</li>
+</ul>
+</li>
+<li>对比受控组件和非受控组件<ul>
+<li>非受控组件的状态不会受到应用状态的控制，应用中也多了局部组件状态，而受控组件的值来自于组件的state</li>
+<li>性能上：受控组件会有一些性能上的损耗，因为表单的值发生变化时，都会调用一次onChange事件</li>
+</ul>
+</li>
+</ol>
+<h2 id="六、样式处理"><a href="#六、样式处理" class="headerlink" title="六、样式处理"></a>六、样式处理</h2><h3 id="1-基本样式设置"><a href="#1-基本样式设置" class="headerlink" title="1.基本样式设置"></a>1.基本样式设置</h3><ul>
+<li>使用className<ul>
+<li>使用<code>classnames</code>库来动态拼凑类名</li>
+</ul>
+</li>
+<li>使用行内样式，设置style<ul>
+<li>属性的值是像素值，可以直接使用数字，react会自动为其添加px</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-CSS模板化"><a href="#2-CSS模板化" class="headerlink" title="2.CSS模板化"></a>2.CSS模板化</h3><ol>
+<li>css模板化的解决方案有：<ul>
+<li>Inline Style：使用JavaScript或JSON来写样式</li>
+<li><a href="/2017/09/20/CSS-Modules/" title="CSS Modules">CSS Modules</a>：依旧使用CSS，但使用JavaScript来管理样式依赖。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/25/HTTP协议进阶/" rel="next" title="HTTP协议进阶">
+                <i class="fa fa-chevron-left"></i> HTTP协议进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/31/《深入React技术栈》学习笔记：高阶函数/" rel="prev" title="《深入React技术栈》学习笔记：高阶函数">
+                《深入React技术栈》学习笔记：高阶函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React全貌"><span class="nav-number">1.</span> <span class="nav-text">React全貌</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#React的特性"><span class="nav-number">1.1.</span> <span class="nav-text">React的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟元素（Virtual-element）"><span class="nav-number">1.2.</span> <span class="nav-text">虚拟元素（Virtual element）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX基本语法"><span class="nav-number">2.</span> <span class="nav-text">JSX基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#元素类型"><span class="nav-number">2.1.</span> <span class="nav-text">元素类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元素属性"><span class="nav-number">2.2.</span> <span class="nav-text">元素属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名空间"><span class="nav-number">2.3.</span> <span class="nav-text">命名空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转义"><span class="nav-number">2.4.</span> <span class="nav-text">转义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Component"><span class="nav-number">3.</span> <span class="nav-text">React Component</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Component的构建方法"><span class="nav-number">3.1.</span> <span class="nav-text">Component的构建方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component的组成"><span class="nav-number">3.2.</span> <span class="nav-text">Component的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性（props）"><span class="nav-number">3.2.1.</span> <span class="nav-text">属性（props）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态（state）"><span class="nav-number">3.2.2.</span> <span class="nav-text">状态（state）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期"><span class="nav-number">3.2.3.</span> <span class="nav-text">生命周期</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component与真实DOM"><span class="nav-number">3.3.</span> <span class="nav-text">Component与真实DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ReactDOM"><span class="nav-number">3.3.1.</span> <span class="nav-text">ReactDOM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#refs"><span class="nav-number">3.3.2.</span> <span class="nav-text">refs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component的分类"><span class="nav-number">3.4.</span> <span class="nav-text">Component的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件间通信"><span class="nav-number">3.5.</span> <span class="nav-text">组件间通信</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件系统"><span class="nav-number">4.</span> <span class="nav-text">事件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件池（Event-Pooling）？？？"><span class="nav-number">4.1.</span> <span class="nav-text">事件池（Event Pooling）？？？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SyntheticEvent的实现机制"><span class="nav-number">4.2.</span> <span class="nav-text">SyntheticEvent的实现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在React中使用原生事件"><span class="nav-number">4.3.</span> <span class="nav-text">在React中使用原生事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React合成事件和JavaScript原生事件的对比"><span class="nav-number">4.4.</span> <span class="nav-text">React合成事件和JavaScript原生事件的对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、表单"><span class="nav-number">5.</span> <span class="nav-text">五、表单</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#受控组件与不受控组件"><span class="nav-number">5.1.</span> <span class="nav-text">受控组件与不受控组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、样式处理"><span class="nav-number">6.</span> <span class="nav-text">六、样式处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基本样式设置"><span class="nav-number">6.1.</span> <span class="nav-text">1.基本样式设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CSS模板化"><span class="nav-number">6.2.</span> <span class="nav-text">2.CSS模板化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

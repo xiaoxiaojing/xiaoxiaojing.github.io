@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="css,css-module,react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="初探 CSS模块化遇到的问题  全局污染 命名混乱 依赖管理不彻底：引入一个组件时，无法只引入这个组件需要的css样式 无法共享变量：预编译语言不能提供跨JavaScript和CSS共享变量的这种能力 代码压缩不彻底   CSS Modules是模块化CSS的一种解决方案  CSS Modules内部通过ICSS来解决样式导入和导出的问题，分别对应:import和:export两个伪类    使用">
+<meta name="keywords" content="css,css-module,react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS Modules">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/09/20/CSS-Modules/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="初探 CSS模块化遇到的问题  全局污染 命名混乱 依赖管理不彻底：引入一个组件时，无法只引入这个组件需要的css样式 无法共享变量：预编译语言不能提供跨JavaScript和CSS共享变量的这种能力 代码压缩不彻底   CSS Modules是模块化CSS的一种解决方案  CSS Modules内部通过ICSS来解决样式导入和导出的问题，分别对应:import和:export两个伪类    使用">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-12-22T05:59:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS Modules">
+<meta name="twitter:description" content="初探 CSS模块化遇到的问题  全局污染 命名混乱 依赖管理不彻底：引入一个组件时，无法只引入这个组件需要的css样式 无法共享变量：预编译语言不能提供跨JavaScript和CSS共享变量的这种能力 代码压缩不彻底   CSS Modules是模块化CSS的一种解决方案  CSS Modules内部通过ICSS来解决样式导入和导出的问题，分别对应:import和:export两个伪类    使用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/09/20/CSS-Modules/"/>
+
+
+
+
+
+  <title>CSS Modules | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/09/20/CSS-Modules/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS Modules</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-20T14:26:30+08:00">
+                2017-09-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2017-12-22T13:59:13+08:00">
+                2017-12-22
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Other/" itemprop="url" rel="index">
+                    <span itemprop="name">Other</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="初探"><a href="#初探" class="headerlink" title="初探"></a>初探</h2><ol>
+<li><p>CSS模块化遇到的问题</p>
+<ul>
+<li>全局污染</li>
+<li>命名混乱</li>
+<li>依赖管理不彻底：引入一个组件时，无法只引入这个组件需要的css样式</li>
+<li>无法共享变量：预编译语言不能提供跨JavaScript和CSS共享变量的这种能力</li>
+<li>代码压缩不彻底</li>
+</ul>
+</li>
+<li><p>CSS Modules是模块化CSS的一种解决方案</p>
+<ul>
+<li>CSS Modules内部通过ICSS来解决样式导入和导出的问题，分别对应<code>:import</code>和<code>:export</code>两个伪类</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用Css-Modules"><a href="#使用Css-Modules" class="headerlink" title="使用Css Modules"></a>使用Css Modules</h3><ol>
+<li><p>启用CSS Modules（in webpack）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// webpack 版本不一样，配置方法不一样</div><div class="line">css?modules&amp;localIdentName=[name]_[local]-[hash:base64:5]</div><div class="line">//or</div><div class="line">&#123;</div><div class="line">   test: /\.css$/,</div><div class="line">   loader: &apos;css-loader&apos;,</div><div class="line">   query: &#123;</div><div class="line">       modules: true,</div><div class="line">       localIdentName: &quot;[name]__[local]__[hash:base64:5]&quot;</div><div class="line">   &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在组件中调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">import styles from &apos;./index.css&apos;</div><div class="line">console.log(styles)  //is a Object</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="特殊语法"><a href="#特殊语法" class="headerlink" title="特殊语法"></a>特殊语法</h3><ol>
+<li><p>样式默认是局部的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 显示定义成局部样式</div><div class="line">:local(.normal)&#123;&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>启用全局模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 定义一个全局样式</div><div class="line">:global(.btn) &#123;</div><div class="line">  color: red</div><div class="line">&#125;</div><div class="line">// 定义多个全局样式</div><div class="line">:global(</div><div class="line">    .btn &#123;color: red&#125;</div><div class="line">    .btn1 &#123;color: green&#125;</div><div class="line">)</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过<code>composes</code>组合样式</p>
+<ul>
+<li>也可以组合多个样式<code>composes: classNameA classNameB</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">.base &#123;/*所有通用样式*/&#125;</div><div class="line">.normal &#123;</div><div class="line">  composes: base;</div><div class="line">  /*normal 的其他样式*/</div><div class="line">&#125;</div><div class="line">// 应用</div><div class="line">&lt;button class=$&#123;styles.normal&#125;&gt;&lt;/button&gt;</div><div class="line">// 生成后</div><div class="line">&lt;button class=&quot;button--base-abc12 button-normal-abc32&quot;&gt;&lt;/button&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通过<code>composes</code>继承样式</p>
+<ul>
+<li>不能形成循环引用，可能会发生错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/* base.css */</div><div class="line">.base &#123;&#125;</div><div class="line">/* normal.css */</div><div class="line">.normal &#123;</div><div class="line">  composes: className from &apos;./style.css&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用<code>:export</code>关键字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// base.css</div><div class="line">:export &#123;</div><div class="line">  primaryColor: #fff</div><div class="line">&#125;</div><div class="line">// base.js</div><div class="line">import style from &apos;base.css&apos;</div><div class="line">console.log(style.primaryColor) // #fff</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="CSS-Modules的优点"><a href="#CSS-Modules的优点" class="headerlink" title="CSS Modules的优点"></a>CSS Modules的优点</h3><ol>
+<li>所有样式都是局部化的，解决了命名冲突和全局污染问题</li>
+<li>class名的生成规则配置灵活</li>
+<li>建立js文件和css文件的依赖关系</li>
+</ol>
+<h3 id="实践中的一些问题"><a href="#实践中的一些问题" class="headerlink" title="实践中的一些问题"></a>实践中的一些问题</h3><ol>
+<li>一个css文件中多个同名的class，编译后仍是同名的</li>
+<li>外部覆盖局部样式：使用属性选择器</li>
+<li><p>引入全局样式：通过webpack配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  test: /\.scss$/,</div><div class="line">  exclude: path.resolve(__dirname, &apos;src/styles&apos;),</div><div class="line">  loader: &apos;style!css?modules&amp;localIdentName=[name]__[local]!sass?sourceMap=true&apos;,</div><div class="line">&#125;</div><div class="line">//这样配置后，将全局样式文件放置到src/styles目录下，全局样式就不会被编译</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>react-css-modules</code>库来避免重复书写<code>styles.**</code></p>
+</li>
+</ol>
+<hr>
+<hr>
+<h1 id="Interoperable-CSS（ICSS）"><a href="#Interoperable-CSS（ICSS）" class="headerlink" title="Interoperable CSS（ICSS）"></a>Interoperable CSS（<a href="https://github.com/css-modules/icss" target="_blank" rel="external">ICSS</a>）</h1><p>以下是翻译</p>
+<hr>
+<ul>
+<li>这篇文章说明了启用CSS Modules的low-level文件格式的规范。这篇文章主要是给loader（这个loader是指webpack的css-loader这类插件）开发人员看的。</li>
+</ul>
+<h2 id="Rationale"><a href="#Rationale" class="headerlink" title="Rationale"></a>Rationale</h2><ul>
+<li>CSS需要和JavaScript一样趋向组件化开发。CSS在这方面的进步都是相当传统，且没有被CSS支持。例如<a href="https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/" target="_blank" rel="external">BEM</a>，它有一些特点：<ul>
+<li>样式作用于单个组件</li>
+<li>所有的CSS选择器都是全局的</li>
+<li>确定一些书写规范保证选择器名的全局唯一性</li>
+</ul>
+</li>
+</ul>
+<h3 id="Explicit-cross-language-dependencies"><a href="#Explicit-cross-language-dependencies" class="headerlink" title="Explicit cross-language dependencies"></a>Explicit cross-language dependencies</h3><ul>
+<li><p>Webpack的一个特性是能够明确地描述每个文件的依赖关系，不管这个文件是什么类型。所以CSS文件可以这样引入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">require( &apos;./my-component.css&apos; )</div><div class="line">var MyComponent = // component definition</div><div class="line">module.exports = MyComponent</div></pre></td></tr></table></figure>
+</li>
+<li><p>现在，无论<code>my-component.js</code>是装载还是卸载，CSS文件和组件的依赖关系是一直保持的</p>
+</li>
+</ul>
+<h3 id="CSS-JS-interoperability"><a href="#CSS-JS-interoperability" class="headerlink" title="CSS - JS interoperability"></a>CSS - JS interoperability</h3><ul>
+<li>建立了CSS文件和JS文件的依赖关系，我们就可以将CSS中的变量传递给JS（pass variables from css to JS)<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var styles = require(&apos;./my-component.css&apos;)</div><div class="line">elem.addClass( styles.elemClass ) //我们可以使用styles来获取css中的变量</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Specification"><a href="#Specification" class="headerlink" title="Specification"></a>Specification</h2><ul>
+<li>ICSS是标准CSS的超集，使用两个额外的伪选择器：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">:import(&quot;path/to/dep.css&quot;) &#123;</div><div class="line">  localAlias: keyFromDep;</div><div class="line">  /* ... */</div><div class="line">&#125;</div><div class="line">:export &#123;</div><div class="line">  exportedKey: exportedValue;</div><div class="line"> /* ... */</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="export"><a href="#export" class="headerlink" title=":export"></a><code>:export</code></h3><ul>
+<li><p><code>:export</code>关键词可以把css中的变量输出到JavaScript中，等价于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">module.exports = &#123;</div><div class="line">  &quot;exportedKey&quot;: &quot;exportedValue&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>:export</code>语法有以下限制</p>
+<ul>
+<li>必须在最顶层(也就说不能这样写<code>.base:export{}</code>, 冒号前面不能有其他选择器)，但是可以在文件的任何地方</li>
+<li>如果一个文件中有多个<code>:export</code>，会将key/value合并并一起导出</li>
+<li>如果定义了重复的<code>exportedKey</code>，会只取最后一个</li>
+<li><code>exportedValue</code>可以是任何css的属性值，包括空格</li>
+<li><code>exportedValue</code>会被视为一个字符串，所以不需要用引号包裹</li>
+</ul>
+</li>
+<li><code>:export</code>语法建议的但是不强制：<ul>
+<li>一个文件应该只有一个<code>:export</code></li>
+<li>应该写在文件的顶部，并且在所有<code>:import</code>的后面</li>
+</ul>
+</li>
+</ul>
+<h3 id="import"><a href="#import" class="headerlink" title=":import"></a><code>:import</code></h3><ul>
+<li><code>:import</code>语法允许从其他css文件引入变量(css-loader似乎没有实现这个功能额？)</li>
+<li><code>:import</code>的执行步骤<ul>
+<li>获取并处理依赖</li>
+<li>Resolve the dependency’s exports against the imported tokens, and match them up to a <code>localAlias</code></li>
+<li>Find and replace the usages of <code>localAlias</code> in certain places (described below) within the current file with the dependency’s <code>exportedValue</code></li>
+</ul>
+</li>
+<li>在css文件中会检查<code>localAlias</code>的地方<ul>
+<li>属性的值：<code>border: 1px solid localAlias</code></li>
+<li>选择器：<code>.localAlias .MyComponent {}</code></li>
+<li>媒体查询的参数：<code>@media screen and localAlias</code></li>
+</ul>
+</li>
+<li><code>:import</code>的语法规则<ul>
+<li>must be at the top low-level</li>
+<li>每个文件可以import多个依赖，多个symbols</li>
+<li><code>localAlias</code>命名必须是唯一的，且只包含字母、数字、字符、下划线和破折号。</li>
+</ul>
+</li>
+<li><code>:import</code>的其他规则，但是不强制<ul>
+<li>There should be one import per dependency</li>
+<li>All imports should be at the top of the file</li>
+<li>local aliases should be prefixed with double-underscore</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>参考书籍：<strong>《深入React技术栈》</strong></li>
+<li>参考链接：<a href="https://github.com/css-modules/css-modules" target="_blank" rel="external">css-modules</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/css-module/" rel="tag"># css-module</a>
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/19/React Demo：Tabs组件/" rel="next" title="React Demo：Tabs组件">
+                <i class="fa fa-chevron-left"></i> React Demo：Tabs组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/24/HTTP状态码/" rel="prev" title="HTTP状态码">
+                HTTP状态码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初探"><span class="nav-number">1.</span> <span class="nav-text">初探</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Css-Modules"><span class="nav-number">1.1.</span> <span class="nav-text">使用Css Modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊语法"><span class="nav-number">1.2.</span> <span class="nav-text">特殊语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Modules的优点"><span class="nav-number">1.3.</span> <span class="nav-text">CSS Modules的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实践中的一些问题"><span class="nav-number">1.4.</span> <span class="nav-text">实践中的一些问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Interoperable-CSS（ICSS）"><span class="nav-number"></span> <span class="nav-text">Interoperable CSS（ICSS）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rationale"><span class="nav-number">1.</span> <span class="nav-text">Rationale</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Explicit-cross-language-dependencies"><span class="nav-number">1.1.</span> <span class="nav-text">Explicit cross-language dependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-JS-interoperability"><span class="nav-number">1.2.</span> <span class="nav-text">CSS - JS interoperability</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Specification"><span class="nav-number">2.</span> <span class="nav-text">Specification</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#export"><span class="nav-number">2.1.</span> <span class="nav-text">:export</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import"><span class="nav-number">2.2.</span> <span class="nav-text">:import</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

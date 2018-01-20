@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行component diff） 对于同一">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React原理：diff算法">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行component diff） 对于同一">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/DOM层级变换.jpg">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/component_diff.jpg">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/相同节点位置不同.jpg">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/节点不同时的创建、移动、删除.jpg">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/节点更新存在的不足.jpg">
+<meta property="og:updated_time" content="2017-12-21T06:44:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React原理：diff算法">
+<meta name="twitter:description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行component diff） 对于同一">
+<meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/DOM层级变换.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/"/>
+
+
+
+
+
+  <title>React原理：diff算法 | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React原理：diff算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-14T20:46:07+08:00">
+                2017-11-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2017-12-21T14:44:17+08:00">
+                2017-12-21
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/REACT/" itemprop="url" rel="index">
+                    <span itemprop="name">REACT</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><code>React</code>将<code>Virtual DOM</code>树转换为<code>actual DOM</code>树的最少操作的过程称为调和（<code>reconciliation</code>）</li>
+<li><code>diff</code>算法就是调和的具体实现</li>
+</ul>
+<h2 id="diff算法的3个策略"><a href="#diff算法的3个策略" class="headerlink" title="diff算法的3个策略"></a>diff算法的3个策略</h2><ol>
+<li>Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行<code>tree diff</code>）</li>
+<li>拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行<code>component diff</code>）</li>
+<li>对于同一层级的一组子节点，它们可以通过唯一id进行区分（进行<code>element diff</code>）</li>
+</ol>
+<h3 id="1-tree-diff"><a href="#1-tree-diff" class="headerlink" title="1.tree diff"></a>1.tree diff</h3><ul>
+<li>两棵树只会对同一层级（通过<code>updateDepth</code>进行层级控制）的节点进行比较。在<code>tree diff</code>中只会发生 <strong>创建</strong> 和 <strong>删除</strong> 操作。</li>
+<li>如下图的节点变化：当A节点（包括其子节点）整个被移到D节点下。React会认为A消失了，就会删除A节点。D节点上多出的A节点，React会认为其是新增节点，创建新的A（包括子节点）。因此尽量不要进行DOM节点跨层级的操作，这样操作会使得节点以及子节点被重新创建，影响性能。<div style="max-width:460px; border: 1px dotted #ccc"><br><img src="/2017/11/14/React原理：diff算法/DOM层级变换.jpg" alt="DOM层级变换.jpg" title=""><br></div>
+
+</li>
+</ul>
+<h3 id="2-component-diff"><a href="#2-component-diff" class="headerlink" title="2.component diff"></a>2.component diff</h3><ul>
+<li>组件间的diff策略<ul>
+<li>如果是同一类型的组件，按照原策略继续比较Virtual DOM树即可（PS：可以通过<code>shouldComponentUpdate()</code>来判断组件是否需要进行diff算法分析）</li>
+<li>如果不是，则将该组件判断为<code>dirty component</code>，删除该节点及其子节点，并重新创建新组件及其子节点</li>
+</ul>
+</li>
+<li>如下图的节点变化：当组件D变成了组件G时，会直接删除组件D，重新创建组件G及其子节点。<div style="max-width:460px; border: 1px dotted #ccc"><br><img src="/2017/11/14/React原理：diff算法/component_diff.jpg" alt="component_diff.jpg" title=""><br></div>
+
+</li>
+</ul>
+<h3 id="3-element-diff"><a href="#3-element-diff" class="headerlink" title="3.element diff"></a>3.element diff</h3><ul>
+<li><p>同一层级一组子节点，会有三种节点操作：INSERT_MARKUP（插入）、MOVE_EXISTING（移动）、REMOVE_NODE（删除）</p>
+<ul>
+<li>1）新旧集合中存在相同节点但位置不同（通过节点的<code>key</code>来优化如下情况）<ul>
+<li>未添加key属性时，diff结果：需要删除A，创建B。依次类推，创建并插入A、D、C，删除B、C、D。</li>
+<li>添加后，diff结果：B、D不做任何操作，A、C进行移动操作即可<div style="max-width:300px; border: 1px dotted #ccc"><br>  <img src="/2017/11/14/React原理：diff算法/相同节点位置不同.jpg" alt="相同节点位置不同.jpg" title=""><br></div></li>
+</ul>
+</li>
+<li>2）新集合中有新加入的节点且就集合存在需要删除的节点：<div style="max-width:300px; border: 1px dotted #ccc"><br>  <img src="/2017/11/14/React原理：diff算法/节点不同时的创建、移动、删除.jpg" alt="节点不同时的创建、移动、删除.jpg" title=""><br></div>
+</li>
+</ul>
+</li>
+<li><p>存在的不足：如下图，只需要移动D就可以完成更新，但是按照算法会移动A、B、C</p>
+<div style="max-width:300px; border: 1px dotted #ccc"><br><img src="/2017/11/14/React原理：diff算法/节点更新存在的不足.jpg" alt="节点更新存在的不足.jpg" title=""><br></div>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/11/《深入React技术栈》学习笔记：React源码/" rel="next" title="《深入React技术栈》学习笔记：React源码">
+                <i class="fa fa-chevron-left"></i> 《深入React技术栈》学习笔记：React源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/15/yarn概览/" rel="prev" title="yarn概览">
+                yarn概览 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#diff算法的3个策略"><span class="nav-number">1.</span> <span class="nav-text">diff算法的3个策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-tree-diff"><span class="nav-number">1.1.</span> <span class="nav-text">1.tree diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-component-diff"><span class="nav-number">1.2.</span> <span class="nav-text">2.component diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-element-diff"><span class="nav-number">1.3.</span> <span class="nav-text">3.element diff</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

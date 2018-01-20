@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="概率论," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="install the R use the brew package manager to install R12brew tap homebrew/sciencebrew install r   概率论事件 基本事件（用E表示）：在一次随机试验中可能发生的不能再细分的结果 事件空间（用S表示）：在随机试验中可能发生的所有基本事件的集合 随机事件（用A,B,C…表示）：是事件空间的子集 必然事件">
+<meta name="keywords" content="概率论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率论和统计学">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="install the R use the brew package manager to install R12brew tap homebrew/sciencebrew install r   概率论事件 基本事件（用E表示）：在一次随机试验中可能发生的不能再细分的结果 事件空间（用S表示）：在随机试验中可能发生的所有基本事件的集合 随机事件（用A,B,C…表示）：是事件空间的子集 必然事件">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/事件运算.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/统计概率.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/二项分布.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/type_of_variables.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/type_of_variables_numerical.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/第一型和第二型错误.png">
+<meta property="og:updated_time" content="2017-12-21T06:44:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="概率论和统计学">
+<meta name="twitter:description" content="install the R use the brew package manager to install R12brew tap homebrew/sciencebrew install r   概率论事件 基本事件（用E表示）：在一次随机试验中可能发生的不能再细分的结果 事件空间（用S表示）：在随机试验中可能发生的所有基本事件的集合 随机事件（用A,B,C…表示）：是事件空间的子集 必然事件">
+<meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/事件运算.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/"/>
+
+
+
+
+
+  <title>概率论和统计学 | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/09/18/Statistics-with-R/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">概率论和统计学</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-18T20:43:07+08:00">
+                2017-09-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2017-12-21T14:44:17+08:00">
+                2017-12-21
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Other/" itemprop="url" rel="index">
+                    <span itemprop="name">Other</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="install-the-R"><a href="#install-the-R" class="headerlink" title="install the R"></a>install the R</h2><ul>
+<li>use the <code>brew</code> package manager to install R<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew tap homebrew/science</div><div class="line">brew install r</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="概率论"><a href="#概率论" class="headerlink" title="概率论"></a>概率论</h2><h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><ol>
+<li>基本事件（用E表示）：在一次随机试验中可能发生的不能再细分的结果</li>
+<li>事件空间（用S表示）：在随机试验中可能发生的所有基本事件的集合</li>
+<li>随机事件（用A,B,C…表示）：是事件空间的子集</li>
+<li>必然事件 和 不可能事件</li>
+<li>事件的计算<div style="max-width:600px"><br><img src="/2017/09/18/Statistics-with-R/事件运算.png" alt="事件运算.png" title=""><br></div>
+
+</li>
+</ol>
+<h3 id="概率"><a href="#概率" class="headerlink" title="概率"></a>概率</h3><ul>
+<li>维恩图（Venn diagrams）：表示事件及其概率</li>
+</ul>
+<h4 id="概率的定义"><a href="#概率的定义" class="headerlink" title="概率的定义"></a>概率的定义</h4><ol>
+<li>传统概率（拉普拉斯概率）：如果一个随机试验所包含的事件是有限的，并且每个事件发生的可能性均相等，则这个试验叫做拉普拉斯试验<ul>
+<li>事件A在事件空间S中的概率记为P(A)：P(A) = 构成事件A的元素数目/构成事件空间S的所有元素数目</li>
+</ul>
+</li>
+<li>统计概率：对一个事件做相互独立的n次随机试验，随着次数n的增加，相对频率会趋向于一个极限值，这个极限值被称为统计概率<div style="max-width:200px"><br><img src="/2017/09/18/Statistics-with-R/统计概率.png" alt="统计概率.png" title=""><br></div></li>
+<li>现代概率论<ul>
+<li>概率公理：<ul>
+<li>0 ≤ P(A) ≤ 1</li>
+<li>P(S) = 1</li>
+<li>P(A ∪ B) = P(A) + P(B)，如果 A ∩ B = ∅</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="概率的计算"><a href="#概率的计算" class="headerlink" title="概率的计算"></a>概率的计算</h4><ul>
+<li>边际概率（marginal probabilities）p(A)</li>
+<li>联合概率（joint probabilitie）: P(A ∩ B)</li>
+<li>条件概率（conditional probabilities）: P(B|A)</li>
+<li>互补法则(complementary)：如果两个事件互补，P(A) + 【P(A)的补集】= 1</li>
+<li>不可能事件的概率为0：P(∅) = 0</li>
+<li>相交于不相交事件<ul>
+<li>不相交事件（disjoint events）：不可能同时存在的事件 P(A ∩ B) = 0</li>
+<li>相交事件（non-disjoint events）：P(A ∩ B) ≠ 0</li>
+</ul>
+</li>
+<li>计算（A ∪ B）<ul>
+<li>P(A ∪ B) = P(A) + P(B) − P(A ∩ B) （A,B是相交的）</li>
+<li>P(A ∪ B) = P (A) + P (B) （A,B不相交P(A ∩ B) = 0）</li>
+</ul>
+</li>
+<li>如果事件 A，B 是差集关系：P(A \ B)=P(A)-P(A ∩ B)</li>
+<li>乘法法则：<code>P(A ∩ B) = P(A)*P(B|A)=P(B)*P(A|B)</code><ul>
+<li>贝叶斯（Bayesian）公式：<code>P(A|B) = P(A)*P(B|A)/P(B)</code></li>
+</ul>
+</li>
+<li>独立事件（independent events）：P(A|B) = P(A) 或者 P(A ∩ B) = P(A) x P(B)</li>
+</ul>
+<h4 id="概率分布（Probability-distributions）"><a href="#概率分布（Probability-distributions）" class="headerlink" title="概率分布（Probability distributions）"></a>概率分布（Probability distributions）</h4><ul>
+<li>P为概率测量，X为随机变量，则函数<code>F(x) = P(X ≤ x)（x ∈ R）</code>称为X的概率分布函数</li>
+<li>离散分布<ul>
+<li>均匀分布：其中有限个数值拥有相同的概率</li>
+<li>二项分布：计算概率的前提是每次抽出样品后再放回去，并且只能有两种试验结果<div style="max-width:300px"><br><img src="/2017/09/18/Statistics-with-R/二项分布.png" alt="二项分布.png" title=""><br></div></li>
+<li>正态分布（normal distribution）：<ul>
+<li>N(μ,σ)：μ是平均数，σ是标准差</li>
+</ul>
+</li>
+<li>近似正态分布<ul>
+<li>平均数为：np</li>
+<li>标准差为：√(np(1 - p)).</li>
+</ul>
+</li>
+<li>标准偏差数（Z-scores)：Z =（x-μ）/σ<ul>
+<li>68-95-99.7法则</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="统计学"><a href="#统计学" class="headerlink" title="统计学"></a>统计学</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ol>
+<li>将变量定义为：数字（numerical）和分类（categorical）<br><div style="max-width: 300px;"><img src="/2017/09/18/Statistics-with-R/type_of_variables.png" alt="type_of_variables.png" title="">
+</div><ul>
+<li>对numerical进一步分类：连续的（continuous）和 离散的（discrete）<div style="max-width: 300px;"><br><img src="/2017/09/18/Statistics-with-R/type_of_variables_numerical.png" alt="type_of_variables_numerical.png" title=""><br></div></li>
+<li>对categorical进一步分类：有序的（ordinal）和无序的（regular categorical）<ul>
+<li>regular categorical（例如：morning person 、afternoon person）</li>
+<li>ordinal: 例如：满意度调查里的选项（非常不满意，不满意，一般，满意，非常满意））</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>关联变量（associated variables）: 说明两个变量之间的关系的变量，分为正关联和负关联</li>
+<li>独立变量（自变量）：没有关系的变量</li>
+<li>解释变量（explanatory variable)（因变量）：一对变量中会影响另一个变量的变量</li>
+</ol>
+<h3 id="实验（Experiments）和观察性研究（Observational-Studies）"><a href="#实验（Experiments）和观察性研究（Observational-Studies）" class="headerlink" title="实验（Experiments）和观察性研究（Observational Studies）"></a>实验（Experiments）和观察性研究（Observational Studies）</h3><ul>
+<li>都是用来分析因果关系：从预估数据变化中得出结论，或者研究自变量与因变量之间的关系</li>
+<li>用来确定并解释这个研究结果是否可以推广到人群，以及结果是否表明所研究的数量之间的相关性或因果关系</li>
+<li>实验用来推断因果关系，观察性研究用来做相关陈述</li>
+</ul>
+<h4 id="实验研究"><a href="#实验研究" class="headerlink" title="实验研究"></a>实验研究</h4><ol>
+<li>实现设计的四个原则<ul>
+<li>控制任何可能的混杂因素</li>
+<li>将变量随机分配到治疗组（treatment groups）和参考组（control groups）</li>
+<li>使用足够大的样本或重复试验</li>
+<li>使用区组变量来减少干扰变量的影响</li>
+</ul>
+</li>
+<li>作用：用于推断因果关系</li>
+</ol>
+<h3 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h3><h4 id="抽样方法"><a href="#抽样方法" class="headerlink" title="抽样方法"></a>抽样方法</h4><ol>
+<li>简单随机抽样（simple random sampling）：被抽中的概率是相同的</li>
+<li>系统抽样（systematic sampling）：也叫等距抽样，先从数字1到k之间随机抽取一个数字r作为初始单位，以后依次取r+k、r+2k……等单位</li>
+<li>分层抽样（stratified sampling）：先将相似的分类，从每个分类随机抽样</li>
+<li>集群抽样（cluster sampling）：先将数据分成相似的组（组内的数据是不相似），然后抽取几个组</li>
+</ol>
+<h4 id="样本偏差"><a href="#样本偏差" class="headerlink" title="样本偏差"></a>样本偏差</h4><ul>
+<li>便利性样本偏差（Convenience sample bias）</li>
+<li>无响应样本偏差（non-response bias）</li>
+<li>自愿回应样本偏差（valuntary response bias）</li>
+</ul>
+<h3 id="单盲（Single-Blinding）、双盲、安慰剂（Placebo）、安慰剂效应（Placebo-effect）"><a href="#单盲（Single-Blinding）、双盲、安慰剂（Placebo）、安慰剂效应（Placebo-effect）" class="headerlink" title="单盲（Single Blinding）、双盲、安慰剂（Placebo）、安慰剂效应（Placebo effect）"></a>单盲（Single Blinding）、双盲、安慰剂（Placebo）、安慰剂效应（Placebo effect）</h3><ol>
+<li>单盲：是一种简单实验方法，通过对试验对象保密，避免有意或无意在实验中造成偏颇</li>
+<li>双盲：双盲试验通常在试验对象为人类时使用，目的是避免试验的对象或进行试验的人员的主观偏向影响实验的结果，通常双盲试验得出的结果会更为严谨。<ul>
+<li>在双盲试验中，受试验的对象及研究人员并不知道哪些对象属于对照组，哪些属于实验组，目的是避免研究结果受安慰剂效应或观察者偏向所影响</li>
+</ul>
+</li>
+</ol>
+<h3 id="假设检验"><a href="#假设检验" class="headerlink" title="假设检验"></a>假设检验</h3><ul>
+<li>零假设（null hypothesis）：零假设的内容一般是希望能证明为错误的假设，或者是需要着重考虑的假设。</li>
+<li>备择假设（alternative hypothesis）：也叫对立假设，即希望证明是正确的另一种可能</li>
+<li>两种基本误差：<div style="max-width: 400px;"><br><img src="/2017/09/18/Statistics-with-R/第一型和第二型错误.png" alt="第一型和第二型错误.png" title=""><br></div></li>
+<li>步骤：<ol>
+<li>最初研究假设为真相不明</li>
+<li>第一步是提出相关的零假设和备择假设</li>
+<li>第二步是考虑检验中对样本做出的统计假设；</li>
+<li>决定那个检验是合格的，并确定相关检验统计量 T。</li>
+<li>在零假设下推到检验统计量的分布。（如：检验统计量会符合正态分布）</li>
+<li>选择一个显著性水平（α），若低于这个概率阈值，就会拒绝零假设</li>
+<li>根据零假设成立时的检验统计量T分布，找到数值最接近的备择假设，且机率为显著水平（α）的区域，此区域为“拒绝域”，意思是在零假设成立的前提下，落在拒绝域的机率只有α</li>
+<li>针对检验统计量T，根据样本计算其估计值t</li>
+<li>若估计值t未落在“拒绝域”，接受零假设。若估计值t落在“拒绝域”，拒绝零假设，接受备择假设</li>
+</ol>
+</li>
+</ul>
+<h3 id="Random-Sample-and-Random-Assignment"><a href="#Random-Sample-and-Random-Assignment" class="headerlink" title="Random Sample and Random Assignment"></a>Random Sample and Random Assignment</h3><ol>
+<li>区别<ul>
+<li>Random Sample：occur when subjects are being selected for a study</li>
+<li>Random Assignment：occur only in experimental setting</li>
+</ul>
+</li>
+<li>使用和不使用Random Sample/Random Assignment<div style="max-width: 300px;"><br><br></div>
+
+</li>
+</ol>
+<h3 id="描述数值分布"><a href="#描述数值分布" class="headerlink" title="描述数值分布"></a>描述数值分布</h3><h4 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h4><ul>
+<li>shape、center、spread、any unusual observations<ul>
+<li>center： 平均数（mean）、中位数（median）、模式（mode）</li>
+<li>spread：标准差（standard deviation）、范围（range）、四分位数范围（interquartile range）<ul>
+<li>范围（range）：（range=max-min）</li>
+<li>方差（variance）：S^2 = (（x1-x)^2 + (x2-x)^2 + … )/(n-1)，衡量一组数据离散程度的度量</li>
+<li>标准差（standard deviation）：S</li>
+<li>四分位距（interquartile range:IQR） IQR=Q3-Q1，表示统计资料中各变量分散情形</li>
+</ul>
+</li>
+<li>shape：对称（symmetric）、右偏移（right skewed）、左偏移（left skewed）、单峰（unimodal）、双峰（bimodal）、多峰（multimodal）、均匀（uniform）<br>*</li>
+</ul>
+</li>
+</ul>
+<h4 id="统计图表"><a href="#统计图表" class="headerlink" title="统计图表"></a>统计图表</h4><ul>
+<li>用来表示数字的图表<ol>
+<li>散点图（scatter plots）：x轴（explanatory variable）、y轴（response variable）</li>
+<li>直方图（histogram）<ul>
+<li>用于展示数据密度（data density）</li>
+<li>通过直方图识别分布的形状（shape）</li>
+<li>直方图需要使用合适的宽度（bin width）</li>
+</ul>
+</li>
+<li>箱形图（box plots）<ul>
+<li>是一种用作显示一组数据分散情况资料的统计图</li>
+<li>它能显示出一组数据的最大值、最小值、中位数、及上下四分位数。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>用来表示分类的图表<ol>
+<li>表示single Categorical variable<ul>
+<li>频率表（frequency table）、 条形图（bar plot）</li>
+</ul>
+</li>
+<li>表示relationship of categorical Data<ul>
+<li>contingency table、分段条形图（segmented bar plots)、马赛克图（mosaic plots）</li>
+</ul>
+</li>
+<li>表示relationship of numerical and categorical data：side-by-side box plots</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/概率论/" rel="tag"># 概率论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/14/使用Hexo-Github-Pages搭建blog-md/" rel="next" title="使用Hexo + Github Pages 搭建Blog">
+                <i class="fa fa-chevron-left"></i> 使用Hexo + Github Pages 搭建Blog
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/19/React Demo：Tabs组件/" rel="prev" title="React Demo：Tabs组件">
+                React Demo：Tabs组件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#install-the-R"><span class="nav-number">1.</span> <span class="nav-text">install the R</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率论"><span class="nav-number">2.</span> <span class="nav-text">概率论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件"><span class="nav-number">2.1.</span> <span class="nav-text">事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概率"><span class="nav-number">2.2.</span> <span class="nav-text">概率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概率的定义"><span class="nav-number">2.2.1.</span> <span class="nav-text">概率的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概率的计算"><span class="nav-number">2.2.2.</span> <span class="nav-text">概率的计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概率分布（Probability-distributions）"><span class="nav-number">2.2.3.</span> <span class="nav-text">概率分布（Probability distributions）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统计学"><span class="nav-number">3.</span> <span class="nav-text">统计学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">3.1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验（Experiments）和观察性研究（Observational-Studies）"><span class="nav-number">3.2.</span> <span class="nav-text">实验（Experiments）和观察性研究（Observational Studies）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实验研究"><span class="nav-number">3.2.1.</span> <span class="nav-text">实验研究</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样本"><span class="nav-number">3.3.</span> <span class="nav-text">样本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#抽样方法"><span class="nav-number">3.3.1.</span> <span class="nav-text">抽样方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#样本偏差"><span class="nav-number">3.3.2.</span> <span class="nav-text">样本偏差</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单盲（Single-Blinding）、双盲、安慰剂（Placebo）、安慰剂效应（Placebo-effect）"><span class="nav-number">3.4.</span> <span class="nav-text">单盲（Single Blinding）、双盲、安慰剂（Placebo）、安慰剂效应（Placebo effect）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#假设检验"><span class="nav-number">3.5.</span> <span class="nav-text">假设检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Sample-and-Random-Assignment"><span class="nav-number">3.6.</span> <span class="nav-text">Random Sample and Random Assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#描述数值分布"><span class="nav-number">3.7.</span> <span class="nav-text">描述数值分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#术语"><span class="nav-number">3.7.1.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计图表"><span class="nav-number">3.7.2.</span> <span class="nav-text">统计图表</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

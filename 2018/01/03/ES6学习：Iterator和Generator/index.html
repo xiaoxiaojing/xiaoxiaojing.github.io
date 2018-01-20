@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="es6," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 普通的for循环存在的问题： 在循环里，需要跟踪索引，意思就是：需要声明一个变量来存储索引，并且每次循环后要更新其值。   迭代器（Iterators）可以消除循环（loop）的复杂性和易错性  迭代器（Iterator） Iterators are objects with a specific interface designed for iteration   定义：迭代器（Itera">
+<meta name="keywords" content="es6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6学习：Iterator和Generator">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/03/ES6学习：Iterator和Generator/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="前言 普通的for循环存在的问题： 在循环里，需要跟踪索引，意思就是：需要声明一个变量来存储索引，并且每次循环后要更新其值。   迭代器（Iterators）可以消除循环（loop）的复杂性和易错性  迭代器（Iterator） Iterators are objects with a specific interface designed for iteration   定义：迭代器（Itera">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-01-06T13:27:02.545Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6学习：Iterator和Generator">
+<meta name="twitter:description" content="前言 普通的for循环存在的问题： 在循环里，需要跟踪索引，意思就是：需要声明一个变量来存储索引，并且每次循环后要更新其值。   迭代器（Iterators）可以消除循环（loop）的复杂性和易错性  迭代器（Iterator） Iterators are objects with a specific interface designed for iteration   定义：迭代器（Itera">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/01/03/ES6学习：Iterator和Generator/"/>
+
+
+
+
+
+  <title>ES6学习：Iterator和Generator | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/03/ES6学习：Iterator和Generator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ES6学习：Iterator和Generator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-03T22:50:22+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-06T21:27:02+08:00">
+                2018-01-06
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ol>
+<li>普通的for循环存在的问题：<ul>
+<li>在循环里，需要跟踪索引，意思就是：需要声明一个变量来存储索引，并且每次循环后要更新其值。</li>
+</ul>
+</li>
+<li>迭代器（Iterators）可以消除循环（loop）的复杂性和易错性</li>
+</ol>
+<h2 id="迭代器（Iterator）"><a href="#迭代器（Iterator）" class="headerlink" title="迭代器（Iterator）"></a>迭代器（Iterator）</h2><blockquote>
+<p>Iterators are objects with a specific interface designed for iteration</p>
+</blockquote>
+<ul>
+<li>定义：迭代器（Iterator）是一个有特定结构的对象，专门用于迭代。</li>
+<li><p>结构：一个迭代器的基本结构如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="comment">// have a next() method that returns a result object</span></div><div class="line">  next: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      value, <span class="comment">// next value</span></div><div class="line">      done   <span class="comment">// a Boolean that’s true when there are no more values to return</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>🌰：创建一个迭代器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createIterator</span> (<span class="params">items</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> i = <span class="number">0</span></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    next: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">const</span> done = i &gt;= items.length ? <span class="literal">true</span> : <span class="literal">false</span></div><div class="line">      <span class="keyword">const</span> value = done ? <span class="literal">undefined</span> : items[i++]</div><div class="line"></div><div class="line">      <span class="keyword">return</span> &#123;</div><div class="line">        value,</div><div class="line">        done</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> iterator = createIterator([<span class="number">1</span>, <span class="number">2</span>])</div><div class="line">iterator.next() <span class="comment">// &#123;value: 1, done: false&#125;</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: 2, done: false&#125;</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: undefined, done: true&#125;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="生成器（Generator）"><a href="#生成器（Generator）" class="headerlink" title="生成器（Generator）"></a>生成器（Generator）</h2><ul>
+<li><p>定义：生成器（Generator）是一个用于创建迭代器（Iterators)函数（函数结构如下）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用`*`声明一个生成器</span></div><div class="line"><span class="function"><span class="keyword">function</span> *<span class="title">generator</span>(<span class="params"></span>) </span>&#123;</div><div class="line">   <span class="keyword">yield</span> <span class="number">1</span></div><div class="line">   <span class="keyword">yield</span> <span class="number">2</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> iterator = generator()</div><div class="line"><span class="comment">// 每次调用next方法，会逐条按顺序返回yeild后面的值</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: 1, done: false&#125;</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: 2, done: false&#125;</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: undefined, done: true&#125;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>特点：每个<code>yield</code>执行后，函数会暂停直到再次调用<code>next()</code></p>
+<blockquote>
+<p>Perhaps the most interesting aspect of generator functions is that<br>they stop execution after each yield statement</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> *<span class="title">createIterator</span>(<span class="params">items</span>) </span>&#123;</div><div class="line">    <span class="comment">// 循环时，每次遇到yield，循环就会停止</span></div><div class="line">    <span class="comment">// 每次调用next后，循环会继续继续，直到再次遇到yield</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; items.length; i++) &#123;</div><div class="line">        <span class="comment">// yield 后面可以是任意 value or expression</span></div><div class="line">        <span class="keyword">yield</span> items[i]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> iterator = createIterator([<span class="number">1</span>, <span class="number">2</span>])</div><div class="line">iterator.next() <span class="comment">// &#123;value: 1, done: false&#125;</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: 2, done: false&#125;</span></div><div class="line">iterator.next() <span class="comment">// &#123;value: undefined, done: true&#125;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>注意：<strong>只能在生成器内使用<code>yield</code></strong>，在其他地方使用会有语法错误。即使在生成器中的函数内使用，也会有语法错误因为<code>yield</code>不能跨越函数边界（connot cross function boundaries）</li>
+</ul>
+<h3 id="声明Generator"><a href="#声明Generator" class="headerlink" title="声明Generator"></a>声明Generator</h3><ol>
+<li><p>将普通函数定义为Generator</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function *generator() &#123;</div><div class="line">   yield 1</div><div class="line">   yield 2</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>将匿名函数定义为Generator</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const generator = function *() &#123;</div><div class="line">  yield 1</div><div class="line">  yield 2</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>不能</strong> 将 <strong>箭头函数</strong> 定义为Generator</p>
+</li>
+</ol>
+<h3 id="将Generator作为对象的方法"><a href="#将Generator作为对象的方法" class="headerlink" title="将Generator作为对象的方法"></a>将Generator作为对象的方法</h3><ol>
+<li><p>ES5风格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const obj = &#123;</div><div class="line">	generator: function *() &#123;</div><div class="line">		yield 1</div><div class="line">   		yield 2</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ES6风格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const obj = &#123;</div><div class="line">	*generator() &#123;</div><div class="line">		yield 1</div><div class="line">   		yield 2</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="可迭代对象（Iterable）"><a href="#可迭代对象（Iterable）" class="headerlink" title="可迭代对象（Iterable）"></a>可迭代对象（Iterable）</h2><ol>
+<li>定义：是一个有特殊属性(<code>Symbol.iterator</code>)的对象<ul>
+<li><code>Symbol.iterator</code>：指向一个函数，这个函数会返回给定对象的<strong>生成器（Generator）</strong></li>
+</ul>
+</li>
+<li>ES6中的可迭代对象有<ul>
+<li>collection objects (arrays, sets, and maps)</li>
+<li>strings</li>
+<li>通过Generator生成的Iterator</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用Symbol-iterator"><a href="#使用Symbol-iterator" class="headerlink" title="使用Symbol.iterator"></a>使用Symbol.iterator</h3><ol>
+<li><p>获取<code>Iterable</code>默认的迭代器（Iterator）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let values = [1, 2, 3]</div><div class="line">let iterator = values[Symbol.iterator]() // 获取迭代器</div></pre></td></tr></table></figure>
+</li>
+<li><p>判断对象是否是可迭代对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function isIterable(object) &#123;</div><div class="line">    return typeof object[Symbol.iterator] === &quot;function&quot;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建可迭代对象：给一个对象定义<code>Symbol.iterator</code>属性，并设置属性的值为一个<code>Generator</code>，这个对象就变成了可迭代对象</p>
+</li>
+</ol>
+<h2 id="Iterable的基本用法"><a href="#Iterable的基本用法" class="headerlink" title="Iterable的基本用法"></a>Iterable的基本用法</h2><h3 id="使用for-of遍历Iterable"><a href="#使用for-of遍历Iterable" class="headerlink" title="使用for-of遍历Iterable"></a>使用for-of遍历Iterable</h3><ul>
+<li>作用：用于迭代<code>Iterable</code>(只能迭代Iterable，否则会报错)，不用跟踪索引，每次循环只关注对象内容</li>
+<li>原理：初始时，<code>for-of</code>会调用对象的<code>Symbol.iterator</code>方法，得到一个迭代器。每次循环时，调用迭代器的<code>next()</code>方法，并将返回值赋值给<code>num</code>，当属性<code>done</code>为<code>true</code>时，退出循环（即，不会再执行循环中的语句）<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> values = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> num <span class="keyword">of</span> values) &#123;</div><div class="line">    <span class="built_in">console</span>.log(num);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="使用Spread-Operator操作Iterable"><a href="#使用Spread-Operator操作Iterable" class="headerlink" title="使用Spread Operator操作Iterable"></a>使用Spread Operator操作Iterable</h3><ul>
+<li>作用：使用Spread Operator可以将Iterable转化为数组</li>
+<li>原理：执行表达式<code>[...Iterable]</code>，<code>...</code>会使用<code>Iterable</code>的默认<code>iterator</code>，将每次返回的<code>value</code>依次插入到数组中<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[...new Set([1, 2, 3, 3, 3, 4, 5])]  // [1, 2, 3, 4, 5]</div><div class="line">[...[...new Map([[&quot;name&quot;, &quot;Nicholas&quot;], [&quot;age&quot;, 25]])]] // [[&quot;name&quot;, &quot;Nicholas&quot;], [&quot;age&quot;, 25]]</div><div class="line">[...[1,2,3]] // [1,2,3]</div><div class="line">[...&apos;123&apos;] // [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Iterable的高级用法"><a href="#Iterable的高级用法" class="headerlink" title="Iterable的高级用法"></a>Iterable的高级用法</h2><h3 id="使用迭代器（Iterator）的next-传递参数"><a href="#使用迭代器（Iterator）的next-传递参数" class="headerlink" title="使用迭代器（Iterator）的next()传递参数"></a>使用迭代器（Iterator）的<code>next()</code>传递参数</h3><ol>
+<li>语法：使用<code>iterator.next(value)</code>传递参数</li>
+<li>功能：在<code>next()</code>中传入的参数，会作为上一个<code>yield</code>表达式的返回值</li>
+<li>实例解析：第一次调用next时，传入的任何值都会被忽略；第二次调用next后，首先将first的值设置为4，然后执行第二个yield后的语句；…<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function *createIterator() &#123;</div><div class="line">   let first = yield 1;</div><div class="line">   let second = yield first + 2;</div><div class="line">   yield second + 3;</div><div class="line">&#125;</div><div class="line">let iterator = createIterator();</div><div class="line">console.log(iterator.next());  // &quot;&#123; value: 1, done: false &#125;&quot;</div><div class="line">console.log(iterator.next(4)); // &quot;&#123; value: 6, done: false &#125;&quot;</div><div class="line">console.log(iterator.next(5)); // &quot;&#123; value: 8, done: false &#125;&quot;</div><div class="line">console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="使用迭代器的throw-处理错误"><a href="#使用迭代器的throw-处理错误" class="headerlink" title="使用迭代器的throw()处理错误"></a>使用迭代器的<code>throw()</code>处理错误</h3><ol>
+<li>语法：使用<code>iterator.throw(error)</code>抛出错误</li>
+<li>功能：调用<code>.throw</code>后，迭代器会在恢复执行时抛出一个错误，后面的语句都不会再执行，调用<code>throw</code>后再次调用<code>next</code>，都会返回<code>{ value: undefined, done: true }</code></li>
+<li><p>实例解析：头两个yield正常执行，当调用<code>throw</code>时，在执行<code>let second</code>之前就会抛出错误，所以从给<code>second</code>赋值开始，后面语句都不会执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function *createIterator() &#123;</div><div class="line">    let first = yield 1;</div><div class="line">    let second = yield first + 2;  // yield 4 + 2, then throw</div><div class="line">    yield second + 3;  // never is executed</div><div class="line">&#125;</div><div class="line">let iterator = createIterator();</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: 1, done: false &#125;&quot;</div><div class="line">console.log(iterator.next(4));  // &quot;&#123; value: 6, done: false &#125;&quot;</div><div class="line">console.log(iterator.throw(new Error(&quot;Boom&quot;)));  // error thrown from generator</div><div class="line">console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>Generator</code>使用<code>try-catch</code>捕获错误</p>
+<ul>
+<li>当使用<code>try-catch</code>捕获错误后，Generator不会忽略后面的执行语句，会继续执行，所以当调用<code>throw()</code>后，执行<code>catch</code>中的语句，并继续执行下一个<code>yield</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function *createIterator() &#123;</div><div class="line">    let first = yield 1;</div><div class="line">    let second;</div><div class="line">    try &#123;</div><div class="line">        second = yield first + 2;</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        second = 6;</div><div class="line">    &#125;</div><div class="line">    yield second + 3;</div><div class="line">&#125;</div><div class="line">let iterator = createIterator();</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: 1, done: false &#125;&quot;</div><div class="line">console.log(iterator.next(4));  // &quot;&#123; value: 6, done: false &#125;&quot;</div><div class="line">console.log(iterator.throw(new Error(&quot;Boom&quot;)));  // &quot;&#123; value: 9, done: false &#125;&quot;</div><div class="line">console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="在Generator中使用return语句"><a href="#在Generator中使用return语句" class="headerlink" title="在Generator中使用return语句"></a>在Generator中使用return语句</h3><ul>
+<li>原理：当执行<code>return</code>后，会将<code>done</code>设置为<code>true</code>，如果<code>return</code>后有值，会将这个值赋值给<code>value</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function *createIterator() &#123;</div><div class="line">    yield 1;</div><div class="line">    return 42;</div><div class="line">    yield 2;</div><div class="line">    yield 3;</div><div class="line">&#125;</div><div class="line">let iterator = createIterator();</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: 1, done: false &#125;&quot;</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: 42, done: true &#125;&quot;</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: undefined, done: true &#125;&quot;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="在Generator中调用其他Generator（Delegating-Generators）"><a href="#在Generator中调用其他Generator（Delegating-Generators）" class="headerlink" title="在Generator中调用其他Generator（Delegating Generators）"></a>在Generator中调用其他Generator（Delegating Generators）</h3><ul>
+<li>原理：使用<code>yield *</code>，可以迭代Iterable，当Iterable迭代完后，才会执行下一条语句</li>
+<li>扩展：使用<code>yield *</code>可以用来迭代字符串</li>
+<li><p>例子1：会首先执行完内部Generator的所有yield，再执行当前Generator的下一个yield</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function *createNumberIterator() &#123;</div><div class="line">   yield 1;</div><div class="line">   yield 2;</div><div class="line">&#125;</div><div class="line">function *createCombinedIterator() &#123;</div><div class="line">   yield *createNumberIterator();</div><div class="line">   yield true;</div><div class="line">&#125;</div><div class="line">var iterator = createCombinedIterator();</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: 1, done: false &#125;&quot;</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: 2, done: false &#125;&quot;</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: true, done: false &#125;&quot;</div><div class="line">console.log(iterator.next());   // &quot;&#123; value: undefined, done: true &#125;&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>例子2：内部Generator如果有返回值，则可以是用这个返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function *createNumberIterator() &#123;</div><div class="line">    yield 1;</div><div class="line">    yield 2;</div><div class="line">    return 3;</div><div class="line">&#125;</div><div class="line">function *createRepeatingIterator(count) &#123;</div><div class="line">    for (let i=0; i &lt; count; i++) &#123;</div><div class="line">        yield &quot;repeat&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">function *createCombinedIterator() &#123;</div><div class="line">    let result = yield *createNumberIterator(); // 将返回值赋值给result</div><div class="line">    yield *createRepeatingIterator(result); // 以参数的形式传递</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="内置迭代器（Built-In-Iterators）"><a href="#内置迭代器（Built-In-Iterators）" class="headerlink" title="内置迭代器（Built-In Iterators）"></a>内置迭代器（Built-In Iterators）</h2><h3 id="集合的迭代器（Collection-Iterators）"><a href="#集合的迭代器（Collection-Iterators）" class="headerlink" title="集合的迭代器（Collection Iterators）"></a>集合的迭代器（Collection Iterators）</h3><ul>
+<li>ES6中的集合对象（Collection Object）：Array，Map，Set。这些对象可以通过以下方法获取内置迭代器，如下：<ol>
+<li>entries()<ul>
+<li>通过<code>entries()</code>获取的迭代器的value是一个数组<code>[key,value]</code>，<code>Set</code>的<code>key</code>和<code>value</code>是一样的</li>
+</ul>
+</li>
+<li>values()</li>
+<li>keys()<ul>
+<li><code>Array.keys()</code>获取的迭代器，只会迭代<code>numeric key</code></li>
+</ul>
+</li>
+</ol>
+</li>
+<li>集合对象的属性<code>Symbol.iterator</code>生成的默认迭代器分别为：<ol>
+<li>Array -&gt; values()</li>
+<li>Set -&gt; values()</li>
+<li>Map -&gt; entries() (所以，使用for-of循环Map时，得到是<code>[key, value]</code>)</li>
+</ol>
+</li>
+</ul>
+<h3 id="字符串的迭代器（String-Iterators）"><a href="#字符串的迭代器（String-Iterators）" class="headerlink" title="字符串的迭代器（String Iterators）"></a>字符串的迭代器（String Iterators）</h3><ul>
+<li>使用for循环遍历字符串存在的问题：无法处理双字节字符（double-byte characters）<blockquote>
+<p>使用<code>[]</code>获取字符串中某个字符，但是<code>[]</code>是获取的是<code>code units</code>而不是<code>character</code>。但是某些<code>character</code>是由两个<code>code units</code>组成的。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var message = &quot;A 𠮷 B&quot;;</div><div class="line">for (let i=0; i &lt; message.length; i++) &#123;</div><div class="line">    console.log(message[i]); //打印结果里没有正确输出字符：`𠮷`</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>默认的字符串迭代器：每次循环获取的是<code>character</code>而不是<code>code units</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var message = &quot;A 𠮷 B&quot;;</div><div class="line">for (let c of message) &#123;</div><div class="line">    console.log(c) // 能够正确输出字符：`𠮷`</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="NodeList的迭代器（NodeList-Iterators）"><a href="#NodeList的迭代器（NodeList-Iterators）" class="headerlink" title="NodeList的迭代器（NodeList Iterators）"></a>NodeList的迭代器（NodeList Iterators）</h3><ul>
+<li>NodeList类型：是DOM具有的一种类型，用于表示页面文档中元素的集合</li>
+<li>NodeList的默认迭代器：由DOM规范定义，表现和数组的默认迭代器一致<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var divs = document.getElementsByTagName(&quot;div&quot;);</div><div class="line">for (let div of divs) &#123;</div><div class="line">   console.log(div.id);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="处理异步任务"><a href="#处理异步任务" class="headerlink" title="处理异步任务"></a>处理异步任务</h2><h3 id="使用callback处理异步任务的缺点"><a href="#使用callback处理异步任务的缺点" class="headerlink" title="使用callback处理异步任务的缺点"></a>使用callback处理异步任务的缺点</h3><ul>
+<li>callback函数嵌套可能会很深</li>
+<li>需要按顺序执行一系列异步操作，比较麻烦</li>
+</ul>
+<h3 id="使用Generator处理异步任务"><a href="#使用Generator处理异步任务" class="headerlink" title="使用Generator处理异步任务"></a>使用Generator处理异步任务</h3><ul>
+<li>原理：Generator执行时，遇到yield会暂停，直到下一次调用next时，才会重新开始执行</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/es6/" rel="tag"># es6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/02/异步处理：Promise/" rel="next" title="异步处理：Promise">
+                <i class="fa fa-chevron-left"></i> 异步处理：Promise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/13/React学习：React的生命周期/" rel="prev" title="React学习：React的生命周期">
+                React学习：React的生命周期 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器（Iterator）"><span class="nav-number">2.</span> <span class="nav-text">迭代器（Iterator）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器（Generator）"><span class="nav-number">3.</span> <span class="nav-text">生成器（Generator）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#声明Generator"><span class="nav-number">3.1.</span> <span class="nav-text">声明Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将Generator作为对象的方法"><span class="nav-number">3.2.</span> <span class="nav-text">将Generator作为对象的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可迭代对象（Iterable）"><span class="nav-number">4.</span> <span class="nav-text">可迭代对象（Iterable）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Symbol-iterator"><span class="nav-number">4.1.</span> <span class="nav-text">使用Symbol.iterator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable的基本用法"><span class="nav-number">5.</span> <span class="nav-text">Iterable的基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用for-of遍历Iterable"><span class="nav-number">5.1.</span> <span class="nav-text">使用for-of遍历Iterable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Spread-Operator操作Iterable"><span class="nav-number">5.2.</span> <span class="nav-text">使用Spread Operator操作Iterable</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable的高级用法"><span class="nav-number">6.</span> <span class="nav-text">Iterable的高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用迭代器（Iterator）的next-传递参数"><span class="nav-number">6.1.</span> <span class="nav-text">使用迭代器（Iterator）的next()传递参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用迭代器的throw-处理错误"><span class="nav-number">6.2.</span> <span class="nav-text">使用迭代器的throw()处理错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Generator中使用return语句"><span class="nav-number">6.3.</span> <span class="nav-text">在Generator中使用return语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Generator中调用其他Generator（Delegating-Generators）"><span class="nav-number">6.4.</span> <span class="nav-text">在Generator中调用其他Generator（Delegating Generators）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内置迭代器（Built-In-Iterators）"><span class="nav-number">7.</span> <span class="nav-text">内置迭代器（Built-In Iterators）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集合的迭代器（Collection-Iterators）"><span class="nav-number">7.1.</span> <span class="nav-text">集合的迭代器（Collection Iterators）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串的迭代器（String-Iterators）"><span class="nav-number">7.2.</span> <span class="nav-text">字符串的迭代器（String Iterators）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NodeList的迭代器（NodeList-Iterators）"><span class="nav-number">7.3.</span> <span class="nav-text">NodeList的迭代器（NodeList Iterators）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理异步任务"><span class="nav-number">8.</span> <span class="nav-text">处理异步任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用callback处理异步任务的缺点"><span class="nav-number">8.1.</span> <span class="nav-text">使用callback处理异步任务的缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Generator处理异步任务"><span class="nav-number">8.2.</span> <span class="nav-text">使用Generator处理异步任务</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
