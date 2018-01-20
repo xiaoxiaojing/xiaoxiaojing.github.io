@@ -192,20 +192,35 @@ ReactDOM作用于DOM，只适用于Web端，有以下方法：
 3.跨级组件通信：使用context来实现
 4.没有嵌套关系的组件通信：使用发布/订阅模式，（EventEmitter）
 
-## 四、事件系统
-* React基于Virtual DOM实现了一个SyntheticEvent（合成事件）层。
-* 支持`stopPropagation()`和`preventDefault()`。
-* 所有事件自动绑定到最外层上。
+## 事件系统
+React基于Virtual DOM实现了一个SyntheticEvent（合成事件）层。SyntheticEvent是一个基于浏览器原生事件的跨浏览器实现。
+不支持使用`return false`阻止默认时间和冒泡，支持`stopPropagation()`和`preventDefault()`。
+所有事件会以事件委托的形式自动绑定到最外层上。
 
-### 1）合成事件（SyntheticEvent）的实现机制
+### 事件池（Event Pooling）？？？
+SyntheticEvent是共享的(SyntheticEvent is pooled)：为了优化性能，事件回调被执行后，SyntheticEvent会被重用，它上面的所有属性会被清空。所以在事件回调中的异步操作中获取到的事件对象是被清空属性值的对象。
+如果想在异步操作中使用事件对象，需要调用`event.persist()`，调用这个方法后，会在线程池中删除这个事件对象，并在用户代码中保存这个事件对象的引用
+```
+handler = (event) => {
+  // event.persist(), 调用persist方法后，在异步方法中访问event.target就不会是null
+  console.log(event)
+  console.log(event.target)
+  setTimeout(() => {
+    console.log(event) // event对象仍然存在，但是它的属性的值已经被清空了
+    console.log(event.target) // null
+  }, 0)
+}
+```
+
+### SyntheticEvent的实现机制
 1. 在React底层主要对合成事件做了两件事：事件委派和自动绑定
 2. 事件委派：将事件绑定到结构的最外层
   <div style="max-width: 300px;">
   {% asset_img react_event1.png %}
   </div>
 3. 自动绑定
-  * 使用React.createClass创建的组件的每个方法的上下文都会指向该组件的实例。React还会对这种引用进行缓存，以达到CPU和内存的最优化。
-  * 使用ES6 classes或者纯函数创建的组件，没有自动绑定的特性。
+  * 使用`React.createClass`创建的组件的每个方法的上下文都会指向该组件的实例。React还会对这种引用进行缓存，以达到CPU和内存的最优化。
+  * 使用`ES6 classes`或者`纯函数`创建的组件，没有自动绑定的特性。
     ```
     // 在ES6 classes创建的组件中手动绑定this
     // 1. 使用bind
@@ -217,31 +232,33 @@ ReactDOM作用于DOM，只适用于Web端，有以下方法：
     eventHandler = () => {}
     ```
 
-### 2）在React中使用原生事件
-* 通过`ref`获取组件实例并为其绑定原生事件
-  ```
-  this.refs.button.addEventListener('click', e => {})
-  ```
-* 给`<body>`绑定事件，body在组件范围之外只能通过绑定原生事件来实现
-* 合成事件中调用`e.stopPropagation`，只能阻止React合成事件系统中的冒泡，无法阻止原生事件上的冒泡。但是原生事件中的阻止冒泡行为，可以阻止React合成事件系统中的冒泡
-  ```
-  // 综上所诉：给className为div的元素绑定合成事件，通过调用e.stopPropagation来阻止冒泡是没有效果的
-  // 解决方案：通过以下方法来实现阻止冒泡：如果点击className为div的元素，不会继续执行下去
-  document.body.addEventListener("click", (e)=>{
-      if ( e.target && e.target.matches(".div") ) {
-          return
-      }
-      this.setState({isOpen: false})
-  })
-  ```
+### 在React中使用原生事件
+通过`ref`获取组件实例并为其绑定原生事件
+```
+this.refs.button.addEventListener('click', e => {})
+```
+给`<body>`绑定事件，body在组件范围之外只能通过绑定原生事件来实现
+合成事件中调用`e.stopPropagation`，只能阻止React合成事件系统中的冒泡，无法阻止原生事件上的冒泡。但是原生事件中的阻止冒泡行为，可以阻止React合成事件系统中的冒泡
+```
+// 综上所诉：给className为div的元素绑定合成事件，通过调用e.stopPropagation来阻止冒泡是没有效果的
+// 解决方案：通过以下方法来实现阻止冒泡：如果点击className为div的元素，不会继续执行下去
+document.body.addEventListener("click", (e)=>{
+    if ( e.target && e.target.matches(".div") ) {
+        return
+    }
+    this.setState({isOpen: false})
+})
+```
 
-### 3）React合成事件和JavaScript原生事件的对比
+### React合成事件和JavaScript原生事件的对比
 |项目|JavaScript原生事件|React合成事件|
 |:---|:------------|:----------------|
 |事件传播|事件捕获->自身事件处理->事件冒泡|自身事件处理->事件冒泡|
 |阻止事件传播|`e.preventDefault()`(可能有兼容问题)|`e.preventDefault()`|
-|事件类型|React合成事件的事件类型是JavaScript原生事件类型的一个子集||
+|事件类型||React合成事件的事件类型是JavaScript原生事件类型的一个子集|
 |事件绑定方式|三种：<br/>`<a onclick="alert(1);"></a>`<br/>`el.onclick=()=>{}`<br/>`el.addEventListener('click', ()=>{})`|一种：<br/>`<a onClick={this.handler}></a>`|
+
+注：React中不能使用`return false`阻止默认事件，应该通过调用`e.preventDefault`来阻止。React的合成事件也有捕获阶段，`onClickCapture`会在捕获阶段触发
 
 ## 五、表单
 ### 受控组件与不受控组件
