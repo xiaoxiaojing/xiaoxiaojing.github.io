@@ -11,6 +11,11 @@ categories: REACT
 <div style="max-width:600px">
 {% asset_img 主线程占用情况.jpg %}
 </div>
+3. 主要特征：增量渲染（incremental rendering）（ the ability to split rendering work into chunks，spread it out over multiple frames）
+4. 其他特征：
+  - 当有新的Update执行时，能够暂停（pause），终止（abort），重启（reuse）这个Update
+  - 可以给不同类型的Update分配优先级
+  - new concurrency primitives
 
 ## Fiber的原理
 * 将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有的话，继续执行下一个小任务。

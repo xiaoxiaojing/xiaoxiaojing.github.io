@@ -6,16 +6,70 @@ categories: REACT
 ---
 
 ## React Element
-React Element是React中最小的单位，它是一个简单的对象（plain object）。可以通过React Component创建React Element。
-React Element是不可变的（Immutable）
-React Element的Symbol是：`Symbol.for('react.element')`
+React Element是一个简单的对象（plain object），描述了**组件实例**或**DOM节点**以及它们所需的属性，用于告诉React你想要渲染什么。
+React Element是一个不可变的描述性对象，element对象上没有任何方法，它有两个主要的属性：type和props。
+React Element相互嵌套组合可以构成一颗树(也就是Virtual DOM)。当调用`ReactDOM.render`或`setState`时，会置顶向下解析这颗树，这个解析的过程是调和过程（`reconciliation`）的一部分。当reconciliation完成后，会得到新的Virtual DOM，最终使用`react-dom`中的渲染器（renderer）进行最小更新渲染。
+
+### element的分类
+1. DOM Element：type是string。（DOM Element是React中最小的单位）
+```
+{
+  type: 'button',
+  props: {
+    className: 'button button-blue',
+    children: {
+      type: 'b',
+      props: {
+        children: 'OK!'
+      }
+    }
+  }
+}
+```
+2. Component Element：type是React中的函数或类
+```
+{
+  type: Button,
+  props: {
+    color: 'blue',
+    children: 'OK!'
+  }
+}
+```
+
+### Reconciliation
+Reconciliation是置顶向下的
+当一个element的type是函数或者类，他会将props属性传入函数或类得到一个新的element，依次执行下去，直到element是DOM element（type是string）
+```
+// type是Button，将继续解析
+{
+  type: Button,
+  props: {
+    color: 'blue',
+    children: 'OK!'
+  }
+}
+// 将props作为Button的输入，Button会返回一个新的element，type为string则停止解析
+{
+  type: 'button',
+  props: {
+    className: 'button button-blue',
+    children: {
+      type: 'b',
+      props: {
+        children: 'OK!'
+      }
+    }
+  }
+}
+```
 
 ## 源码解读： [ReactElement.js](https://github.com/facebook/react/blob/v16.2.0/packages/react/src/ReactElement.js)
 定义了一个工厂函数，用于创建ReactElement
 ```
 var ReactElement = function(type, key, ref, self, source, owner, props) {
   var element = {
-    // element的标识
+    // element的标识：`Symbol.for('react.element')`
     $$typeof: REACT_ELEMENT_TYPE,
 
     // 内置属性
