@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程    Fiber的原理 将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有">
+<meta name="description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程 主要特征：增量渲染（incremental rendering）（ the ability to split rendering work into chunks，spread it out over mult">
 <meta name="keywords" content="react">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React原理：Fiber">
 <meta property="og:url" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程    Fiber的原理 将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有">
+<meta property="og:description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程 主要特征：增量渲染（incremental rendering）（ the ability to split rendering work into chunks，spread it out over mult">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/主线程占用情况.jpg">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/fiber执行流程.png">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/Fiber树.jpg">
-<meta property="og:updated_time" content="2017-12-21T06:34:11.000Z">
+<meta property="og:updated_time" content="2018-01-21T06:15:16.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React原理：Fiber">
-<meta name="twitter:description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程    Fiber的原理 将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有">
+<meta name="twitter:description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程 主要特征：增量渲染（incremental rendering）（ the ability to split rendering work into chunks，spread it out over mult">
 <meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/主线程占用情况.jpg">
 
 
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-12-21T14:34:11+08:00">
-                2017-12-21
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-21T14:15:16+08:00">
+                2018-01-21
               </time>
             
           </span>
@@ -360,8 +360,13 @@
       
         <h2 id="什么是Fiber"><a href="#什么是Fiber" class="headerlink" title="什么是Fiber"></a>什么是Fiber</h2><ol>
 <li>定义：是新的调度策略（Reconciler）</li>
-<li>解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程<div style="max-width:600px"><br><img src="/2017/12/16/React原理：Fiber/主线程占用情况.jpg" alt="主线程占用情况.jpg" title=""><br></div>
-
+<li>解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程<div style="max-width:600px"><br><img src="/2017/12/16/React原理：Fiber/主线程占用情况.jpg" alt="主线程占用情况.jpg" title=""><br></div></li>
+<li>主要特征：增量渲染（incremental rendering）（ the ability to split rendering work into chunks，spread it out over multiple frames）</li>
+<li>其他特征：<ul>
+<li>当有新的Update执行时，能够暂停（pause），终止（abort），重启（reuse）这个Update</li>
+<li>可以给不同类型的Update分配优先级</li>
+<li>new concurrency primitives</li>
+</ul>
 </li>
 </ol>
 <h2 id="Fiber的原理"><a href="#Fiber的原理" class="headerlink" title="Fiber的原理"></a>Fiber的原理</h2><ul>
