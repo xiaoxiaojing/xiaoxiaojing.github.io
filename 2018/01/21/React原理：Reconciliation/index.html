@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数） React Components, Elements, and In">
+<meta name="description" content="Reconciliation Reconciliation: The algorithm React uses to diff one tree with another to determine which parts need to be changed  定义：调和（reconciliation）是一个算法，解决将Virtual DOM tree转换为actual DOM tree的最少操作">
 <meta name="keywords" content="react">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我理解的React">
-<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/20/我理解的React/index.html">
+<meta property="og:title" content="React原理：Reconciliation">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/21/React原理：Reconciliation/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数） React Components, Elements, and In">
+<meta property="og:description" content="Reconciliation Reconciliation: The algorithm React uses to diff one tree with another to determine which parts need to be changed  定义：调和（reconciliation）是一个算法，解决将Virtual DOM tree转换为actual DOM tree的最少操作">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-22T15:20:51.918Z">
+<meta property="og:updated_time" content="2018-01-22T15:34:00.360Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我理解的React">
-<meta name="twitter:description" content="什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数） React Components, Elements, and In">
+<meta name="twitter:title" content="React原理：Reconciliation">
+<meta name="twitter:description" content="Reconciliation Reconciliation: The algorithm React uses to diff one tree with another to determine which parts need to be changed  定义：调和（reconciliation）是一个算法，解决将Virtual DOM tree转换为actual DOM tree的最少操作">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/01/20/我理解的React/"/>
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/01/21/React原理：Reconciliation/"/>
 
 
 
 
 
-  <title>我理解的React | XIAOXIAOJING</title>
+  <title>React原理：Reconciliation | XIAOXIAOJING</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/20/我理解的React/">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/21/React原理：Reconciliation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TJ">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">我理解的React</h1>
+          <h1 class="post-title" itemprop="name headline">React原理：Reconciliation</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T18:34:09+08:00">
-                2018-01-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T22:34:26+08:00">
+                2018-01-21
               </time>
             
 
@@ -298,7 +298,7 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-22T23:20:51+08:00">
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-22T23:34:00+08:00">
                 2018-01-22
               </time>
             
@@ -354,15 +354,37 @@
       
 
       
-        <h2 id="什么是Virtual-DOM"><a href="#什么是Virtual-DOM" class="headerlink" title="什么是Virtual DOM"></a>什么是<a href="https://reactjs.org/docs/faq-internals.html" target="_blank" rel="external">Virtual DOM</a></h2><p>Virtual DOM在React中是用来表示用户界面的，它被保存在内存中。<br>React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。<br>React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数）</p>
-<h2 id="React-Components-Elements-and-Instances"><a href="#React-Components-Elements-and-Instances" class="headerlink" title="React Components, Elements, and Instances"></a><a href="https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html" target="_blank" rel="external">React Components, Elements, and Instances</a></h2><h3 id="Elements"><a href="#Elements" class="headerlink" title="Elements"></a>Elements</h3><p>React Element是一个简单的不可变的描述性对象，用于告诉React需要渲染什么。它分为DOM Element和Component Element，其中DOM Element是React中的最小单位，Component Element的type值是一个Component<br>React Element的相互嵌套组合可以构造一个Virtual DOM tree。当调用<code>ReactDOM.render</code>或<code>setState</code>时，React会置顶向下解析这颗树。当解析到Component Element时，会执行这样的过程<code>(props) =&gt; element</code>得到一个新的element，如此执行，直到Element是DOM Element为止。这个解析过程是调和过程（reconciliation ）的一部分。</p>
-<h3 id="Instances"><a href="#Instances" class="headerlink" title="Instances"></a>Instances</h3><p>只有通过<code>ES6 class</code>创建的组件才有实例，通过<code>Function</code>创建的组件是没有实例的<br>实例的创建是React自己完成了，我们不能直接创建一个实例，但是可以在父组件中通过<code>ref</code>获取子组件的实例</p>
-<h2 id="React的事件"><a href="#React的事件" class="headerlink" title="React的事件"></a>React的事件</h2><p>React基于Virtual DOM实现了SyntheticEvent，它是JavaScript原生事件的一个子集。同时也实现了<code>stopPropagation</code>和<code>preventDefault</code>。<br>与原生事件不同的是，SyntheticEvent是跨浏览器的，使用时无需再考虑兼容性问题。<br>SyntheticEvent和原生事件一样都有两个阶段：捕获阶段（onClickCapture）和冒泡阶段（onClick）<br>对于SyntheticEvent有三个需要注意的点：</p>
-<ol>
-<li>SyntheticEvent是共享的</li>
-<li>SyntheticEvent不能通过<code>return false</code>去阻止事件的默认行为和事件冒泡</li>
-<li>SyntheticEvent只能阻止React合成事件系统中的冒泡，不能阻止原生事件的冒泡。但是原生事件可以阻止SyntheticEvent的冒泡</li>
-</ol>
+        <h2 id="Reconciliation"><a href="#Reconciliation" class="headerlink" title="Reconciliation"></a>Reconciliation</h2><blockquote>
+<p>Reconciliation: The algorithm React uses to diff one tree with another to determine which parts need to be changed</p>
+</blockquote>
+<p>定义：<br>调和（<code>reconciliation</code>）是一个算法，解决将<code>Virtual DOM tree</code>转换为<code>actual DOM tree</code>的最少操作次数的问题</p>
+<p>两个假设：</p>
+<ul>
+<li>如果两个element的type不一样，它们生成的树也不一样</li>
+<li>会为一个列表中的每个element添加key</li>
+</ul>
+<h2 id="Diffing-算法"><a href="#Diffing-算法" class="headerlink" title="Diffing 算法"></a>Diffing 算法</h2><p>React比较两颗Virtual DOM tree是置顶向下进行比较的。从root element开始，向下递归处理其子节点，当满足某些条件时返回。</p>
+<p>这些条件有：</p>
+<ul>
+<li>该节点没有子节点；</li>
+<li>该节点被判断为应该被删除；</li>
+<li>该节点的<code>shouldComponentUpdate</code>返回false；</li>
+</ul>
+<p>代码示例：<a href="https://jsfiddle.net/erL18dyy/2/" target="_blank" rel="external">https://jsfiddle.net/erL18dyy/2/</a></p>
+<h3 id="比较两个type不同的element"><a href="#比较两个type不同的element" class="headerlink" title="比较两个type不同的element"></a>比较两个type不同的element</h3><p>如果element的type不同，React只会进行 <strong>创建</strong> 和 <strong>删除</strong> 操作。</p>
+<p>删除旧的节点及其子节点，创建新的节点及其子节点。(反应到真实DOM上就是该节点及其子节点被整个替换了)<br>如果被删除的节点是Component Element，其会调用<code>componentWillUnmount</code>。由于旧节点被删除了，与它关联的state将丢失，当它被再次新建时，state会被重新初始化。<br>如果新创建的节点是Component Element，其会调用<code>constructor</code>、<code>componentWillMount</code>和<code>componentDidMount</code>。</p>
+<h3 id="比较两个type相同的DOM-element"><a href="#比较两个type相同的DOM-element" class="headerlink" title="比较两个type相同的DOM element"></a>比较两个type相同的DOM element</h3><p>如果两个DOM element的type相同，将比较它们的属性，比较完之后递归其子节点。React只会更新 <strong>有修改的属性</strong>。</p>
+<p>React只会更新有更改的属性，如下：只会更新className<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div className=&quot;before&quot; title=&quot;stuff&quot; /&gt;</div><div class="line">&lt;div className=&quot;after&quot; title=&quot;stuff&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<p>当属性值是对象时，也只会更新该对象中有修改的属性，如下：只会更新color<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div style=&#123;&#123;color: &apos;red&apos;, fontWeight: &apos;bold&apos;&#125;&#125; /&gt;</div><div class="line">&lt;div style=&#123;&#123;color: &apos;green&apos;, fontWeight: &apos;bold&apos;&#125;&#125; /&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="比较两个type相同的Component-element"><a href="#比较两个type相同的Component-element" class="headerlink" title="比较两个type相同的Component element"></a>比较两个type相同的Component element</h3><p>当element是Component element，不会直接比较Component element，而是通过Component创建新的element。然后进入下一轮比较。</p>
+<p>回顾一下Component Element的基本结构。两个Component element的type相同，说明两个Component的实例相同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  type: Button,</div><div class="line">  props: &#123;</div><div class="line">    color: &apos;red&apos;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当props有变化，Component（也就是Button）根据新的props，依次调用<code>componentWillReceiveProps</code>和<code>componentWillUpdate</code>、<code>render</code>获取新的element，然后与旧的element进行下一轮比较。</p>
+<h3 id="DOM节点有多个子节点"><a href="#DOM节点有多个子节点" class="headerlink" title="DOM节点有多个子节点"></a>DOM节点有多个子节点</h3><p>React会同时迭代新旧两个子节点列表，通过key属性来匹配新旧两个子节点列表中的节点</p>
+<hr>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://reactjs.org/docs/reconciliation.html" target="_blank" rel="external">Reconciliation</a></li>
+</ul>
 
       
     </div>
@@ -393,8 +415,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/18/React记录：新特性/" rel="next" title="React记录：新特性">
-                <i class="fa fa-chevron-left"></i> React记录：新特性
+              <a href="/2018/01/20/我理解的React/" rel="next" title="我理解的React">
+                <i class="fa fa-chevron-left"></i> 我理解的React
               </a>
             
           </div>
@@ -402,10 +424,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/21/React原理：Reconciliation/" rel="prev" title="React原理：Reconciliation">
-                React原理：Reconciliation <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -559,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Virtual-DOM"><span class="nav-number">1.</span> <span class="nav-text">什么是Virtual DOM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Components-Elements-and-Instances"><span class="nav-number">2.</span> <span class="nav-text">React Components, Elements, and Instances</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elements"><span class="nav-number">2.1.</span> <span class="nav-text">Elements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Instances"><span class="nav-number">2.2.</span> <span class="nav-text">Instances</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React的事件"><span class="nav-number">3.</span> <span class="nav-text">React的事件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reconciliation"><span class="nav-number">1.</span> <span class="nav-text">Reconciliation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Diffing-算法"><span class="nav-number">2.</span> <span class="nav-text">Diffing 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较两个type不同的element"><span class="nav-number">2.1.</span> <span class="nav-text">比较两个type不同的element</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较两个type相同的DOM-element"><span class="nav-number">2.2.</span> <span class="nav-text">比较两个type相同的DOM element</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较两个type相同的Component-element"><span class="nav-number">2.3.</span> <span class="nav-text">比较两个type相同的Component element</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM节点有多个子节点"><span class="nav-number">2.4.</span> <span class="nav-text">DOM节点有多个子节点</span></a></li></ol></li></ol></div>
             
 
           </div>

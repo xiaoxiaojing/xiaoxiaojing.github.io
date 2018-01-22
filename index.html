@@ -252,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/20/我理解的React/">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/21/React原理：Reconciliation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TJ">
@@ -271,7 +271,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/20/我理解的React/" itemprop="url">我理解的React</a></h1>
+                <a class="post-title-link" href="/2018/01/21/React原理：Reconciliation/" itemprop="url">React原理：Reconciliation</a></h1>
         
 
         <div class="post-meta">
@@ -283,8 +283,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T18:34:09+08:00">
-                2018-01-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T22:34:26+08:00">
+                2018-01-21
               </time>
             
 
@@ -299,8 +299,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-21T18:11:14+08:00">
-                2018-01-21
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-22T23:34:00+08:00">
+                2018-01-22
               </time>
             
           </span>
@@ -357,9 +357,170 @@
       
         
           
-          什么是Virtual DOMVirtual DOM在React是用来表示用户界面的，它被保存在内存中。React通过React Element的相互嵌套组合可以构造一个Virtual DOM tree。
-React Components, Elements, and Instances参考链接
-El
+          Reconciliation
+Reconciliation: The algorithm React uses to diff one tree with another to determine which parts need to be changed
+
+定义：调和（reconciliatio
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/21/React原理：Reconciliation/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/20/我理解的React/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/20/我理解的React/" itemprop="url">我理解的React</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T18:34:09+08:00">
+                2018-01-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-22T23:20:51+08:00">
+                2018-01-22
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/REACT/" itemprop="url" rel="index">
+                    <span itemprop="name">REACT</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1675,179 +1836,6 @@ context提供了一种直接传递数据到组件树深处组件的方式，数�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/12/22/《深入React技术栈》学习笔记：Flux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="TJ">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="XIAOXIAOJING">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/22/《深入React技术栈》学习笔记：Flux/" itemprop="url">《深入React技术栈》学习笔记：Flux</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-22T13:53:21+08:00">
-                2017-12-22
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2017-12-29T20:34:13+08:00">
-                2017-12-29
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/REACT/" itemprop="url" rel="index">
-                    <span itemprop="name">REACT</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Flux的核心思想
-数据和逻辑永远是单向流动的，即：unidirectional data flow
-
-
-
-Flux的组成
-3大部分：
-dispatcher（分发事件）
-store（保存数据，同时响应事件并更新数据）
-view（订阅store中的数据，并使用这些数据渲染相应页面）
-
-
-其他部分：
-c
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/22/《深入React技术栈》学习笔记：Flux/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1902,7 +1890,7 @@ c
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

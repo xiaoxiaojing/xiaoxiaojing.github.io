@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行component diff） 对于同一">
+<meta name="description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类型的两个组件将会生成相似的树形结构，拥有不同类型的两个组件将会生成不同的树形结构（进行component diff） 对于">
 <meta name="keywords" content="react">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React原理：diff算法">
 <meta property="og:url" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行component diff） 对于同一">
+<meta property="og:description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类型的两个组件将会生成相似的树形结构，拥有不同类型的两个组件将会生成不同的树形结构（进行component diff） 对于">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/DOM层级变换.jpg">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/component_diff.jpg">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/相同节点位置不同.jpg">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/节点不同时的创建、移动、删除.jpg">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/节点更新存在的不足.jpg">
-<meta property="og:updated_time" content="2017-12-21T06:44:17.000Z">
+<meta property="og:updated_time" content="2018-01-21T14:41:05.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React原理：diff算法">
-<meta name="twitter:description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行component diff） 对于同一">
+<meta name="twitter:description" content="React将Virtual DOM树转换为actual DOM树的最少操作的过程称为调和（reconciliation） diff算法就是调和的具体实现  diff算法的3个策略 Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行tree diff） 拥有相同类型的两个组件将会生成相似的树形结构，拥有不同类型的两个组件将会生成不同的树形结构（进行component diff） 对于">
 <meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/11/14/React原理：diff算法/DOM层级变换.jpg">
 
 
@@ -304,8 +304,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-12-21T14:44:17+08:00">
-                2017-12-21
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-21T22:41:05+08:00">
+                2018-01-21
               </time>
             
           </span>
@@ -366,18 +366,18 @@
 </ul>
 <h2 id="diff算法的3个策略"><a href="#diff算法的3个策略" class="headerlink" title="diff算法的3个策略"></a>diff算法的3个策略</h2><ol>
 <li>Web UI中DOM节点跨层级的移动操作特别少，可忽略不计（进行<code>tree diff</code>）</li>
-<li>拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构（进行<code>component diff</code>）</li>
-<li>对于同一层级的一组子节点，它们可以通过唯一id进行区分（进行<code>element diff</code>）</li>
+<li>拥有相同类型的两个组件将会生成相似的树形结构，拥有不同类型的两个组件将会生成不同的树形结构（进行<code>component diff</code>）</li>
+<li>对于同一层级的一组子节点，它们可以通过唯一key进行区分（进行<code>element diff</code>）</li>
 </ol>
-<h3 id="1-tree-diff"><a href="#1-tree-diff" class="headerlink" title="1.tree diff"></a>1.tree diff</h3><ul>
-<li>两棵树只会对同一层级（通过<code>updateDepth</code>进行层级控制）的节点进行比较。在<code>tree diff</code>中只会发生 <strong>创建</strong> 和 <strong>删除</strong> 操作。</li>
+<h3 id="tree-diff"><a href="#tree-diff" class="headerlink" title="tree diff"></a>tree diff</h3><ul>
+<li>两棵树只会对同一层级的节点进行比较。在<code>tree diff</code>中只会发生 <strong>创建</strong> 和 <strong>删除</strong> 操作。</li>
 <li>如下图的节点变化：当A节点（包括其子节点）整个被移到D节点下。React会认为A消失了，就会删除A节点。D节点上多出的A节点，React会认为其是新增节点，创建新的A（包括子节点）。因此尽量不要进行DOM节点跨层级的操作，这样操作会使得节点以及子节点被重新创建，影响性能。<div style="max-width:460px; border: 1px dotted #ccc"><br><img src="/2017/11/14/React原理：diff算法/DOM层级变换.jpg" alt="DOM层级变换.jpg" title=""><br></div>
 
 </li>
 </ul>
-<h3 id="2-component-diff"><a href="#2-component-diff" class="headerlink" title="2.component diff"></a>2.component diff</h3><ul>
+<h3 id="component-diff"><a href="#component-diff" class="headerlink" title="component diff"></a>component diff</h3><ul>
 <li>组件间的diff策略<ul>
-<li>如果是同一类型的组件，按照原策略继续比较Virtual DOM树即可（PS：可以通过<code>shouldComponentUpdate()</code>来判断组件是否需要进行diff算法分析）</li>
+<li>如果是同一类型的组件，按照继续递归比较Virtual DOM树即可（PS：可以通过<code>shouldComponentUpdate()</code>来判断组件是否需要进行diff算法分析）</li>
 <li>如果不是，则将该组件判断为<code>dirty component</code>，删除该节点及其子节点，并重新创建新组件及其子节点</li>
 </ul>
 </li>
@@ -385,7 +385,7 @@
 
 </li>
 </ul>
-<h3 id="3-element-diff"><a href="#3-element-diff" class="headerlink" title="3.element diff"></a>3.element diff</h3><ul>
+<h3 id="element-diff"><a href="#element-diff" class="headerlink" title="element diff"></a>element diff</h3><ul>
 <li><p>同一层级一组子节点，会有三种节点操作：INSERT_MARKUP（插入）、MOVE_EXISTING（移动）、REMOVE_NODE（删除）</p>
 <ul>
 <li>1）新旧集合中存在相同节点但位置不同（通过节点的<code>key</code>来优化如下情况）<ul>
@@ -526,7 +526,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -597,7 +597,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#diff算法的3个策略"><span class="nav-number">1.</span> <span class="nav-text">diff算法的3个策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-tree-diff"><span class="nav-number">1.1.</span> <span class="nav-text">1.tree diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-component-diff"><span class="nav-number">1.2.</span> <span class="nav-text">2.component diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-element-diff"><span class="nav-number">1.3.</span> <span class="nav-text">3.element diff</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#diff算法的3个策略"><span class="nav-number">1.</span> <span class="nav-text">diff算法的3个策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tree-diff"><span class="nav-number">1.1.</span> <span class="nav-text">tree diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#component-diff"><span class="nav-number">1.2.</span> <span class="nav-text">component diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#element-diff"><span class="nav-number">1.3.</span> <span class="nav-text">element diff</span></a></li></ol></li></ol></div>
             
 
           </div>
