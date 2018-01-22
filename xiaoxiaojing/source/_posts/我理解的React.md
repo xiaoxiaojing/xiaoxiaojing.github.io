@@ -5,13 +5,12 @@ tags: react
 categories: REACT
 ---
 
+## 什么是[Virtual DOM](https://reactjs.org/docs/faq-internals.html)
+Virtual DOM在React中是用来表示用户界面的，它被保存在内存中。
+React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。
+React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数）
 
-## 什么是Virtual DOM
-Virtual DOM在React是用来表示用户界面的，它被保存在内存中。
-React通过React Element的相互嵌套组合可以构造一个Virtual DOM tree。
-
-## React Components, Elements, and Instances
-[参考链接](https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html)
+## [React Components, Elements, and Instances](https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html)
 ### Elements
 React Element是一个简单的不可变的描述性对象，用于告诉React需要渲染什么。它分为DOM Element和Component Element，其中DOM Element是React中的最小单位，Component Element的type值是一个Component
 React Element的相互嵌套组合可以构造一个Virtual DOM tree。当调用`ReactDOM.render`或`setState`时，React会置顶向下解析这颗树。当解析到Component Element时，会执行这样的过程`(props) => element`得到一个新的element，如此执行，直到Element是DOM Element为止。这个解析过程是调和过程（reconciliation ）的一部分。
