@@ -5,6 +5,9 @@ tags: react
 categories: REACT
 ---
 
+## React基础
+React将UI也看做是数据，React工作即是将原始数据转换成UI数据。可以进一步抽象成一个纯函数：`y = f(x)`，一样的输入就有一样的输出。
+
 ## 什么是[Virtual DOM](https://reactjs.org/docs/faq-internals.html)
 Virtual DOM在React中是用来表示用户界面的，它被保存在内存中。
 React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。
