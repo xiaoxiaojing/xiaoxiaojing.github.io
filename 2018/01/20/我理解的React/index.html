@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数） React Components, Elements, and In">
+<meta name="description" content="React基础React将UI也看做是数据，React工作即是将原始数据转换成UI数据。可以进一步抽象成一个纯函数：y = f(x)，一样的输入就有一样的输出。 什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconcilia">
 <meta name="keywords" content="react">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我理解的React">
 <meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/20/我理解的React/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数） React Components, Elements, and In">
+<meta property="og:description" content="React基础React将UI也看做是数据，React工作即是将原始数据转换成UI数据。可以进一步抽象成一个纯函数：y = f(x)，一样的输入就有一样的输出。 什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconcilia">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-22T15:20:51.918Z">
+<meta property="og:updated_time" content="2018-01-23T14:32:23.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我理解的React">
-<meta name="twitter:description" content="什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数） React Components, Elements, and In">
+<meta name="twitter:description" content="React基础React将UI也看做是数据，React工作即是将原始数据转换成UI数据。可以进一步抽象成一个纯函数：y = f(x)，一样的输入就有一样的输出。 什么是Virtual DOMVirtual DOM在React中是用来表示用户界面的，它被保存在内存中。React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。React通过Reconcilia">
 
 
 
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-22T23:20:51+08:00">
-                2018-01-22
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-23T22:32:23+08:00">
+                2018-01-23
               </time>
             
           </span>
@@ -354,7 +354,8 @@
       
 
       
-        <h2 id="什么是Virtual-DOM"><a href="#什么是Virtual-DOM" class="headerlink" title="什么是Virtual DOM"></a>什么是<a href="https://reactjs.org/docs/faq-internals.html" target="_blank" rel="external">Virtual DOM</a></h2><p>Virtual DOM在React中是用来表示用户界面的，它被保存在内存中。<br>React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。<br>React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数）</p>
+        <h2 id="React基础"><a href="#React基础" class="headerlink" title="React基础"></a>React基础</h2><p>React将UI也看做是数据，React工作即是将原始数据转换成UI数据。可以进一步抽象成一个纯函数：<code>y = f(x)</code>，一样的输入就有一样的输出。</p>
+<h2 id="什么是Virtual-DOM"><a href="#什么是Virtual-DOM" class="headerlink" title="什么是Virtual DOM"></a>什么是<a href="https://reactjs.org/docs/faq-internals.html" target="_blank" rel="external">Virtual DOM</a></h2><p>Virtual DOM在React中是用来表示用户界面的，它被保存在内存中。<br>React通过React element的相互嵌套组合可以构造一个Virtual DOM tree。<br>React通过Reconciliation算法将Virtual DOM转化为actual DOM。（转化的操作数是最小操作数）</p>
 <h2 id="React-Components-Elements-and-Instances"><a href="#React-Components-Elements-and-Instances" class="headerlink" title="React Components, Elements, and Instances"></a><a href="https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html" target="_blank" rel="external">React Components, Elements, and Instances</a></h2><h3 id="Elements"><a href="#Elements" class="headerlink" title="Elements"></a>Elements</h3><p>React Element是一个简单的不可变的描述性对象，用于告诉React需要渲染什么。它分为DOM Element和Component Element，其中DOM Element是React中的最小单位，Component Element的type值是一个Component<br>React Element的相互嵌套组合可以构造一个Virtual DOM tree。当调用<code>ReactDOM.render</code>或<code>setState</code>时，React会置顶向下解析这颗树。当解析到Component Element时，会执行这样的过程<code>(props) =&gt; element</code>得到一个新的element，如此执行，直到Element是DOM Element为止。这个解析过程是调和过程（reconciliation ）的一部分。</p>
 <h3 id="Instances"><a href="#Instances" class="headerlink" title="Instances"></a>Instances</h3><p>只有通过<code>ES6 class</code>创建的组件才有实例，通过<code>Function</code>创建的组件是没有实例的<br>实例的创建是React自己完成了，我们不能直接创建一个实例，但是可以在父组件中通过<code>ref</code>获取子组件的实例</p>
 <h2 id="React的事件"><a href="#React的事件" class="headerlink" title="React的事件"></a>React的事件</h2><p>React基于Virtual DOM实现了SyntheticEvent，它是JavaScript原生事件的一个子集。同时也实现了<code>stopPropagation</code>和<code>preventDefault</code>。<br>与原生事件不同的是，SyntheticEvent是跨浏览器的，使用时无需再考虑兼容性问题。<br>SyntheticEvent和原生事件一样都有两个阶段：捕获阶段（onClickCapture）和冒泡阶段（onClick）<br>对于SyntheticEvent有三个需要注意的点：</p>
@@ -559,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Virtual-DOM"><span class="nav-number">1.</span> <span class="nav-text">什么是Virtual DOM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Components-Elements-and-Instances"><span class="nav-number">2.</span> <span class="nav-text">React Components, Elements, and Instances</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elements"><span class="nav-number">2.1.</span> <span class="nav-text">Elements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Instances"><span class="nav-number">2.2.</span> <span class="nav-text">Instances</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React的事件"><span class="nav-number">3.</span> <span class="nav-text">React的事件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React基础"><span class="nav-number">1.</span> <span class="nav-text">React基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Virtual-DOM"><span class="nav-number">2.</span> <span class="nav-text">什么是Virtual DOM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Components-Elements-and-Instances"><span class="nav-number">3.</span> <span class="nav-text">React Components, Elements, and Instances</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elements"><span class="nav-number">3.1.</span> <span class="nav-text">Elements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Instances"><span class="nav-number">3.2.</span> <span class="nav-text">Instances</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React的事件"><span class="nav-number">4.</span> <span class="nav-text">React的事件</span></a></li></ol></div>
             
 
           </div>

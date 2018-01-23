@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程    Fiber的原理将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有的">
+<meta name="description" content="React Fiber The goal of React Fiber is to increase its suitability for areas like animation, layout, and gestures. Its headline feature is incremental rendering: the ability to split rendering work in">
 <meta name="keywords" content="react">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React原理：Fiber">
 <meta property="og:url" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程    Fiber的原理将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有的">
+<meta property="og:description" content="React Fiber The goal of React Fiber is to increase its suitability for areas like animation, layout, and gestures. Its headline feature is incremental rendering: the ability to split rendering work in">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/主线程占用情况.jpg">
-<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/fiber执行流程.png">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/Fiber树.jpg">
-<meta property="og:updated_time" content="2018-01-22T16:35:18.729Z">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/fiber执行流程.png">
+<meta property="og:updated_time" content="2018-01-23T17:21:08.930Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React原理：Fiber">
-<meta name="twitter:description" content="什么是Fiber 定义：是新的调度策略（Reconciler） 解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程    Fiber的原理将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有的">
+<meta name="twitter:description" content="React Fiber The goal of React Fiber is to increase its suitability for areas like animation, layout, and gestures. Its headline feature is incremental rendering: the ability to split rendering work in">
 <meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/12/16/React原理：Fiber/主线程占用情况.jpg">
 
 
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-23T00:35:18+08:00">
-                2018-01-23
+              <time title="Post modified" itemprop="dateModified" datetime="2018-01-24T01:21:08+08:00">
+                2018-01-24
               </time>
             
           </span>
@@ -358,40 +358,72 @@
       
 
       
-        <h2 id="什么是Fiber"><a href="#什么是Fiber" class="headerlink" title="什么是Fiber"></a>什么是Fiber</h2><ol>
-<li>定义：是新的调度策略（Reconciler）</li>
-<li>解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程<div style="max-width:600px"><br><img src="/2017/12/16/React原理：Fiber/主线程占用情况.jpg" alt="主线程占用情况.jpg" title=""><br></div>
+        <h2 id="React-Fiber"><a href="#React-Fiber" class="headerlink" title="React Fiber"></a>React Fiber</h2><blockquote>
+<p>The goal of React Fiber is to increase its suitability for areas like animation, layout, and gestures. Its headline feature is incremental rendering: the ability to split rendering work into chunks and spread it out over multiple frames.</p>
+<p>Other key features include the ability to pause, abort, or reuse work as new updates come in; the ability to assign priority to different types of updates; and new concurrency primitives.</p>
+</blockquote>
+<ol>
+<li>React Fiber的定义：是新的调度策略</li>
+<li>React Fiber的优化目标：使动画更加流畅，页面刷新更快，能及时响应用户交互</li>
+<li>React Fiber的主要特征：增量渲染</li>
+<li>React Fiber的其他特征：能够暂停、重启、丢弃某个更新；能够优先处理优先级高的更新。</li>
+<li>React Fiber要解决的问题：React的旧的调度策略（Stack reconcile），在React的计算量很大时，会一直占用浏览器的主线程<div style="max-width:600px"><br><img src="/2017/12/16/React原理：Fiber/主线程占用情况.jpg" alt="主线程占用情况.jpg" title=""><br></div>
 
 </li>
 </ol>
-<h2 id="Fiber的原理"><a href="#Fiber的原理" class="headerlink" title="Fiber的原理"></a>Fiber的原理</h2><p>将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有的话，继续执行下一个小任务。</p>
-<div style="max-width:600px"><br><img src="/2017/12/16/React原理：Fiber/fiber执行流程.png" alt="fiber执行流程.png" title=""><br></div>
+<h2 id="与React-Fiber相关的几个概念"><a href="#与React-Fiber相关的几个概念" class="headerlink" title="与React Fiber相关的几个概念"></a>与React Fiber相关的几个概念</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">概念</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">reconciliation</td>
+<td style="text-align:left">The algorithm React uses to diff one tree with another to determine which parts need to be changed.</td>
+</tr>
+<tr>
+<td style="text-align:left">update</td>
+<td style="text-align:left">A change in the data used to render a React app. Usually the result of <code>setState</code>. Eventually results in a re-render.</td>
+</tr>
+<tr>
+<td style="text-align:left">Reconciler &amp; Renderer</td>
+<td style="text-align:left"><strong>reconciler</strong>：does the work of computing which parts of a tree have changed<br><strong>renderer</strong>：uses that information to actually update the rendered app</td>
+</tr>
+<tr>
+<td style="text-align:left">scheduling</td>
+<td style="text-align:left">the process of determining when work should be performed.</td>
+</tr>
+<tr>
+<td style="text-align:left">work</td>
+<td style="text-align:left">any computations that must be performed. Work is usually the result of an update (e.g. setState).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="理解React中的reconciler和renderer"><a href="#理解React中的reconciler和renderer" class="headerlink" title="理解React中的reconciler和renderer"></a>理解React中的<code>reconciler</code>和<code>renderer</code></h3><p><strong><code>Reconciler</code></strong>：用于计算新老View的差异，React16之前的reconciler叫<code>Stack reconciler</code>，React Fiber实现了新的Reconciler。<br><strong><code>Renderer</code></strong>：负责将View的变化渲染到不同的平台上，在Web上的renderer是<code>ReactDOM</code></p>
+<h2 id="React-Fiber中的fiber"><a href="#React-Fiber中的fiber" class="headerlink" title="React Fiber中的fiber"></a>React Fiber中的fiber</h2><h3 id="fiber的几个含义"><a href="#fiber的几个含义" class="headerlink" title="fiber的几个含义"></a>fiber的几个含义</h3><ol>
+<li>工作单元（a unit of work）：将一次渲染分解为增量操作单元（incremental units），用一个fiber来表示每个单元。</li>
+<li>virtual stack frame：原本的call stack无法满足React Fiber的设计需求，React Fiber重新实现了stack，使得我们有中断stack的调用，手动控制stack frames的能力。而fiber就可以理解为一个virtual stack frame。</li>
+</ol>
+<h3 id="fiber的数据结构"><a href="#fiber的数据结构" class="headerlink" title="fiber的数据结构"></a>fiber的数据结构</h3><blockquote>
+<p>a fiber is a JavaScript object that contains information about a component, its input, and its output.</p>
+</blockquote>
+<p>fiber是一个对象，一个fiber上包含了React组件的相关信息，以及与这个组件关联的输入和输出。它有如下属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  tag: TypeOfWork, // 标识Fiber的类型</div><div class="line"></div><div class="line">  // fiber的key，type属性与React element上的key，type属性作用一样</div><div class="line">  key: null | string, // 当Fiber的type相同时，用key来区分Fiber</div><div class="line">  type: any, // 指向与Fiber有关的function/class/module</div><div class="line"></div><div class="line">  // 这些属性指向其他Fiber，用于描述Fiber tree的树状结构</div><div class="line">  child: Fiber | null,</div><div class="line">  sibling: Fiber | null,</div><div class="line">  return: Fiber | null, // 指向当前Fiber的父节点</div><div class="line"></div><div class="line">  // React中props是一个函数的参数，相同的props将会得到相同的结果</div><div class="line">  // 当一个Fiber执行时，设置pendingProps，Fiber执行完成后，设置memoizedProps</div><div class="line">  // 如果pendingProps与memoizedProps相同，说明这个Fiber没有执行的必要</div><div class="line">  pendingProps: any,</div><div class="line">  memoizedProps: any,</div><div class="line"></div><div class="line">  // 用于说明Fiber的优先级</div><div class="line">  expirationTime: ExpirationTime,</div><div class="line"></div><div class="line">  // 任何正在执行的Fiber都是成对的。</div><div class="line">  // work-in-progress是一个还没有执行完的Fiber</div><div class="line">  // current Fiber的alternate指向work-in-progress，work-in-progress的alternate指向current Fiber</div><div class="line">  alternate: Fiber | null,</div><div class="line"></div><div class="line">  // memoizedState被用于创建一个output</div><div class="line">  memoizedState: any,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="fiber-tree"><a href="#fiber-tree" class="headerlink" title="fiber tree"></a>fiber tree</h3><p>在实际的渲染过程中，fiber节点构成一颗树。这颗树在数据结构上是通过单链表的形式构成的，fiber节点上的child和sibling属性分别指向了这个节点的第一个子节点和相邻的兄弟节点<br>React执行更新的时候，会根据原来的fiber节点（current）clone出一个新的fiber节点（alternate）。两个fiber节点diff出的变化（side effect）记录在alternate上。alternate fiber被称为working in progress fiber。</p>
+<div style="max-width:480px"><br><img src="/2017/12/16/React原理：Fiber/Fiber树.jpg" alt="Fiber树" title="Fiber树"><br></div>
 
-<h3 id="理解React中的reconciler和renderer"><a href="#理解React中的reconciler和renderer" class="headerlink" title="理解React中的reconciler和renderer"></a>理解React中的<code>reconciler</code>和<code>renderer</code></h3><ol>
-<li><code>Reconciler</code>：用于计算新老View的差异，React16之前的reconciler叫<code>Stack reconciler</code>，Fiber是新的Reconciler</li>
-<li><code>Renderer</code>：负责将View的变化渲染到不同的平台上，在Web上的renderer是<code>ReactDOM</code></li>
-</ol>
-<h3 id="理解Fiber-Reconciler的两个phase"><a href="#理解Fiber-Reconciler的两个phase" class="headerlink" title="理解Fiber Reconciler的两个phase"></a>理解Fiber Reconciler的两个phase</h3><ol>
-<li>Reconcile阶段：依次遍历组件，通过diff算法，判断组件是否需要更新，给需要更新的组件加上tag。遍历完之后，将所有带有tag的组件加到一个数组中。这个阶段的任务可以被打断。</li>
-<li>Commit阶段：根据在Reconcile阶段生成的数组，遍历更新DOM，这个阶段需要一次性执行完，不能被打断。</li>
-</ol>
-<h3 id="Fiber树"><a href="#Fiber树" class="headerlink" title="Fiber树"></a>Fiber树</h3><ul>
-<li><p>在实际的渲染过程中，Fiber节点构成一颗树。这颗树在数据结构上是通过单链表的形式构成的，Fiber节点上的child和sibling属性分别指向了这个节点的第一个子节点和相邻的兄弟节点</p>
-<div style="max-width:480px"><br><img src="/2017/12/16/React原理：Fiber/Fiber树.jpg" alt="Fiber树.jpg" title=""><br></div>
-</li>
-<li><p>Fiber在update的时候，会从原来的Fiber（current）clone出一个新的Fiber（alternate）。两个Fiber树diff出的变化（side effect）记录在alternate上。alternate fiber被称为working in progress fiber。</p>
-</li>
-</ul>
-<h2 id="React-Fiber-对现有代码的影响"><a href="#React-Fiber-对现有代码的影响" class="headerlink" title="React Fiber 对现有代码的影响"></a>React Fiber 对现有代码的影响</h2><ol>
-<li>原理：在React Fiber中，一次更新过程会分成多个分片完成，当一次更新过程被打断，处理更高优先级的任务后，他会重新开始更新。</li>
-<li>会被打断的更新发生在以下函数中，所以以下函数在一次更新中可能会被多次调用<ul>
+<h2 id="React-Fiber的运作流程"><a href="#React-Fiber的运作流程" class="headerlink" title="React Fiber的运作流程"></a>React Fiber的运作流程</h2><p>将原来的整个Virtual DOM的更新任务拆分成一个个小的任务。每次完成一个小任务之后，释放主线程，看看有没有优先级更高的任务。如果有的话，暂停当前任务，执行优先级更高的任务。如果没有的话，继续执行下一个小任务。</p>
+<div style="max-width:600px"><br><img src="/2017/12/16/React原理：Fiber/fiber执行流程.png" alt="Fiber执行流程" title="Fiber执行流程"><br></div>
+
+<h3 id="React-Fiber的两个phase"><a href="#React-Fiber的两个phase" class="headerlink" title="React Fiber的两个phase"></a>React Fiber的两个phase</h3><p><strong>Reconcile阶段</strong>：依次遍历组件，通过diff算法，判断组件是否需要更新，给需要更新的组件加上tag。遍历完之后，将所有带有tag的组件加到一个数组中。这个阶段的任务可以被打断。<br><strong>Commit阶段</strong>：根据在Reconcile阶段生成的数组，遍历数组并调用renderer更新DOM，这个阶段需要一次性执行完，不能被打断。</p>
+<h2 id="React-Fiber-对现有代码的影响"><a href="#React-Fiber-对现有代码的影响" class="headerlink" title="React Fiber 对现有代码的影响"></a>React Fiber 对现有代码的影响</h2><p>原理：在React Fiber中，一次更新过程会分成多个分片完成，当一次更新过程被打断，处理更高优先级的任务后，他会重新开始更新。<br>会被打断的更新发生在以下函数中，所以以下函数在一次更新中可能会被多次调用</p>
+<ul>
 <li>componentWillMount</li>
 <li>componentWillReceiveProps</li>
 <li>shouldComponentUpdate</li>
 <li>componentWillUpdate</li>
 </ul>
-</li>
-</ol>
 <hr>
 <ul>
 <li>参考文档<ul>
@@ -598,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Fiber"><span class="nav-number">1.</span> <span class="nav-text">什么是Fiber</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fiber的原理"><span class="nav-number">2.</span> <span class="nav-text">Fiber的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解React中的reconciler和renderer"><span class="nav-number">2.1.</span> <span class="nav-text">理解React中的reconciler和renderer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解Fiber-Reconciler的两个phase"><span class="nav-number">2.2.</span> <span class="nav-text">理解Fiber Reconciler的两个phase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fiber树"><span class="nav-number">2.3.</span> <span class="nav-text">Fiber树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Fiber-对现有代码的影响"><span class="nav-number">3.</span> <span class="nav-text">React Fiber 对现有代码的影响</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Fiber"><span class="nav-number">1.</span> <span class="nav-text">React Fiber</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与React-Fiber相关的几个概念"><span class="nav-number">2.</span> <span class="nav-text">与React Fiber相关的几个概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解React中的reconciler和renderer"><span class="nav-number">2.1.</span> <span class="nav-text">理解React中的reconciler和renderer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Fiber中的fiber"><span class="nav-number">3.</span> <span class="nav-text">React Fiber中的fiber</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fiber的几个含义"><span class="nav-number">3.1.</span> <span class="nav-text">fiber的几个含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fiber的数据结构"><span class="nav-number">3.2.</span> <span class="nav-text">fiber的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fiber-tree"><span class="nav-number">3.3.</span> <span class="nav-text">fiber tree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Fiber的运作流程"><span class="nav-number">4.</span> <span class="nav-text">React Fiber的运作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Fiber的两个phase"><span class="nav-number">4.1.</span> <span class="nav-text">React Fiber的两个phase</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Fiber-对现有代码的影响"><span class="nav-number">5.</span> <span class="nav-text">React Fiber 对现有代码的影响</span></a></li></ol></div>
             
 
           </div>
