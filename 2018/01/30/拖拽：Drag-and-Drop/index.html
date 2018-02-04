@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="HTML," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="使用鼠标事件实现拖拽三个步骤 当点击要拖拽元素时（mousedown），获取元素当前位置。 拖拽时（mousemove），改变元素的位置。 释放鼠标时（mouseup），停止拖拽  定义dragElement方法12345/** * 当鼠标点击[元素drag]时，就会可以拖动traget * @type &amp;#123;[type]&amp;#125; */dragElement(drag, traget)">
+<meta name="description" content="一个🌰 定义draggable元素只需要设置元素的draggable属性为true，该元素就变成了可拖拽的元素1&amp;lt;div draggable=&amp;quot;true&amp;quot;&amp;gt;drag&amp;lt;/div&amp;gt; 定义drag事件12345678dom.addListener(dragEle, &amp;apos;dragstart&amp;apos;, (event) =&amp;gt; &amp;#123;  //">
+<meta name="keywords" content="HTML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="拖拽：Drag and Drop">
 <meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/30/拖拽：Drag-and-Drop/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="使用鼠标事件实现拖拽三个步骤 当点击要拖拽元素时（mousedown），获取元素当前位置。 拖拽时（mousemove），改变元素的位置。 释放鼠标时（mouseup），停止拖拽  定义dragElement方法12345/** * 当鼠标点击[元素drag]时，就会可以拖动traget * @type &amp;#123;[type]&amp;#125; */dragElement(drag, traget)">
+<meta property="og:description" content="一个🌰 定义draggable元素只需要设置元素的draggable属性为true，该元素就变成了可拖拽的元素1&amp;lt;div draggable=&amp;quot;true&amp;quot;&amp;gt;drag&amp;lt;/div&amp;gt; 定义drag事件12345678dom.addListener(dragEle, &amp;apos;dragstart&amp;apos;, (event) =&amp;gt; &amp;#123;  //">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-31T14:33:56.553Z">
+<meta property="og:updated_time" content="2018-02-04T14:13:44.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拖拽：Drag and Drop">
-<meta name="twitter:description" content="使用鼠标事件实现拖拽三个步骤 当点击要拖拽元素时（mousedown），获取元素当前位置。 拖拽时（mousemove），改变元素的位置。 释放鼠标时（mouseup），停止拖拽  定义dragElement方法12345/** * 当鼠标点击[元素drag]时，就会可以拖动traget * @type &amp;#123;[type]&amp;#125; */dragElement(drag, traget)">
+<meta name="twitter:description" content="一个🌰 定义draggable元素只需要设置元素的draggable属性为true，该元素就变成了可拖拽的元素1&amp;lt;div draggable=&amp;quot;true&amp;quot;&amp;gt;drag&amp;lt;/div&amp;gt; 定义drag事件12345678dom.addListener(dragEle, &amp;apos;dragstart&amp;apos;, (event) =&amp;gt; &amp;#123;  //">
 
 
 
@@ -297,12 +298,34 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-31T22:33:56+08:00">
-                2018-01-31
+              <time title="Post modified" itemprop="dateModified" datetime="2018-02-04T22:13:44+08:00">
+                2018-02-04
               </time>
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -331,24 +354,48 @@
       
 
       
-        <h2 id="使用鼠标事件实现拖拽"><a href="#使用鼠标事件实现拖拽" class="headerlink" title="使用鼠标事件实现拖拽"></a>使用鼠标事件实现拖拽</h2><h3 id="三个步骤"><a href="#三个步骤" class="headerlink" title="三个步骤"></a>三个步骤</h3><ol>
-<li>当点击要拖拽元素时（<code>mousedown</code>），获取元素当前位置。</li>
-<li>拖拽时（<code>mousemove</code>），改变元素的位置。</li>
-<li>释放鼠标时（<code>mouseup</code>），停止拖拽</li>
+        <h2 id="一个🌰"><a href="#一个🌰" class="headerlink" title="一个🌰"></a>一个🌰</h2><iframe scrolling="no" width="100%" height="300" src="//jsfiddle.net/o32atkc3/embedded/result/light" frameborder="0" allowfullscreen></iframe>
+<h3 id="定义draggable元素"><a href="#定义draggable元素" class="headerlink" title="定义draggable元素"></a>定义draggable元素</h3><p>只需要设置元素的<code>draggable</code>属性为<code>true</code>，该元素就变成了<strong>可拖拽的元素</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div draggable=&quot;true&quot;&gt;drag&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="定义drag事件"><a href="#定义drag事件" class="headerlink" title="定义drag事件"></a>定义drag事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dom.addListener(dragEle, &apos;dragstart&apos;, (event) =&gt; &#123;</div><div class="line">  // 定义drag&apos;s data</div><div class="line">  event.dataTransfer.setData(&apos;text/plain&apos;, event.target.id)</div><div class="line">  // 定义drag image</div><div class="line">  event.dataTransfer.setDragImage(img, 10, 10)</div><div class="line">  // 定义drop Effect</div><div class="line">  event.dataTransfer.dropEffect = &apos;copy&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="定义droppable元素"><a href="#定义droppable元素" class="headerlink" title="定义droppable元素"></a>定义droppable元素</h3><p>给一个元素定义<code>dragover</code>事件，并阻止其默认行为，就可以将该元素变成droppable元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&apos;dropEle&apos;&gt;&lt;/div&gt;</div><div class="line">dom.addListener(dropEle, &apos;dragover&apos;, (event) =&gt; &#123;</div><div class="line">  event.preventDefault()</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="定义drop事件"><a href="#定义drop事件" class="headerlink" title="定义drop事件"></a>定义drop事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dom.addListener(dropEle, &apos;drop&apos;, (event) =&gt; &#123;</div><div class="line">  const dragEleId = event.dataTransfer.getData(&apos;text/plain&apos;)</div><div class="line">  event.target.appendChild(document.querySelector(`#$&#123;dragEleId&#125;`))</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="DragEvent"><a href="#DragEvent" class="headerlink" title="DragEvent"></a>DragEvent</h2><p>DragEvent继承自MouseEvent和Event</p>
+<h3 id="Event-type"><a href="#Event-type" class="headerlink" title="Event type"></a>Event type</h3><p><strong>Event type有</strong>：drag | dragend | dragenter | dragexit | dragleave | dragover | dragstart | drop<br><strong>应该绑定在drag元素上的Event type有</strong>：drag | dragend | dragstart<br><strong>应该绑定在drop元素上的Event type有</strong>：dragenter | dragexit | dragleave | dragover | drop<br><strong>事件触发顺序为</strong>：dragstart → dragenter → dragover → (drop|dragleave) → dropend</p>
+<p><a href="https://jsfiddle.net/zxLv6ewb/" target="_blank" rel="external">示例代码</a></p>
+<h2 id="DataTransfer"><a href="#DataTransfer" class="headerlink" title="DataTransfer"></a>DataTransfer</h2><p><code>DragEvent.dataTransfer</code>：是一个DataTransfer对象，用于设置拖拽数据</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ol>
+<li>DataTransfer.dropEffect：<ul>
+<li>取值：none | copy | move | link</li>
+</ul>
+</li>
+<li>DataTransfer.effectAllowed：在dragstart中定义，用于说明被允许的effect<ul>
+<li>取值：none | copy | copyLink | copyMove | link | linkMove | move | all | uninitialized</li>
+</ul>
+</li>
 </ol>
-<h3 id="定义dragElement方法"><a href="#定义dragElement方法" class="headerlink" title="定义dragElement方法"></a>定义dragElement方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 当鼠标点击[元素drag]时，就会可以拖动traget</div><div class="line"> * @type &#123;[type]&#125;</div><div class="line"> */</div><div class="line">dragElement(drag, traget)</div></pre></td></tr></table></figure>
-<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-<p>HTML drag and drop uses the DOM event model and drag events inherit from mouse events.</p>
-<p>A typical drag operation:<br>  begins when a user selects a draggable element with a mouse,<br>  moves the mouse to a droppable element<br>  and then releases the mouse</p>
-<p>DataTransfer object<br>  the type of drag<br>  the drag’s data<br>  the type of each drag item<br>Each DataTransfer object contains an items property which is a list of DataTransferItem objects<br>  represents a single drag item<br>  has a kind property、a type property</p>
-<p>步骤</p>
-<ol>
-<li>Identify what is draggable</li>
-<li>Define the drag’s data</li>
-<li>Define the drag image</li>
-<li>Define the drag effect</li>
-<li>Define a drop zone</li>
-<li>Handle the drop effect</li>
+<p>【注】<a href="https://codepen.io/SitePoint/pen/epQPNP/" target="_blank" rel="external">dropEffect和effectAllowed的关系</a></p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ol>
+<li>DataTransfer.clearData()</li>
+<li>DataTransfer.getData()</li>
+<li>DataTransfer.setData()</li>
+<li>DataTransfer.setDragImage()</li>
+</ol>
+<h2 id="Drag-data-types"><a href="#Drag-data-types" class="headerlink" title="Drag data types"></a>Drag data types</h2><ol>
+<li>数据为纯文本：<ul>
+<li>设置数据：event.dataTransfer.setData(‘text/plain’)</li>
+<li>获取数据：event.dataTransfer.getData(‘text’)</li>
+</ul>
+</li>
+<li>数据为链接：<ul>
+<li>设置数据：event.dataTransfer.setData(‘text/uri-list’, url)</li>
+<li>获取数据：event.dataTransfer.getData(‘url’)</li>
+</ul>
+</li>
+<li>数据为html<ul>
+<li>设置数据：event.dataTransfer.setData(‘text/html’, html)</li>
+<li>获取数据：event.dataTransfer.getData(‘text/html’)</li>
+</ul>
+</li>
 </ol>
 
       
@@ -364,6 +411,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
+          
+        </div>
       
 
       
@@ -469,7 +522,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -480,7 +533,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -491,7 +544,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -540,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用鼠标事件实现拖拽"><span class="nav-number">1.</span> <span class="nav-text">使用鼠标事件实现拖拽</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三个步骤"><span class="nav-number">1.1.</span> <span class="nav-text">三个步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义dragElement方法"><span class="nav-number">1.2.</span> <span class="nav-text">定义dragElement方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现细节"><span class="nav-number">1.3.</span> <span class="nav-text">实现细节</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个🌰"><span class="nav-number">1.</span> <span class="nav-text">一个🌰</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义draggable元素"><span class="nav-number">1.1.</span> <span class="nav-text">定义draggable元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义drag事件"><span class="nav-number">1.2.</span> <span class="nav-text">定义drag事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义droppable元素"><span class="nav-number">1.3.</span> <span class="nav-text">定义droppable元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义drop事件"><span class="nav-number">1.4.</span> <span class="nav-text">定义drop事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DragEvent"><span class="nav-number">2.</span> <span class="nav-text">DragEvent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-type"><span class="nav-number">2.1.</span> <span class="nav-text">Event type</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataTransfer"><span class="nav-number">3.</span> <span class="nav-text">DataTransfer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">3.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">3.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drag-data-types"><span class="nav-number">4.</span> <span class="nav-text">Drag data types</span></a></li></ol></div>
             
 
           </div>
