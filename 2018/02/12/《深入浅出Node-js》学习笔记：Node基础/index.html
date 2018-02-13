@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="碎碎念," />
+  <meta name="keywords" content="NodeJS," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="这份恐惧，谁能理解？我哭着醒来，一直一直，无法入睡。时间回到2015年11月11日，第二天便是我的生日。这是我一直想忘记的一天。都说失恋而已，时间是解药。然而我并不是忘不掉那个人，相反我已然已经记住不他的名字。我无法忘记的是那份恐惧，那份无助。我是怎样的一个人？他说我是神经病。他轻蔑的眼神。他迫切想要甩掉我的神情。我那时知道，我是怎样的一个人。我卑微，我愚笨，我一无是处。那一天，使我痛到无法呼吸的">
-<meta name="keywords" content="碎碎念">
+<meta name="description" content="Node的特点non-blocking I/O、event-driven、单线程、跨平台 异步I/O 定义：I/O是input/output的简写 优点：是无阻塞（non-blocking) 对比：同步I/O是阻塞的，执行相同数量的同步I/O操作的耗时比异步I/O多 应用：读取文件，发送网络请求  事件驱动（event-driven） 实质：通过主循环加事件触发的方式来运行程序 优点：事件的编程方">
+<meta name="keywords" content="NodeJS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="因为恐惧，所以放弃">
-<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/16/因为恐惧，所以放弃/index.html">
+<meta property="og:title" content="《深入浅出Node.js》学习笔记：Node基础">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/02/12/《深入浅出Node-js》学习笔记：Node基础/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="这份恐惧，谁能理解？我哭着醒来，一直一直，无法入睡。时间回到2015年11月11日，第二天便是我的生日。这是我一直想忘记的一天。都说失恋而已，时间是解药。然而我并不是忘不掉那个人，相反我已然已经记住不他的名字。我无法忘记的是那份恐惧，那份无助。我是怎样的一个人？他说我是神经病。他轻蔑的眼神。他迫切想要甩掉我的神情。我那时知道，我是怎样的一个人。我卑微，我愚笨，我一无是处。那一天，使我痛到无法呼吸的">
+<meta property="og:description" content="Node的特点non-blocking I/O、event-driven、单线程、跨平台 异步I/O 定义：I/O是input/output的简写 优点：是无阻塞（non-blocking) 对比：同步I/O是阻塞的，执行相同数量的同步I/O操作的耗时比异步I/O多 应用：读取文件，发送网络请求  事件驱动（event-driven） 实质：通过主循环加事件触发的方式来运行程序 优点：事件的编程方">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-20T11:38:15.211Z">
+<meta property="og:updated_time" content="2018-02-13T06:14:21.031Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="因为恐惧，所以放弃">
-<meta name="twitter:description" content="这份恐惧，谁能理解？我哭着醒来，一直一直，无法入睡。时间回到2015年11月11日，第二天便是我的生日。这是我一直想忘记的一天。都说失恋而已，时间是解药。然而我并不是忘不掉那个人，相反我已然已经记住不他的名字。我无法忘记的是那份恐惧，那份无助。我是怎样的一个人？他说我是神经病。他轻蔑的眼神。他迫切想要甩掉我的神情。我那时知道，我是怎样的一个人。我卑微，我愚笨，我一无是处。那一天，使我痛到无法呼吸的">
+<meta name="twitter:title" content="《深入浅出Node.js》学习笔记：Node基础">
+<meta name="twitter:description" content="Node的特点non-blocking I/O、event-driven、单线程、跨平台 异步I/O 定义：I/O是input/output的简写 优点：是无阻塞（non-blocking) 对比：同步I/O是阻塞的，执行相同数量的同步I/O操作的耗时比异步I/O多 应用：读取文件，发送网络请求  事件驱动（event-driven） 实质：通过主循环加事件触发的方式来运行程序 优点：事件的编程方">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/01/16/因为恐惧，所以放弃/"/>
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/02/12/《深入浅出Node-js》学习笔记：Node基础/"/>
 
 
 
 
 
-  <title>因为恐惧，所以放弃 | XIAOXIAOJING</title>
+  <title>《深入浅出Node.js》学习笔记：Node基础 | XIAOXIAOJING</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/16/因为恐惧，所以放弃/">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/02/12/《深入浅出Node-js》学习笔记：Node基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TJ">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">因为恐惧，所以放弃</h1>
+          <h1 class="post-title" itemprop="name headline">《深入浅出Node.js》学习笔记：Node基础</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-16T03:43:33+08:00">
-                2018-01-16
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-12T15:50:13+08:00">
+                2018-02-12
               </time>
             
 
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-20T19:38:15+08:00">
-                2018-01-20
+              <time title="Post modified" itemprop="dateModified" datetime="2018-02-13T14:14:21+08:00">
+                2018-02-13
               </time>
             
           </span>
@@ -317,8 +317,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/碎碎念/" itemprop="url" rel="index">
-                    <span itemprop="name">碎碎念</span>
+                  <a href="/categories/NodeJS/" itemprop="url" rel="index">
+                    <span itemprop="name">NodeJS</span>
                   </a>
                 </span>
 
@@ -354,9 +354,34 @@
       
 
       
-        <p>这份恐惧，谁能理解？<br>我哭着醒来，一直一直，无法入睡。<br>时间回到2015年11月11日，第二天便是我的生日。这是我一直想忘记的一天。<br>都说失恋而已，时间是解药。然而我并不是忘不掉那个人，相反我已然已经记住不他的名字。我无法忘记的是那份恐惧，那份无助。<br>我是怎样的一个人？<br>他说我是神经病。他轻蔑的眼神。他迫切想要甩掉我的神情。<br>我那时知道，我是怎样的一个人。我卑微，我愚笨，我一无是处。<br>那一天，使我痛到无法呼吸的是对自我的怀疑，那些过往的日子，我一直一直依附他而活，无时无刻都会想起他，关注他，想要一生一世。那些过往的日子在这一天成了笑话。我怀疑我自己，我自卑到无法再次正视自己。<br>那份恐惧，谁能理解？<br>当忽然发现自己的懦弱，自卑。想要抓住一切，却发现是自己想得太美好。自己认为的得到的真爱原来只是一点喜欢，在这最后竟变成了万分憎恶。<br>那一天，我哭的无法站立，我仰望着天花板，一遍一遍地对自己说：别怕，忘记这份恐惧，别怕，忘记这份恐惧，别怕，忘记这份恐惧</p>
-<p>时间拉回到今天，是什么让我记起了那份恐惧？<br>我怕得发抖蜷缩着，哭泣着。无法抑制的泪水将我从梦中唤醒。<br>是什么让我再次恐惧？<br>是了，我知道了。我现在牵挂的人，想要一生一世的人。他如同以前那个他一样。并不是那么喜欢我。他忽视我。他不会主动联系我。无数个碎片的记忆，拼出一个事实。这个人不会珍惜我。这个人会伤害我。这个人绝对不可以再去靠近。<br>我怕了，我真的怕了，我无法想象自己再次卑微地去活着，去讨好，去迷失，会变成怎样。<br>那种不被珍惜的恐惧，那种随时都会被丢弃的恐惧，那种失去自我的恐惧。</p>
-<p>因为恐惧，所以放弃<br>那是我再也无法承受的恐惧，我不会再去尝试。我宁愿将那份正在成长的恋放弃，也不会再去接近他。<br>我宁愿一个人寂寞地活着，也不要再次经历那份恐惧。<br>我宁愿一个人<br>我真的怕了</p>
+        <h2 id="Node的特点"><a href="#Node的特点" class="headerlink" title="Node的特点"></a>Node的特点</h2><p>non-blocking I/O、event-driven、单线程、跨平台</p>
+<h3 id="异步I-O"><a href="#异步I-O" class="headerlink" title="异步I/O"></a>异步I/O</h3><ol>
+<li>定义：I/O是input/output的简写</li>
+<li>优点：是无阻塞（non-blocking)</li>
+<li>对比：同步I/O是阻塞的，执行相同数量的同步I/O操作的耗时比异步I/O多</li>
+<li>应用：读取文件，发送网络请求</li>
+</ol>
+<h3 id="事件驱动（event-driven）"><a href="#事件驱动（event-driven）" class="headerlink" title="事件驱动（event-driven）"></a>事件驱动（event-driven）</h3><ol>
+<li>实质：通过主循环加事件触发的方式来运行程序</li>
+<li>优点：事件的编程方式具有轻量级、松耦合、只关注事务点等优势</li>
+<li>存在的问题：异步的场景下，事件与事件之间是各自独立的，他们之间的协作是一个问题</li>
+</ol>
+<h3 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h3><ol>
+<li>对比多线程有的好处：<ul>
+<li>不用在意状态同步问题；</li>
+<li>没有死锁的存在；</li>
+<li>没有线程上下文交换所带来的性能上的开销</li>
+</ul>
+</li>
+<li>单线程的缺点：<ul>
+<li>无法利用多核CPU</li>
+<li>错误会引起整个应用退出，应用的健壮性值得考验</li>
+<li>大量计算占用CPU导致无法继续调用异步I/O</li>
+</ul>
+</li>
+<li>解决方案：node使用child_process解决上诉缺点</li>
+</ol>
+<h2 id="Node的应用场景"><a href="#Node的应用场景" class="headerlink" title="Node的应用场景"></a>Node的应用场景</h2><p>Node适用的场景是I/O密集型，不擅长CPU密集型业务<br>由于Node是单线程的，如果有长时间运行的计算（即：CPU密集型业务），会导致线程一直被占用，使得后面的I/O操作无法执行<br>解决方法：编写C/C++扩展、使用子进程</p>
 
       
     </div>
@@ -374,7 +399,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/碎碎念/" rel="tag"># 碎碎念</a>
+            <a href="/tags/NodeJS/" rel="tag"># NodeJS</a>
           
         </div>
       
@@ -387,8 +412,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/13/React学习：React的生命周期/" rel="next" title="React学习：React的生命周期">
-                <i class="fa fa-chevron-left"></i> React学习：React的生命周期
+              <a href="/2018/02/02/使用鼠标事件实现拖拽/" rel="next" title="使用鼠标事件实现拖拽">
+                <i class="fa fa-chevron-left"></i> 使用鼠标事件实现拖拽
               </a>
             
           </div>
@@ -397,8 +422,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/17/React学习：React-Element/" rel="prev" title="React学习：React Element">
-                React学习：React Element <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/" rel="prev" title="《深入浅出Node.js》学习笔记：模块机制">
+                《深入浅出Node.js》学习笔记：模块机制 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -453,8 +478,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -534,6 +568,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node的特点"><span class="nav-number">1.</span> <span class="nav-text">Node的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异步I-O"><span class="nav-number">1.1.</span> <span class="nav-text">异步I/O</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件驱动（event-driven）"><span class="nav-number">1.2.</span> <span class="nav-text">事件驱动（event-driven）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单线程"><span class="nav-number">1.3.</span> <span class="nav-text">单线程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node的应用场景"><span class="nav-number">2.</span> <span class="nav-text">Node的应用场景</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
