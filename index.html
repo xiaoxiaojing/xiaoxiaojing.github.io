@@ -252,6 +252,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/02/26/JS基础：模块化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/26/JS基础：模块化/" itemprop="url">JS基础：模块化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-26T15:47:18+08:00">
+                2018-02-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2018-02-26T17:04:02+08:00">
+                2018-02-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          JS为什么需要模块化JS最初通过script加载文件，这时将一个文件看做一个模块，将需要暴露的变量和方法设置到window对象上
+使用script加载文件存在的以下问题：
+
+命令冲突：污染全局作用域
+依赖管理：开发人员必须主观解决模块和代码库的依赖关系
+文件加载：文件只能按照script标签的书写顺
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/26/JS基础：模块化/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -299,8 +464,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-02-14T00:05:35+08:00">
-                2018-02-14
+              <time title="Post modified" itemprop="dateModified" datetime="2018-02-26T18:19:38+08:00">
+                2018-02-26
               </time>
             
           </span>
@@ -357,12 +522,14 @@
       
         
           
-          模块规范Node与浏览器以及W3C组织、CommonJS组织、ECMAScript之间的关系
+          Node借鉴CommonJS的Modules规范实现了一套非常易用的模块系统
 
 
-前后端JavaScript的区别
-浏览器端的JavaScript：需要从一个服务器端分发到多个客户端去执行，需要通过网络加载代码（瓶颈是带宽）。
-服务器端的JavaScript：相同的代码需要多次执行，
+Node的模块Node的模块实现遵守了CommonJS规范
+模块引入Node引入模块需要经历三个步骤：路径分析、文件定位、编译执行
+
+
+模块缓存Node对引入过的模块都会进行缓存，以减少二次引入的开销Node缓存的是引
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1705,166 +1872,6 @@ Reconciliation: The algorithm React uses to diff one tree with another to determ
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/16/因为恐惧，所以放弃/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="TJ">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="XIAOXIAOJING">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/16/因为恐惧，所以放弃/" itemprop="url">因为恐惧，所以放弃</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-16T03:43:33+08:00">
-                2018-01-16
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Post modified&#58;</span>
-              
-              <time title="Post modified" itemprop="dateModified" datetime="2018-01-20T19:38:15+08:00">
-                2018-01-20
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/碎碎念/" itemprop="url" rel="index">
-                    <span itemprop="name">碎碎念</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          这份恐惧，谁能理解？我哭着醒来，一直一直，无法入睡。时间回到2015年11月11日，第二天便是我的生日。这是我一直想忘记的一天。都说失恋而已，时间是解药。然而我并不是忘不掉那个人，相反我已然已经记住不他的名字。我无法忘记的是那份恐惧，那份无助。我是怎样的一个人？他说我是神经病。他轻蔑的眼神。他迫切想
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/16/因为恐惧，所以放弃/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1919,7 +1926,7 @@ Reconciliation: The algorithm React uses to diff one tree with another to determ
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1930,7 +1937,7 @@ Reconciliation: The algorithm React uses to diff one tree with another to determ
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

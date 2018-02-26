@@ -79,19 +79,21 @@
 
 
 
-<meta name="description" content="模块规范Node与浏览器以及W3C组织、CommonJS组织、ECMAScript之间的关系   前后端JavaScript的区别 浏览器端的JavaScript：需要从一个服务器端分发到多个客户端去执行，需要通过网络加载代码（瓶颈是带宽）。 服务器端的JavaScript：相同的代码需要多次执行，需要从磁盘中加载代码（瓶颈是CPU和内存等资源）  CommonJS模块规范 模块引用：使用requ">
+<meta name="description" content="Node借鉴CommonJS的Modules规范实现了一套非常易用的模块系统   Node的模块Node的模块实现遵守了CommonJS规范 模块引入Node引入模块需要经历三个步骤：路径分析、文件定位、编译执行   模块缓存Node对引入过的模块都会进行缓存，以减少二次引入的开销Node缓存的是引入的模块编译和执行之后的对象 模块分类 核心模块：Node提供的 核心模块部分在 Node源代码 的">
 <meta name="keywords" content="NodeJS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《深入浅出Node.js》学习笔记：模块机制">
 <meta property="og:url" content="http://xiaoxiaojing.github.io/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="模块规范Node与浏览器以及W3C组织、CommonJS组织、ECMAScript之间的关系   前后端JavaScript的区别 浏览器端的JavaScript：需要从一个服务器端分发到多个客户端去执行，需要通过网络加载代码（瓶颈是带宽）。 服务器端的JavaScript：相同的代码需要多次执行，需要从磁盘中加载代码（瓶颈是CPU和内存等资源）  CommonJS模块规范 模块引用：使用requ">
+<meta property="og:description" content="Node借鉴CommonJS的Modules规范实现了一套非常易用的模块系统   Node的模块Node的模块实现遵守了CommonJS规范 模块引入Node引入模块需要经历三个步骤：路径分析、文件定位、编译执行   模块缓存Node对引入过的模块都会进行缓存，以减少二次引入的开销Node缓存的是引入的模块编译和执行之后的对象 模块分类 核心模块：Node提供的 核心模块部分在 Node源代码 的">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://xiaoxiaojing.github.io/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/node、w3c、commonJs的关系.jpg">
-<meta property="og:updated_time" content="2018-02-13T16:05:35.029Z">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/模块引入流程.png">
+<meta property="og:image" content="http://xiaoxiaojing.github.io/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/模块之间的调用关系.jpg">
+<meta property="og:updated_time" content="2018-02-26T10:19:38.515Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《深入浅出Node.js》学习笔记：模块机制">
-<meta name="twitter:description" content="模块规范Node与浏览器以及W3C组织、CommonJS组织、ECMAScript之间的关系   前后端JavaScript的区别 浏览器端的JavaScript：需要从一个服务器端分发到多个客户端去执行，需要通过网络加载代码（瓶颈是带宽）。 服务器端的JavaScript：相同的代码需要多次执行，需要从磁盘中加载代码（瓶颈是CPU和内存等资源）  CommonJS模块规范 模块引用：使用requ">
+<meta name="twitter:description" content="Node借鉴CommonJS的Modules规范实现了一套非常易用的模块系统   Node的模块Node的模块实现遵守了CommonJS规范 模块引入Node引入模块需要经历三个步骤：路径分析、文件定位、编译执行   模块缓存Node对引入过的模块都会进行缓存，以减少二次引入的开销Node缓存的是引入的模块编译和执行之后的对象 模块分类 核心模块：Node提供的 核心模块部分在 Node源代码 的">
 <meta name="twitter:image" content="http://xiaoxiaojing.github.io/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/node、w3c、commonJs的关系.jpg">
 
 
@@ -300,8 +302,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-02-14T00:05:35+08:00">
-                2018-02-14
+              <time title="Post modified" itemprop="dateModified" datetime="2018-02-26T18:19:38+08:00">
+                2018-02-26
               </time>
             
           </span>
@@ -356,34 +358,37 @@
       
 
       
-        <h2 id="模块规范"><a href="#模块规范" class="headerlink" title="模块规范"></a>模块规范</h2><p>Node与浏览器以及W3C组织、CommonJS组织、ECMAScript之间的关系</p>
+        <p>Node借鉴CommonJS的Modules规范实现了一套非常易用的模块系统</p>
 <div style="max-width: 800px"><br><img src="/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/node、w3c、commonJs的关系.jpg" alt="node、w3c、commonJs的关系.jpg" title=""><br></div>
 
-<h3 id="前后端JavaScript的区别"><a href="#前后端JavaScript的区别" class="headerlink" title="前后端JavaScript的区别"></a>前后端JavaScript的区别</h3><ul>
-<li>浏览器端的JavaScript：需要从一个服务器端分发到多个客户端去执行，需要通过网络加载代码（瓶颈是<strong>带宽</strong>）。</li>
-<li>服务器端的JavaScript：相同的代码需要多次执行，需要从磁盘中加载代码（瓶颈是<strong>CPU和内存等资源</strong>）</li>
-</ul>
-<h3 id="CommonJS模块规范"><a href="#CommonJS模块规范" class="headerlink" title="CommonJS模块规范"></a>CommonJS模块规范</h3><ol>
-<li>模块引用：使用<code>require()</code>方法，引入一个模块的API</li>
-<li>模块定义<ul>
-<li>每个模块中都存在<code>module</code>对象，代表模块自身。<code>exports</code>是<code>module</code>的属性；</li>
-<li>使用<code>exports</code>导出当前模块中的方法或变量</li>
-</ul>
-</li>
-<li>模块标识<ul>
-<li>模块标识就是传递给<code>require()</code>方法的参数，它必须是符合小驼峰命名的字符串，或者以<code>.</code>、<code>..</code>开头的相对路径，或者绝对路径。它可以没有文件名后缀<code>.js</code></li>
+<h2 id="Node的模块"><a href="#Node的模块" class="headerlink" title="Node的模块"></a>Node的模块</h2><p>Node的模块实现遵守了CommonJS规范</p>
+<h3 id="模块引入"><a href="#模块引入" class="headerlink" title="模块引入"></a>模块引入</h3><p>Node引入模块需要经历三个步骤：路径分析、文件定位、编译执行</p>
+<div style="max-width: 800px"><br><img src="/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/模块引入流程.png" alt="模块引入流程" title="模块引入流程"><br></div>
+
+<h3 id="模块缓存"><a href="#模块缓存" class="headerlink" title="模块缓存"></a>模块缓存</h3><p>Node对引入过的模块都会进行缓存，以减少二次引入的开销<br>Node缓存的是引入的模块编译和执行之后的对象</p>
+<h3 id="模块分类"><a href="#模块分类" class="headerlink" title="模块分类"></a>模块分类</h3><ol>
+<li>核心模块：Node提供的<ul>
+<li>核心模块部分在 <strong>Node源代码</strong> 的编译过程中，编译进了二进制执行文件。在Node进程启动时，部分核心模块就被直接加载进 <strong>内存</strong> 中，所以这部分核心模块引入时，文件定位和编译执行这两个步骤可以省略掉，并且在 <strong>路径分析中优先判断</strong>，所以它的加载速度是最快的</li>
 </ul>
 </li>
-</ol>
-<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><blockquote>
-<p><a href="https://github.com/amdjs/amdjs-api/blob/master/AMD.md" target="_blank" rel="external">AMD</a><br>The Asynchronous Module Definition (AMD) API specifies a mechanism for defining modules such that the module and its dependencies can be asynchronously loaded. This is particularly well suited for the browser environment where synchronous loading of modules incurs performance, usability, debugging, and cross-domain access problems.</p>
-</blockquote>
-<p>AMD（Asynchronous Module Definition）规范是CommonJS的一个延伸。<br>AMD规范中，依赖是异步加载的。因为在浏览器中，是通过网络加载代码的，使用异步加载可以充分利用带宽，提高性能。</p>
-<ol>
-<li>模块定义：（）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">define(id?, dependencies?, factory)</div></pre></td></tr></table></figure>
+<li>文件模块：用户编写的<ul>
+<li>文件模块则是 <strong>在运行时动态加载</strong>，需要完整的路径分析、文件定位、编译执行过程，速度比核心模块慢</li>
+</ul>
 </li>
 </ol>
-<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><h2 id="Node的模块实现"><a href="#Node的模块实现" class="headerlink" title="Node的模块实现"></a>Node的模块实现</h2><h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><h2 id="C-C-扩展模块"><a href="#C-C-扩展模块" class="headerlink" title="C/C++扩展模块"></a>C/C++扩展模块</h2><h2 id="模块调用栈"><a href="#模块调用栈" class="headerlink" title="模块调用栈"></a>模块调用栈</h2><h2 id="包与NPM"><a href="#包与NPM" class="headerlink" title="包与NPM"></a>包与NPM</h2>
+<h3 id="模块对象"><a href="#模块对象" class="headerlink" title="模块对象"></a>模块对象</h3><p>在Node中，每个文件模块都是一个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function Module(id, parent) &#123;</div><div class="line">  this.id = id;</div><div class="line">  this.exports = &#123;&#125;;</div><div class="line">  this.parent = parent;</div><div class="line">  if (parent &amp;&amp; parent.children) &#123;   </div><div class="line">    parent.children.push(this);</div><div class="line">  &#125;</div><div class="line">  this.filename = null;</div><div class="line">  this.loaded = false;</div><div class="line">  this.children = [];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="模块编译过程"><a href="#模块编译过程" class="headerlink" title="模块编译过程"></a>模块编译过程</h3><p>Node已有的加载方式有三种，可以通过<code>require.extensions</code>查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &apos;.js&apos;: [Function], &apos;.json&apos;: [Function], &apos;.node&apos;: [Function] &#125;</div></pre></td></tr></table></figure></p>
+<p>在对javascript模块编译过程中，会对文件进行头尾包装，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(function(exports, require, module, __filename, __dirname)&#123;</div><div class="line">  var math = require(&apos;math&apos;)</div><div class="line">  module.exports = &#123;</div><div class="line">    ping: &apos;pong&apos;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="模块调用栈"><a href="#模块调用栈" class="headerlink" title="模块调用栈"></a>模块调用栈</h2><p>文件模块、核心模块、C/C++内建模块和C/C++扩展模块的调用关系如下：</p>
+<div style="max-width: 800px"><br><img src="/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/模块之间的调用关系.jpg" alt="模块之间的调用关系.jpg" title=""><br></div>
+
+<p>C/C++内建模块是最底层的模块也是核心模块，主要提供API给JavaScript核心模块和 第三方JavaScript文件模块调用</p>
+<p>JavaScript核心模块主要扮演的职责有两类</p>
+<ul>
+<li>一类是作为C/C++内建模块的封装层和桥接层， 供文件模块调用</li>
+<li>一类是纯粹的功能模块，它不需要跟底层打交道，但是又十分重要</li>
+</ul>
+
       
     </div>
     
@@ -422,6 +427,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/26/JS基础：模块化/" rel="prev" title="JS基础：模块化">
+                JS基础：模块化 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -504,7 +513,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -515,7 +524,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -575,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模块规范"><span class="nav-number">1.</span> <span class="nav-text">模块规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前后端JavaScript的区别"><span class="nav-number">1.1.</span> <span class="nav-text">前后端JavaScript的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CommonJS模块规范"><span class="nav-number">1.2.</span> <span class="nav-text">CommonJS模块规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AMD"><span class="nav-number">1.3.</span> <span class="nav-text">AMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD"><span class="nav-number">1.4.</span> <span class="nav-text">CMD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node的模块实现"><span class="nav-number">2.</span> <span class="nav-text">Node的模块实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心模块"><span class="nav-number">3.</span> <span class="nav-text">核心模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-C-扩展模块"><span class="nav-number">4.</span> <span class="nav-text">C/C++扩展模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块调用栈"><span class="nav-number">5.</span> <span class="nav-text">模块调用栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包与NPM"><span class="nav-number">6.</span> <span class="nav-text">包与NPM</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node的模块"><span class="nav-number">1.</span> <span class="nav-text">Node的模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模块引入"><span class="nav-number">1.1.</span> <span class="nav-text">模块引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块缓存"><span class="nav-number">1.2.</span> <span class="nav-text">模块缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块分类"><span class="nav-number">1.3.</span> <span class="nav-text">模块分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块对象"><span class="nav-number">1.4.</span> <span class="nav-text">模块对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块编译过程"><span class="nav-number">1.5.</span> <span class="nav-text">模块编译过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块调用栈"><span class="nav-number">2.</span> <span class="nav-text">模块调用栈</span></a></li></ol></div>
             
 
           </div>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="封装用于绑定事件的函数查看：代码演示123456789101112131415161718// 封装一个addListener操作const dom = &amp;#123;  addListener (target, eventType, handler) &amp;#123;    if (target.addEventListener) &amp;#123;      target.addEventListener">
+<meta name="description" content="JS为什么需要模块化JS最初通过script加载文件，这时将一个文件看做一个模块，将需要暴露的变量和方法设置到window对象上 使用script加载文件存在的以下问题：  命令冲突：污染全局作用域 依赖管理：开发人员必须主观解决模块和代码库的依赖关系 文件加载：文件只能按照script标签的书写顺序进行加载 代码库混乱：在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪  Commo">
 <meta name="keywords" content="javascript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS基础：事件绑定">
-<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/01/31/JS基础：事件绑定/index.html">
+<meta property="og:title" content="JS基础：模块化">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/02/26/JS基础：模块化/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="封装用于绑定事件的函数查看：代码演示123456789101112131415161718// 封装一个addListener操作const dom = &amp;#123;  addListener (target, eventType, handler) &amp;#123;    if (target.addEventListener) &amp;#123;      target.addEventListener">
+<meta property="og:description" content="JS为什么需要模块化JS最初通过script加载文件，这时将一个文件看做一个模块，将需要暴露的变量和方法设置到window对象上 使用script加载文件存在的以下问题：  命令冲突：污染全局作用域 依赖管理：开发人员必须主观解决模块和代码库的依赖关系 文件加载：文件只能按照script标签的书写顺序进行加载 代码库混乱：在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪  Commo">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-02-02T01:59:51.715Z">
+<meta property="og:updated_time" content="2018-02-26T09:04:02.928Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS基础：事件绑定">
-<meta name="twitter:description" content="封装用于绑定事件的函数查看：代码演示123456789101112131415161718// 封装一个addListener操作const dom = &amp;#123;  addListener (target, eventType, handler) &amp;#123;    if (target.addEventListener) &amp;#123;      target.addEventListener">
+<meta name="twitter:title" content="JS基础：模块化">
+<meta name="twitter:description" content="JS为什么需要模块化JS最初通过script加载文件，这时将一个文件看做一个模块，将需要暴露的变量和方法设置到window对象上 使用script加载文件存在的以下问题：  命令冲突：污染全局作用域 依赖管理：开发人员必须主观解决模块和代码库的依赖关系 文件加载：文件只能按照script标签的书写顺序进行加载 代码库混乱：在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪  Commo">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/01/31/JS基础：事件绑定/"/>
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/02/26/JS基础：模块化/"/>
 
 
 
 
 
-  <title>JS基础：事件绑定 | XIAOXIAOJING</title>
+  <title>JS基础：模块化 | XIAOXIAOJING</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/01/31/JS基础：事件绑定/">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/02/26/JS基础：模块化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TJ">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JS基础：事件绑定</h1>
+          <h1 class="post-title" itemprop="name headline">JS基础：模块化</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-31T22:34:09+08:00">
-                2018-01-31
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-26T15:47:18+08:00">
+                2018-02-26
               </time>
             
 
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-02-02T09:59:51+08:00">
-                2018-02-02
+              <time title="Post modified" itemprop="dateModified" datetime="2018-02-26T17:04:02+08:00">
+                2018-02-26
               </time>
             
           </span>
@@ -317,8 +317,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
                   </a>
                 </span>
 
@@ -354,20 +354,48 @@
       
 
       
-        <h2 id="封装用于绑定事件的函数"><a href="#封装用于绑定事件的函数" class="headerlink" title="封装用于绑定事件的函数"></a>封装用于绑定事件的函数</h2><p>查看：<a href="http://jsfiddle.net/07w35vwa/7/" target="_blank" rel="external">代码演示</a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 封装一个addListener操作</span></div><div class="line"><span class="keyword">const</span> dom = &#123;</div><div class="line">  addListener (target, eventType, handler) &#123;</div><div class="line">    <span class="keyword">if</span> (target.addEventListener) &#123;</div><div class="line">      target.addEventListener(eventType, handler, <span class="literal">false</span>)</div><div class="line"></div><div class="line">      <span class="keyword">return</span> &#123;</div><div class="line">        remove: target.removeEventListener.bind(target, eventType, handler, <span class="literal">false</span>)</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target.attachEvent) &#123;</div><div class="line">      target.attachEvent(<span class="string">`on<span class="subst">$&#123;eventType&#125;</span>`</span>, handler, <span class="literal">false</span>)</div><div class="line"></div><div class="line">      <span class="keyword">return</span> &#123;</div><div class="line">        remove: target.detachEvent.bind(target, <span class="string">`on<span class="subst">$&#123;eventType&#125;</span>`</span>, handler, <span class="literal">false</span>)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="EventTarget"><a href="#EventTarget" class="headerlink" title="EventTarget"></a>EventTarget</h2><p>EventTarget可以绑定监听器监听事件。<br>EventTarget有：Element，document，window，XMLHttpRequest等</p>
-<h3 id="EventTarget的方法"><a href="#EventTarget的方法" class="headerlink" title="EventTarget的方法"></a>EventTarget的方法</h3><h4 id="addEventListener"><a href="#addEventListener" class="headerlink" title="addEventListener()"></a>addEventListener()</h4><p>（IE中与其对应：attachEvent）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 第三个参数可以是options（Object）或useCapture（boolean）</div><div class="line">target.addEventListener(type, listener[, options]);</div><div class="line">target.addEventListener(type, listener[, useCapture]);</div><div class="line"></div><div class="line">// options的取值</div><div class="line">&#123;</div><div class="line">  capture: true|false, // true: 表示事件回调在捕获阶段被触发</div><div class="line">  once: true|false,    // true: 监听器被触发一次后会自动移除</div><div class="line">  passive: true|false  // true: 用于显示的说明事件回调绝对不会调用preventDefault()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>【对比】<br>与原生的<code>dom.onClick</code>相比：addEventListener可以添加多个listener</p>
-<p>【特点】<br>定义重复的listener（回调函数相同）：只会调用一次，其他重复的会被忽略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 点击div元素时，只会输出一个&apos;test&apos;</div><div class="line">const handler = (e) =&gt; &#123;</div><div class="line">	console.log(&apos;test&apos;)</div><div class="line">&#125;</div><div class="line">document.querySelector(&apos;div&apos;).addEventListener(&apos;click&apos;, handler, &#123;&#125;)</div><div class="line">document.querySelector(&apos;div&apos;).addEventListener(&apos;click&apos;, handler, &#123;&#125;)</div></pre></td></tr></table></figure></p>
-<p>【拓展】<br><a href="https://juejin.im/entry/59dd88ec51882578ce26e6c7" target="_blank" rel="external">移动端Web界面滚动性能优化: Passive event listeners</a></p>
-<h4 id="removeEventListener"><a href="#removeEventListener" class="headerlink" title="removeEventListener"></a>removeEventListener</h4><p>（IE中与其对应：detachEvent）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">target.removeEventListener(type, listener[, options]);</div><div class="line">target.removeEventListener(type, listener[, useCapture]);</div><div class="line"></div><div class="line">// options的取值</div><div class="line">&#123;</div><div class="line">  capture,</div><div class="line">  passive</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="dispatchEvent"><a href="#dispatchEvent" class="headerlink" title="dispatchEvent"></a>dispatchEvent</h4><p>（IE中与其对应：fireEvent）<br>用于触发一个事件，event可以为内置事件（<code>click</code>等），也可以为自定义事件（<code>new Event(&#39;build&#39;)</code>）<br>可以通过返回值判断该事件是否被取消了，调用<code>event.preventDefault()</code>可以取消事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cancelled = !target.dispatchEvent(event)</div></pre></td></tr></table></figure></p>
-<h3 id="EventTarget的属性"><a href="#EventTarget的属性" class="headerlink" title="EventTarget的属性"></a>EventTarget的属性</h3><h4 id="mouseenter与mouseover"><a href="#mouseenter与mouseover" class="headerlink" title="mouseenter与mouseover"></a>mouseenter与mouseover</h4><p>相同：mouseenter和mouseover的事件回调都会在鼠标进入元素时触发<br>不同：mouseenter在捕获阶段被触发，mouseover在冒泡阶段被触发。当鼠标从父元素进入子元素时，mouseenter事件不会冒泡，mouseover的事件会冒泡<br>（mouseleave和mouseout类似）</p>
-<hr>
-<p>参考链接</p>
+        <h2 id="JS为什么需要模块化"><a href="#JS为什么需要模块化" class="headerlink" title="JS为什么需要模块化"></a>JS为什么需要模块化</h2><p>JS最初通过script加载文件，这时将一个文件看做一个模块，将需要暴露的变量和方法设置到<code>window</code>对象上</p>
+<p>使用script加载文件存在的以下问题：</p>
+<ol>
+<li>命令冲突：污染全局作用域</li>
+<li>依赖管理：开发人员必须主观解决模块和代码库的依赖关系</li>
+<li>文件加载：文件只能按照script标签的书写顺序进行加载</li>
+<li>代码库混乱：在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪</li>
+</ol>
+<h2 id="CommonJS、AMD、CMD"><a href="#CommonJS、AMD、CMD" class="headerlink" title="CommonJS、AMD、CMD"></a>CommonJS、AMD、CMD</h2><p>前后端JavaScript的区别</p>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget" target="_blank" rel="external">EventTarget API</a></li>
-<li><a href="https://developers.google.cn/web/tools/lighthouse/audits/passive-event-listeners" target="_blank" rel="external">Uses Passive Event Listeners to Improve Scrolling Performance</a></li>
+<li>浏览器端的JavaScript：需要从一个服务器端分发到多个客户端去执行，需要通过网络加载代码（瓶颈：<strong>带宽</strong>）。</li>
+<li>服务器端的JavaScript：相同的代码需要多次执行，需要从磁盘中加载代码（瓶颈：<strong>CPU和内存等资源</strong>）</li>
+</ul>
+<h3 id="CommonJS规范"><a href="#CommonJS规范" class="headerlink" title="CommonJS规范"></a><a href="http://wiki.commonjs.org/wiki/Modules/1.1.1#Module_Identifiers" target="_blank" rel="external">CommonJS规范</a></h3><p>CommonJS对模块的定义主要分为以下三部分：</p>
+<ol>
+<li>模块引用：使用<code>require()</code>方法，引入一个模块的API</li>
+<li>模块定义<ul>
+<li>每个模块中都存在<code>module</code>对象，代表模块自身。<code>exports</code>是<code>module</code>的属性；</li>
+<li>使用<code>exports</code>导出当前模块中的方法或变量</li>
+</ul>
+</li>
+<li>模块标识<ul>
+<li>模块标识就是传递给<code>require()</code>方法的参数，它必须是符合小驼峰命名的字符串，或者以<code>.</code>、<code>..</code>开头的相对路径，或者绝对路径。它可以没有文件名后缀<code>.js</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="AMD规范"><a href="#AMD规范" class="headerlink" title="AMD规范"></a><a href="https://github.com/amdjs/amdjs-api/blob/master/AMD.md" target="_blank" rel="external">AMD规范</a></h3><p>AMD（Asynchronous Module Definition）规范是CommonJS的一个延伸。</p>
+<p>AMD规范中，依赖是异步加载，提前加载的</p>
+<ul>
+<li>AMD规范中，依赖是异步加载的。因为在浏览器中，是通过网络加载代码的，使用异步加载可以充分利用带宽，提高性能。</li>
+<li>AMD规范中，由于依赖是异步加载的，所以一个模块必须等到他的所有依赖加载完毕才能开始执行。</li>
+</ul>
+<p>AMD规范中，需要通过<code>define()</code>来显示定义一个模块，通过<code>return</code>来实现导出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">define(id?, dependencies?, factory)</div><div class="line"></div><div class="line">// factory</div><div class="line">function () &#123;</div><div class="line">  const exports = &#123;&#125;</div><div class="line">  exports.sayHello = function () &#123;&#125;</div><div class="line">  return exports</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="CMD规范"><a href="#CMD规范" class="headerlink" title="CMD规范"></a><a href="https://github.com/cmdjs/specification/blob/master/draft/module.md" target="_blank" rel="external">CMD规范</a></h3><p>CMD（Common Module Definition）规范与CommonJS规范定义保持一致<br>CMD规范中，依赖可以动态引入，依赖是按需加载的</p>
+<p>CMD规范中，需要通过<code>define()</code>来显示定义一个模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(factory)</div><div class="line"></div><div class="line">// factory</div><div class="line">function(require, exports, module) &#123;</div><div class="line">  exports.sayHello = function () &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>CommonJS定义模块定义和依赖引入的规范。但是由于浏览器环境限制，同步加载影响性能，所以前端采用AMD和CMD规范。<br>AMD规范主要特点是：依赖是异步加载，提前加载的<br>CMD规范主要特点是：依赖可以动态引入，依赖是按需加载的</p>
+<hr>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.bijishequ.com/detail/326103" target="_blank" rel="external">理解JS模块化</a></li>
+<li><a href="https://segmentfault.com/a/1190000010914834" target="_blank" rel="external">前端模块化进程，commonJS，AMD，CMD对比</a></li>
+<li><a href="http://www.cnblogs.com/dolphinX/p/4381855.html" target="_blank" rel="external">前端模块化</a></li>
 </ul>
 
       
@@ -399,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/30/拖拽：Drag-and-Drop/" rel="next" title="拖拽：Drag and Drop">
-                <i class="fa fa-chevron-left"></i> 拖拽：Drag and Drop
+              <a href="/2018/02/13/《深入浅出Node-js》学习笔记：模块机制/" rel="next" title="《深入浅出Node.js》学习笔记：模块机制">
+                <i class="fa fa-chevron-left"></i> 《深入浅出Node.js》学习笔记：模块机制
               </a>
             
           </div>
@@ -408,10 +436,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/02/使用鼠标事件实现拖拽/" rel="prev" title="使用鼠标事件实现拖拽">
-                使用鼠标事件实现拖拽 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -565,7 +589,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装用于绑定事件的函数"><span class="nav-number">1.</span> <span class="nav-text">封装用于绑定事件的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventTarget"><span class="nav-number">2.</span> <span class="nav-text">EventTarget</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EventTarget的方法"><span class="nav-number">2.1.</span> <span class="nav-text">EventTarget的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#addEventListener"><span class="nav-number">2.1.1.</span> <span class="nav-text">addEventListener()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#removeEventListener"><span class="nav-number">2.1.2.</span> <span class="nav-text">removeEventListener</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatchEvent"><span class="nav-number">2.1.3.</span> <span class="nav-text">dispatchEvent</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EventTarget的属性"><span class="nav-number">2.2.</span> <span class="nav-text">EventTarget的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mouseenter与mouseover"><span class="nav-number">2.2.1.</span> <span class="nav-text">mouseenter与mouseover</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS为什么需要模块化"><span class="nav-number">1.</span> <span class="nav-text">JS为什么需要模块化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS、AMD、CMD"><span class="nav-number">2.</span> <span class="nav-text">CommonJS、AMD、CMD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CommonJS规范"><span class="nav-number">2.1.</span> <span class="nav-text">CommonJS规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AMD规范"><span class="nav-number">2.2.</span> <span class="nav-text">AMD规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD规范"><span class="nav-number">2.3.</span> <span class="nav-text">CMD规范</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
