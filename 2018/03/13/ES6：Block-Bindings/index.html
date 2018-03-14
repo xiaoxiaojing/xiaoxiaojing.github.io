@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="es6," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ES5使用var存在的问题 变量提升（Hoisting）：使用var定义变量，无论变量在哪里定义，变量的声明都会被提升到函数的顶部。 12345678910function getValue(condition) &amp;#123;  if (condition) &amp;#123;    var value = &amp;quot;blue&amp;quot;;    return value;  &amp;#125; else">
+<meta name="keywords" content="es6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6：Block Bindings">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/03/13/ES6：Block-Bindings/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="ES5使用var存在的问题 变量提升（Hoisting）：使用var定义变量，无论变量在哪里定义，变量的声明都会被提升到函数的顶部。 12345678910function getValue(condition) &amp;#123;  if (condition) &amp;#123;    var value = &amp;quot;blue&amp;quot;;    return value;  &amp;#125; else">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-03-14T11:11:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6：Block Bindings">
+<meta name="twitter:description" content="ES5使用var存在的问题 变量提升（Hoisting）：使用var定义变量，无论变量在哪里定义，变量的声明都会被提升到函数的顶部。 12345678910function getValue(condition) &amp;#123;  if (condition) &amp;#123;    var value = &amp;quot;blue&amp;quot;;    return value;  &amp;#125; else">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/03/13/ES6：Block-Bindings/"/>
+
+
+
+
+
+  <title>ES6：Block Bindings | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/03/13/ES6：Block-Bindings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ES6：Block Bindings</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-13T18:04:38+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2018-03-14T19:11:02+08:00">
+                2018-03-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ES5使用var存在的问题"><a href="#ES5使用var存在的问题" class="headerlink" title="ES5使用var存在的问题"></a>ES5使用<code>var</code>存在的问题</h2><ol>
+<li><p>变量提升（Hoisting）：使用var定义变量，无论变量在哪里定义，变量的声明都会被提升到函数的顶部。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function getValue(condition) &#123;</div><div class="line">  if (condition) &#123;</div><div class="line">    var value = &quot;blue&quot;;</div><div class="line">    return value;</div><div class="line">  &#125; else &#123;</div><div class="line">    // &apos;value&apos; exists here with a value of undefined</div><div class="line">    return null;</div><div class="line">  &#125;</div><div class="line">  // &apos;value&apos; exists here with a value of undefined</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在全局作用域下声明的变量会被添加到全局对象上（如：window），会重写全局对象的同名属性。</p>
+</li>
+</ol>
+<h2 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h2><ol>
+<li>变量（variables）：确切地讲应该成为<code>bindings</code>，因为变量的声明应该和某个作用域绑定。<blockquote>
+<p>variables (more formally known as bindings, as a name is bound to a value inside a scope)</p>
+</blockquote>
+</li>
+<li>块级作用域（block scopes）：也被成为词法作用域（lexical scopes）。</li>
+</ol>
+<h2 id="块级声明"><a href="#块级声明" class="headerlink" title="块级声明"></a>块级声明</h2><p>块级声明（Block-Level Declarations）</p>
+<p>块级作用域（block scopes）：也被成为词法作用域（lexical scopes），其通过<code>{</code>和<code>}</code>创建。</p>
+<p>在ES6中通过<strong>块级声明</strong>（<code>let</code>，<code>const</code>）使得JavaScript具有<strong>块级作用域</strong>。</p>
+<h3 id="let"><a href="#let" class="headerlink" title="let"></a><code>let</code></h3><ol>
+<li><p>使用let声明的变量具有块级作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (true)&#123;</div><div class="line">	let a = 1</div><div class="line">	console.log(a) // 1</div><div class="line">&#125; </div><div class="line">console.log(a)   // error: (Uncaught ReferenceError: a is not defined)</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用let声明变量，不存在变量提升</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">console.log(a) // error: (Uncaught ReferenceError: a is not defined)</div><div class="line">let a = 1</div><div class="line"></div><div class="line">console.log(b) // undefined</div><div class="line">var b = 1</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用let声明变量，在同一块级作用域中不能重复声明</p>
+<blockquote>
+<p>let will not redefine an identifier that already exists in the same scope</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">let a = 1</div><div class="line">let a = 2 // error: (Uncaught SyntaxError: Identifier &apos;a&apos; has already been declared)</div><div class="line"></div><div class="line">var b = 1</div><div class="line">let b = 2 // error: (Uncaught SyntaxError: Identifier &apos;a&apos; has already been declared)</div><div class="line"></div><div class="line">var c = 1</div><div class="line">if (true) &#123;</div><div class="line">  let c = 2  // 2，这时是在新的块级作用域中声明变量</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>在全局作用域下使用let声明变量，该变量不会被添加到全局对象上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 使用var</div><div class="line">var RegExp = &quot;Hello!&quot;;</div><div class="line">console.log(window.RegExp === RegExp);  // true</div><div class="line"></div><div class="line">// 使用let</div><div class="line">let RegExp = &quot;Hello!&quot;;</div><div class="line">console.log(window.RegExp === RegExp);  // false</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a><code>const</code></h3><ol>
+<li>使用const声明的变量被认为是常量（constants）</li>
+<li><p>使用const声明变量，变量的值一但被设置就不能修改。即每一个通过const声明的变量都必须被设置初始值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const a // error: (Uncaught SyntaxError: Missing initializer in const declaration)</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用const声明变量，特征同let一致</p>
+</li>
+<li>使用const声明<strong>对象</strong>，对象的属性是可以修改的<blockquote>
+<p>A const declaration prevents modification of the binding, not of the value.</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="TDZ"><a href="#TDZ" class="headerlink" title="TDZ"></a>TDZ</h2><p>TDZ：Temporal Dead Zone</p>
+<p>通过let和const声明的变量，在声明语言前该变量都是不能被访问的（即使使用<code>typeof</code>操作符）。因为，通过let和const声明的变量都放在TDZ。</p>
+<p>JavaScript引擎在一个<strong>块级作用域</strong>中查找变量时，任何尝试访问TDZ中的变量的操作都会导致运行时错误（runtime error）</p>
+<ul>
+<li>变量通过<code>var</code>声明，该变量的声明将会被提升到函数或全局作用域的顶部</li>
+<li>变量通过<code>let</code>或<code>const</code>声明，该变量的声明将会被放置到TDZ（当执行完声明语句后，该变量才会从TDZ中删除）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">console.log(typeof n)    // &apos;undefined&apos;</div><div class="line">if (true) &#123;</div><div class="line">	console.log(typeof n)  // error：（Uncaught ReferenceError: n is not defined）</div><div class="line">	let n = 1</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Block-Binding-in-Loops"><a href="#Block-Binding-in-Loops" class="headerlink" title="Block-Binding in Loops"></a>Block-Binding in Loops</h2><p>使用let和const声明变量，使得变量在循环语句中具有块级作用域</p>
+<h3 id="使用var存在的问题"><a href="#使用var存在的问题" class="headerlink" title="使用var存在的问题"></a>使用var存在的问题</h3><ol>
+<li><p>通过<code>var</code>声明的变量，会被提升到函数或全局作用域顶部，所以在for循环结束后，该变量仍然可以被访问。并且每次循环访问的i的引用相同（即i被每次循环共享）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var funcs = [];</div><div class="line"></div><div class="line">for (var i = 0; i &lt; 10; i++) &#123;</div><div class="line">  funcs.push(function() &#123;</div><div class="line">    console.log(i);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(function(func) &#123;</div><div class="line">  func();     // outputs the number &quot;10&quot; ten times</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用<strong>立即执行表达式</strong>（immediately invoked function expressions (IIFEs)）解决以上问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var funcs = [];</div><div class="line"></div><div class="line">for (var i = 0; i &lt; 10; i++) &#123;</div><div class="line">  // i传入立即执行表达式，每个函数都获取了i的一份拷贝并存储在result中</div><div class="line">  funcs.push((function(result)&#123;</div><div class="line">		return function() &#123;</div><div class="line">      console.log(result);</div><div class="line">    &#125;</div><div class="line">	&#125;)(i));</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(function(func) &#123;</div><div class="line">  func();     // outputs 0, then 1, then 2, up to 9</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="在循环中使用let"><a href="#在循环中使用let" class="headerlink" title="在循环中使用let"></a>在循环中使用let</h3><p>使用let声明变量，每次循环时都会创建新的同名变量，并且用当前的值初始化它。所以以下循环的表现和使用了立即执行表达式的循环一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var funcs = [];</div><div class="line"></div><div class="line">for (let i = 0; i &lt; 10; i++) &#123;</div><div class="line">  funcs.push(function() &#123;</div><div class="line">    console.log(i);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(function(func) &#123;</div><div class="line">  func();     // outputs 0, then 1, then 2, up to 9</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="在循环中使用const"><a href="#在循环中使用const" class="headerlink" title="在循环中使用const"></a>在循环中使用const</h3><p>在正常循环中使用const定义循环变量，会抛出错误：<code>Uncaught TypeError: Assignment to constant variable.</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var funcs = []</div><div class="line"></div><div class="line">// throws an error after one iteration</div><div class="line">for (const i = 0; i &lt; 10; i++) &#123;</div><div class="line">  funcs.push(function() &#123;</div><div class="line">    console.log(i)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在<code>for-in</code>和<code>for-of</code>循环中，<code>const</code>的表现和<code>let</code>一致。</p>
+<p>在<code>for</code>循环中，初始化语句<code>const i = 0</code>执行后，第一次循环正常执行，当执行到<code>i++</code>时，是不能修改一个常量的值，所以会报错</p>
+<p>在<code>for-in</code>和<code>for-of</code>循环中，每次循环都会重新创建并初始化循环遍历，所以不会报错</p>
+<hr>
+<p>参考文档</p>
+<ul>
+<li>《Understanding ECMAScript 6》</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/es6/" rel="tag"># es6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/02/ES6：模块（Modules）/" rel="next" title="ES6：模块（Modules）">
+                <i class="fa fa-chevron-left"></i> ES6：模块（Modules）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES5使用var存在的问题"><span class="nav-number">1.</span> <span class="nav-text">ES5使用var存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个概念"><span class="nav-number">2.</span> <span class="nav-text">几个概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#块级声明"><span class="nav-number">3.</span> <span class="nav-text">块级声明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#let"><span class="nav-number">3.1.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-number">3.2.</span> <span class="nav-text">const</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TDZ"><span class="nav-number">4.</span> <span class="nav-text">TDZ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block-Binding-in-Loops"><span class="nav-number">5.</span> <span class="nav-text">Block-Binding in Loops</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用var存在的问题"><span class="nav-number">5.1.</span> <span class="nav-text">使用var存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在循环中使用let"><span class="nav-number">5.2.</span> <span class="nav-text">在循环中使用let</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在循环中使用const"><span class="nav-number">5.3.</span> <span class="nav-text">在循环中使用const</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
