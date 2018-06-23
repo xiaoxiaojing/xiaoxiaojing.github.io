@@ -2,7 +2,7 @@
 title: Web网络基础
 date: 2017-10-24 11:30:09
 tags: http
-categories: HTTP
+categories: HTTP系列
 ---
 
 ## 一、网络基础TCP/IP

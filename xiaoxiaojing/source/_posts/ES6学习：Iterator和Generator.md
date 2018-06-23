@@ -2,7 +2,7 @@
 title: ES6学习：Iterator和Generator
 date: 2018-01-03 22:50:22
 tags: es6
-categories: ES6
+categories: ES6系列
 ---
 
 ## 前言

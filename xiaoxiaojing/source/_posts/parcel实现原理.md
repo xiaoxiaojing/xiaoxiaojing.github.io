@@ -2,7 +2,7 @@
 title: parcel实现原理
 date: 2018-03-01 09:57:52
 tags: other
-categories: Other
+categories: 其他
 ---
 
 ## 项目入口

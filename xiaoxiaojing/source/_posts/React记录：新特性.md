@@ -2,7 +2,7 @@
 title: React记录：新特性
 date: 2018-01-18 11:49:33
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 # React v16.2.0

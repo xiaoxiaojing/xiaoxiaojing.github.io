@@ -2,7 +2,7 @@
 title: React学习：PureComponent的使用
 date: 2017-11-06 19:13:11
 tags: React
-categories: REACT
+categories: React系列
 ---
 ## 原理
 * 当前的`props`和`state`与之前的作**浅比较**，如果前后的props和state没有改变，那么组件就不会更新（即组件不会执行这些生命周期函数`componentWillUpdate`、`render`、`componentDidUpdate`）

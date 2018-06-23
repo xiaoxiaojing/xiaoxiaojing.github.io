@@ -2,7 +2,7 @@
 title: 《深入React技术栈》学习笔记：基础知识
 date: 2017-10-29 14:45:40
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## React全貌

@@ -2,7 +2,7 @@
 title: HTTP的考点
 date: 2017-10-24 13:19:08
 tags: 面试题
-categories: EXAM
+categories: 面试题
 ---
 
 ## 在浏览器的地址栏内输入URL后，发生了什么

@@ -2,7 +2,7 @@
 title: CSS Modules
 date: 2017-09-20 14:26:30
 tags: [css, css-module, react]
-categories: Other
+categories: CSS系列
 ---
 
 ## 初探

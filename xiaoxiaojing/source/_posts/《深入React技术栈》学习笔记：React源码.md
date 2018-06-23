@@ -2,7 +2,7 @@
 title: 《深入React技术栈》学习笔记：React源码
 date: 2017-11-11 11:49:33
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 * 源码版本：React 16.2.0

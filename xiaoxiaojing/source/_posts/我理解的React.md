@@ -2,7 +2,7 @@
 title: 我理解的React
 date: 2018-01-20 18:34:09
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## React基础

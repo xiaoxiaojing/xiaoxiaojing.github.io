@@ -2,7 +2,7 @@
 title: React原理：Fiber
 date: 2017-12-16 18:08:52
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## React Fiber

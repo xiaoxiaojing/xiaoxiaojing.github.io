@@ -2,7 +2,7 @@
 title: React原理：diff算法
 date: 2017-11-14 20:46:07
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 * `React`将`Virtual DOM`树转换为`actual DOM`树的最少操作的过程称为调和（`reconciliation`）

@@ -2,7 +2,7 @@
 title: 使用Later.js定义定时任务
 date: 2017-12-20 19:29:38
 tags: 定时任务
-categories: Other
+categories: 其他
 ---
 * 官方文档：http://bunkat.github.io/later/
 

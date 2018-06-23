@@ -2,7 +2,7 @@
 title: HTTP协议进阶
 date: 2017-10-25 19:09:44
 tags: http
-categories: HTTP
+categories: HTTP系列
 ---
 
 * HTTP的缺点

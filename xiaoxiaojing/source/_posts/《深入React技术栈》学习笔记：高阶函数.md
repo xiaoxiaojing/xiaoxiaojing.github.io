@@ -2,7 +2,7 @@
 title: 《深入React技术栈》学习笔记：高阶函数
 date: 2017-10-31 19:51:09
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## 一、组件间抽象

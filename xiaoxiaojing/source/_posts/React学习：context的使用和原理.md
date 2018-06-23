@@ -2,7 +2,7 @@
 title: React学习：context的使用和原理
 date: 2017-12-27 14:12:53
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## 我们为什么使用context？

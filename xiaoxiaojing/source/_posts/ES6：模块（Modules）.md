@@ -2,7 +2,7 @@
 title: ES6：模块（Modules）
 date: 2018-03-02 10:26:07
 tags: es6
-categories: ES6
+categories: ES6系列
 ---
 
 在ES6之前，一个应用的所有js文件中的代码共享同一个作用域。当应用变得复杂后，会有命名冲突（naming collisions）和安全问题（security concerns）

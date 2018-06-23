@@ -2,7 +2,7 @@
 title: React学习：React Element
 date: 2018-01-17 20:40:13
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## React Element

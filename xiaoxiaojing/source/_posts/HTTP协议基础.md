@@ -2,7 +2,7 @@
 title: HTTP协议基础
 date: 2017-10-24 15:30:41
 tags: http
-categories: HTTP
+categories: HTTP系列
 ---
 * HTTP协议：超文本传输协议
 * HTTP协议用于客户端和服务端之间的通信，请求从客户端发出，最后服务器响应请求并返回

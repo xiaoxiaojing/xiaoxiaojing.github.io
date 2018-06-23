@@ -2,7 +2,7 @@
 title: JS基础：模块化
 date: 2018-02-26 15:47:18
 tags: javascript
-categories: javascript
+categories: JavaScript
 ---
 
 ## JS为什么需要模块化

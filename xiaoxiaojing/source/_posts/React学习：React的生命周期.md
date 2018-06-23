@@ -2,7 +2,7 @@
 title: React学习：React的生命周期
 date: 2018-01-13 14:24:44
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## 关于创建组件的一段历史

@@ -2,7 +2,7 @@
 title: 《深入浅出Node.js》学习笔记：异步I/O
 date: 2018-02-27 09:49:57
 tags: NodeJS
-categories: NodeJS
+categories: NodeJS系列
 ---
 
 ## 为什么要使用异步I/O

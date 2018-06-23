@@ -2,7 +2,7 @@
 title: Web攻击技术
 date: 2017-10-24 11:18:43
 tags: http
-categories: HTTP
+categories: HTTP系列
 ---
 
 * 简单的HTTP协议本身并不存在安全性问题，因此协议本身几乎不会成为攻击的对象。应用HTTP协议的服务器和客户端，以及运行在服务器上的Web应用等资源才是攻击目标

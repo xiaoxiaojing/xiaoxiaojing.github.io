@@ -2,7 +2,7 @@
 title: ES6：Block Bindings
 date: 2018-03-13 18:04:38
 tags: es6
-categories: ES6
+categories: ES6系列
 ---
 
 ## ES5使用`var`存在的问题

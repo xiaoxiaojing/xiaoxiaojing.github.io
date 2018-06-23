@@ -2,7 +2,7 @@
 title: 概率论和统计学
 date: 2017-09-18 20:43:07
 tags: 概率论
-categories: Other
+categories: 数学
 ---
 
 ## install the R

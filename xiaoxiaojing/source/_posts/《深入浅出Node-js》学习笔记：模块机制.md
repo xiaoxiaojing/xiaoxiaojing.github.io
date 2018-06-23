@@ -2,7 +2,7 @@
 title: 《深入浅出Node.js》学习笔记：模块机制
 date: 2018-02-13 14:24:09
 tags: NodeJS
-categories: NodeJS
+categories: NodeJS系列
 ---
 
 Node借鉴CommonJS的Modules规范实现了一套非常易用的模块系统

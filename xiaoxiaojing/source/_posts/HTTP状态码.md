@@ -2,7 +2,7 @@
 title: HTTP状态码
 date: 2017-10-24 11:17:31
 tags: http
-categories: HTTP
+categories: HTTP系列
 ---
 
 1. 作用：告知服务端返回的请求结果

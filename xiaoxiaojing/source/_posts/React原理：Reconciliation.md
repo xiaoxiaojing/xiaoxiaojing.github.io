@@ -2,7 +2,7 @@
 title: React原理：Reconciliation
 date: 2018-01-21 22:34:26
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## Reconciliation

@@ -2,7 +2,7 @@
 title: 《深入浅出Node.js》学习笔记：Node基础
 date: 2018-02-12 15:50:13
 tags: NodeJS
-categories: NodeJS
+categories: NodeJS系列
 ---
 
 ## Node的特点

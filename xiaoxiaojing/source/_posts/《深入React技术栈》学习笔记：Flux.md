@@ -2,7 +2,7 @@
 title: 《深入React技术栈》学习笔记：Flux
 date: 2017-12-22 13:53:21
 tags: react
-categories: REACT
+categories: React系列
 ---
 
 ## Flux的核心思想
