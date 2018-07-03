@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="函数的参数默认参数的实现in ES5 方法1：使用||判断参数是否提供(不安全，值为0时会被认为是false而使用默认值) 方法2：使用typeof param !== &amp;quot;undefined&amp;quot;判断参数是否提供  in ES6ES6的默认参数：未提供参数或者参数是undefined时，会使用默认值12345678910function func(arg=&amp;apos;test&amp;ap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6：函数">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/07/03/ES6：函数/index.html">
+<meta property="og:site_name" content="XIAOXIAOJING">
+<meta property="og:description" content="函数的参数默认参数的实现in ES5 方法1：使用||判断参数是否提供(不安全，值为0时会被认为是false而使用默认值) 方法2：使用typeof param !== &amp;quot;undefined&amp;quot;判断参数是否提供  in ES6ES6的默认参数：未提供参数或者参数是undefined时，会使用默认值12345678910function func(arg=&amp;apos;test&amp;ap">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-03T14:56:06.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6：函数">
+<meta name="twitter:description" content="函数的参数默认参数的实现in ES5 方法1：使用||判断参数是否提供(不安全，值为0时会被认为是false而使用默认值) 方法2：使用typeof param !== &amp;quot;undefined&amp;quot;判断参数是否提供  in ES6ES6的默认参数：未提供参数或者参数是undefined时，会使用默认值12345678910function func(arg=&amp;apos;test&amp;ap">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":13,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/07/03/ES6：函数/"/>
+
+
+
+
+
+  <title>ES6：函数 | XIAOXIAOJING</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XIAOXIAOJING</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">JUST DO IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/07/03/ES6：函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TJ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XIAOXIAOJING">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ES6：函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T22:12:22+08:00">
+                2018-07-03
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2018-07-03T22:56:06+08:00">
+                2018-07-03
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h2><h3 id="默认参数的实现"><a href="#默认参数的实现" class="headerlink" title="默认参数的实现"></a>默认参数的实现</h3><h4 id="in-ES5"><a href="#in-ES5" class="headerlink" title="in ES5"></a>in ES5</h4><ul>
+<li>方法1：使用<code>||</code>判断参数是否提供(不安全，值为0时会被认为是false而使用默认值)</li>
+<li>方法2：使用<code>typeof param !== &quot;undefined&quot;</code>判断参数是否提供</li>
+</ul>
+<h4 id="in-ES6"><a href="#in-ES6" class="headerlink" title="in ES6"></a>in ES6</h4><p>ES6的默认参数：未提供参数或者参数是<code>undefined</code>时，会使用默认值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function func(arg=&apos;test&apos;) &#123;</div><div class="line">  console.log(arg)</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 使用默认值</div><div class="line">func()          // &apos;test&apos;</div><div class="line">func(undefined) // &apos;test&apos;</div><div class="line"></div><div class="line">// 禁用默认值</div><div class="line">func(null)      // null</div></pre></td></tr></table></figure></p>
+<h3 id="默认参数的值"><a href="#默认参数的值" class="headerlink" title="默认参数的值"></a>默认参数的值</h3><p>参数的默认值可以是一个简单值，也可以是一个<strong>函数调用表达式</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function getValue() &#123;</div><div class="line">    return 5;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function add(first, second = getValue()) &#123;</div><div class="line">    return first + second;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>函数调用表达式的调用时机：第二个参数缺失并且调用<code>add()</code>方法时，会执行该函数调用表达式。（当<code>add()</code>函数编译时不会执行该函数调用表达式）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">let value = 5;</div><div class="line"></div><div class="line">function getValue() &#123;</div><div class="line">    return value++;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function add(first, second = getValue()) &#123;</div><div class="line">    return first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log(add(1, 1));     // 2</div><div class="line">console.log(add(1));        // 6</div><div class="line">console.log(add(1));        // 7</div></pre></td></tr></table></figure></p>
+<h3 id="参数的访问"><a href="#参数的访问" class="headerlink" title="参数的访问"></a>参数的访问</h3><p>后面的参数可以访问前面的参数，反之则不能<br>【原因】：默认参数也有<code>TDZ</code>，当默认参数被初始化后才会从<code>TDZ</code>中移除，该参数才可以被访问。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function add(first, second = first) &#123;</div><div class="line">    return first + second;</div><div class="line">&#125;</div><div class="line">console.log(add(1, 1));     // 2</div><div class="line">console.log(add(1));        // 2</div><div class="line"></div><div class="line">function add(first = second, second) &#123;</div><div class="line">    return first + second;</div><div class="line">&#125;</div><div class="line">console.log(add(undefined, 1)); // throws error</div></pre></td></tr></table></figure></p>
+<h3 id="Unnamed-Parameters"><a href="#Unnamed-Parameters" class="headerlink" title="Unnamed Parameters"></a>Unnamed Parameters</h3><h4 id="in-ES5-1"><a href="#in-ES5-1" class="headerlink" title="in ES5"></a>in ES5</h4><p>使用arguments来获取多余的参数</p>
+<h4 id="in-ES6-1"><a href="#in-ES6-1" class="headerlink" title="in ES6"></a>in ES6</h4><p>使用<code>rest parameters</code>来处理参数，如下：key是rest parameter<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function pick(object, ...keys) &#123;</div><div class="line">    let result = Object.create(null);</div><div class="line"></div><div class="line">    for (let i = 0, len = keys.length; i &lt; len; i++) &#123;</div><div class="line">        result[keys[i]] = object[keys[i]];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>rest parameters</code>的一些限制：</p>
+<ul>
+<li>rest parameter只能有一个，并且是最后一个参数</li>
+<li>rest parameter不能在对象的访问器属性setter中使用</li>
+</ul>
+<h3 id="默认参数对arguments的影响"><a href="#默认参数对arguments的影响" class="headerlink" title="默认参数对arguments的影响"></a>默认参数对arguments的影响</h3><ol>
+<li><p>ES5非严格模式下，直接修改参数值会影响到arguments</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function mixArgs(first) &#123;</div><div class="line">    console.log(first === arguments[0]);   // true</div><div class="line">    first = &quot;c&quot;;</div><div class="line">    console.log(first === arguments[0]);   // true</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ES5严格模式下，直接修改参数值不会影响到arguments</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function mixArgs(first) &#123;</div><div class="line">    console.log(first === arguments[0]);   // true</div><div class="line">    first = &quot;c&quot;;</div><div class="line">    console.log(first === arguments[0]);   // false</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ES6中，直接修改参数值不会影响到arguments；并且设置了默认值的参数缺失时，将会使用默认参数，这时该参数和arguments没有关联</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function mixArgs(first, second = &quot;b&quot;) &#123;</div><div class="line">    console.log(arguments.length);         // 1</div><div class="line">    console.log(first === arguments[0]);   // true</div><div class="line">    console.log(second === arguments[1]);  // false</div><div class="line">    first = &quot;c&quot;;</div><div class="line">    second = &quot;d&quot;</div><div class="line">    console.log(first === arguments[0]);   // false</div><div class="line">    console.log(second === arguments[1]);  // false</div><div class="line">&#125;</div><div class="line">mixArgs(&quot;a&quot;)  // second缺失</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Function函数"><a href="#Function函数" class="headerlink" title="Function函数"></a>Function函数</h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>使用<code>Function</code>动态的创建一个函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var add = new Function(&quot;first&quot;, &quot;second&quot;, &quot;return first + second&quot;);</div><div class="line"></div><div class="line">console.log(add(1, 1));     // 2</div></pre></td></tr></table></figure></p>
+<h3 id="在ES6中的特性"><a href="#在ES6中的特性" class="headerlink" title="在ES6中的特性"></a>在ES6中的特性</h3><p>可以使用default parameter和rest parameter<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var add = new Function(&quot;first&quot;, &quot;second = first&quot;, &quot;return first + second&quot;);</div><div class="line">console.log(add(1));        // 2</div><div class="line"></div><div class="line">var pickFirst = new Function(&quot;...args&quot;, &quot;return args[0]&quot;);</div><div class="line">console.log(pickFirst(1, 2));   // 1</div></pre></td></tr></table></figure></p>
+<h2 id="函数的属性：name"><a href="#函数的属性：name" class="headerlink" title="函数的属性：name"></a>函数的属性：name</h2><ol>
+<li><p>正常情况下name的值：是函数声明或函数表达式声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function doSomething() &#123;</div><div class="line">    // empty</div><div class="line">&#125;</div><div class="line">var doAnotherThing = function() &#123;</div><div class="line">    // empty</div><div class="line">&#125;;</div><div class="line"></div><div class="line">console.log(doSomething.name);     // &quot;doSomething&quot;</div><div class="line">console.log(doAnotherThing.name);  // &quot;doAnotherThing&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>特殊情况下name的值</p>
+<ul>
+<li>同时有函数声明和函数表达式声明，name的值是函数声明</li>
+<li>对象迭代器函数，name值会加上前缀：<code>get</code>or<code>set</code></li>
+<li>使用<code>bind()</code>创建的新函数，name值会加上前缀：<code>bound</code></li>
+<li>通过<code>new Function()</code>创建的新函数，name值为：<code>anonymous</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var doSomething = function doSomethingElse() &#123;</div><div class="line">    // empty</div><div class="line">&#125;;</div><div class="line"></div><div class="line">var person = &#123;</div><div class="line">    get firstName() &#123;</div><div class="line">        return &quot;Nicholas&quot;</div><div class="line">    &#125;,</div><div class="line">    sayName: function() &#123;</div><div class="line">        console.log(this.name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log(doSomething.name);         // &quot;doSomethingElse&quot;</div><div class="line">console.log(person.sayName.name);      // &quot;sayName&quot;</div><div class="line">console.log(person.firstName.name);    // &quot;get firstName&quot;</div><div class="line">console.log(doSomething.bind().name);  // &quot;bound doSomething&quot;</div><div class="line">console.log((new Function()).name);    // &quot;anonymous&quot;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="判断函数是否是构造函数"><a href="#判断函数是否是构造函数" class="headerlink" title="判断函数是否是构造函数"></a>判断函数是否是构造函数</h2><p>JavaScript的函数有两个内置方法：<code>[[Call]]</code> 和 <code>[[Construct]]</code><br>使用<code>new</code>操作符调用函数时，会执行<code>[[Construct]]</code>方法，否则执行<code>[[Call]]</code>方法（箭头函数没有<code>[[Construct]]</code>方法，所以不能作为构造函数）</p>
+<h3 id="in-ES5-2"><a href="#in-ES5-2" class="headerlink" title="in ES5"></a>in ES5</h3><p>通过函数中的<code>this</code>对象的实例来判断函数是否作为构造函数<br>存在的问题：不使用<code>new</code>运算符（例如：使用<code>call</code>方法调用函数），<code>this</code>的实例也有可能是<code>Person</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function Person(name) &#123;</div><div class="line">    if (this instanceof Person) &#123;</div><div class="line">        this.name = name;</div><div class="line">    &#125; else &#123;</div><div class="line">        throw new Error(&quot;You must use new with Person.&quot;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var person = new Person(&quot;Nicholas&quot;);  // works!</div><div class="line">var notAPerson = Person(&quot;Nicholas&quot;);  // throws an error</div><div class="line">var notAPerson2 = Person.call(person, &quot;Michael&quot;);    // works!</div></pre></td></tr></table></figure></p>
+<h3 id="in-ES6-2"><a href="#in-ES6-2" class="headerlink" title="in ES6"></a>in ES6</h3><p>使用一个metaproperty：<code>new.target</code>来判断函数是否作为构造函数<br>当执行<code>[[Call]]</code>方法，<code>new.target</code>的值是<code>undefined</code><br>当执行<code>[[Construct]]</code>方法，<code>typeof new.target === Person</code></p>
+<h2 id="Block-Level-Functions"><a href="#Block-Level-Functions" class="headerlink" title="Block-Level Functions"></a>Block-Level Functions</h2><p>在ES6中，在<code>{}</code>创建的<code>block</code>中声明的函数，这个函数是<code>Block-Level Functions</code>。<br><code>Block-Level Functions</code>是以函数声明方式创建的，而不是使用函数直接量来创建的。<br>严格模式下，<code>Block-Level Functions</code>只能在当前block中被访问，并且会提升到该block的顶部。<br>非严格模式下，<code>Block-Level Functions</code>会被提升到全局作用域的顶部</p>
+<h2 id="Arrow-Functions"><a href="#Arrow-Functions" class="headerlink" title="Arrow Functions"></a>Arrow Functions</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let fun = () =&gt; &#123;&#125;</div><div class="line"></div><div class="line">typeof func               // &quot;function&quot;</div><div class="line">func instanceof Function  // true</div></pre></td></tr></table></figure>
+<h3 id="箭头函数和普通函数的区别"><a href="#箭头函数和普通函数的区别" class="headerlink" title="箭头函数和普通函数的区别"></a>箭头函数和普通函数的区别</h3><ol>
+<li>箭头函数内部的变量：<code>this</code>，<code>super</code>，<code>arguments</code>，<code>new.target</code>，与包含该箭头函数的最近非箭头函数相关联<ul>
+<li><code>this</code>在箭头函数声明时被指定，并且<strong>不能被更改</strong>，在函数的整个生命周期中保持不变</li>
+<li><code>arguments</code>变量不存在</li>
+</ul>
+</li>
+<li>箭头函数不能作为构造函数（因为箭头函数没有<code>[[Construct]]</code>方法）</li>
+<li>箭头函数没有<code>prototype</code>属性</li>
+<li>箭头函数的参数的命名不能重复<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var aa = (a, a) =&gt; &#123;&#125; // Uncaught SyntaxError: Duplicate parameter name not allowed in this context</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="尾调用（Tail-Call）"><a href="#尾调用（Tail-Call）" class="headerlink" title="尾调用（Tail Call）"></a>尾调用（Tail Call）</h2><ol>
+<li><p>定义：函数的最后一个执行语句是一个函数调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function doSomething() &#123;</div><div class="line">  return doSomethingElse();   // tail call</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>尾调用存在的问题：栈溢出</p>
+</li>
+<li>ES6在严格模式下对尾调用做了优化，当满足以下情况，当前<code>stack frame</code>就会被清空并重用<ul>
+<li>当前函数不是一个闭包（closure），即该尾调用不会访问当前栈帧中变量</li>
+<li>该尾调用返回后，创建尾调用的函数没有其他工作要做</li>
+<li>该尾调用的返回值作为该函数的返回值</li>
+</ul>
+</li>
+<li><p>尾调用优化失效的情况有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&quot;use strict&quot;;</div><div class="line">function doSomething() &#123;</div><div class="line">  // not optimized - no return</div><div class="line">  doSomethingElse();</div><div class="line">&#125;</div><div class="line"></div><div class="line">function doSomething() &#123;</div><div class="line">  // not optimized - must add after returning</div><div class="line">  return 1 + doSomethingElse();</div><div class="line">&#125;</div><div class="line"></div><div class="line">function doSomething() &#123;</div><div class="line">  // not optimized - call isn&apos;t in tail position</div><div class="line">  var result = doSomethingElse();</div><div class="line">  return result;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function doSomething() &#123;</div><div class="line">  var num = 1,</div><div class="line">      func = () =&gt; num;</div><div class="line">  // not optimized - function is a closure</div><div class="line">  return func();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>利用ES6在严格模式下对尾调用的优化来优化代码，例子：递归</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">function factorial(n) &#123;</div><div class="line">  if (n &lt;= 1) &#123;</div><div class="line">    return 1</div><div class="line">  &#125; else &#123;</div><div class="line">    // 不满足优化条件，所以当n很大时，会出现栈溢出</div><div class="line">    return n * factorial(n - 1)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 优化代码</div><div class="line">function factorial(n, p = 1) &#123;</div><div class="line">  if (n &lt;= 1) &#123;</div><div class="line">    return 1 * p</div><div class="line">  &#125; else &#123;</div><div class="line">    let result = n * p</div><div class="line">    // optimized</div><div class="line">    return factorial(n - 1, result);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/02/ES6：字符串和正则表达式/" rel="next" title="ES6：字符串和正则表达式">
+                <i class="fa fa-chevron-left"></i> ES6：字符串和正则表达式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjg3NC85NDM1"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/my.jpg"
+                alt="TJ" />
+            
+              <p class="site-author-name" itemprop="name">TJ</p>
+              <p class="site-description motion-element" itemprop="description">xiaoxiaojing's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaoxiaojing" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:happyxxj123@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数的参数"><span class="nav-number">1.</span> <span class="nav-text">函数的参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数的实现"><span class="nav-number">1.1.</span> <span class="nav-text">默认参数的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#in-ES5"><span class="nav-number">1.1.1.</span> <span class="nav-text">in ES5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in-ES6"><span class="nav-number">1.1.2.</span> <span class="nav-text">in ES6</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数的值"><span class="nav-number">1.2.</span> <span class="nav-text">默认参数的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数的访问"><span class="nav-number">1.3.</span> <span class="nav-text">参数的访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unnamed-Parameters"><span class="nav-number">1.4.</span> <span class="nav-text">Unnamed Parameters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#in-ES5-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">in ES5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in-ES6-1"><span class="nav-number">1.4.2.</span> <span class="nav-text">in ES6</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数对arguments的影响"><span class="nav-number">1.5.</span> <span class="nav-text">默认参数对arguments的影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function函数"><span class="nav-number">2.</span> <span class="nav-text">Function函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">2.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在ES6中的特性"><span class="nav-number">2.2.</span> <span class="nav-text">在ES6中的特性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数的属性：name"><span class="nav-number">3.</span> <span class="nav-text">函数的属性：name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断函数是否是构造函数"><span class="nav-number">4.</span> <span class="nav-text">判断函数是否是构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#in-ES5-2"><span class="nav-number">4.1.</span> <span class="nav-text">in ES5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#in-ES6-2"><span class="nav-number">4.2.</span> <span class="nav-text">in ES6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block-Level-Functions"><span class="nav-number">5.</span> <span class="nav-text">Block-Level Functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrow-Functions"><span class="nav-number">6.</span> <span class="nav-text">Arrow Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">6.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#箭头函数和普通函数的区别"><span class="nav-number">6.2.</span> <span class="nav-text">箭头函数和普通函数的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尾调用（Tail-Call）"><span class="nav-number">7.</span> <span class="nav-text">尾调用（Tail Call）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TJ</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">my love, I will find you!</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
