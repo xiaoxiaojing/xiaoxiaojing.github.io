@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="react,tabs," />
+  <meta name="keywords" content="es6," />
 
 
 
@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="效果展示    设计思路 react的思想是数据驱动，所以将Tabs抽象成一份数据 1234const tabs_data = [  &amp;#123;label: &amp;quot;tab1&amp;quot;, content: &amp;apos;content1&amp;apos;&amp;#125;,  &amp;#123;label: &amp;quot;tab2&amp;quot;, content: &amp;apos;content2&amp;apos;&amp;#12">
-<meta name="keywords" content="react,tabs">
+<meta name="description" content="Object Destructuring12345let node = &amp;#123;  type: &amp;apos;Identifier&amp;apos;,  name: &amp;apos;foo&amp;apos;&amp;#125;let &amp;#123;type, name&amp;#125; = node Destructuring Assignment注意：必须使用括号包裹Destructuring Assignment12345">
+<meta name="keywords" content="es6">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React Demo：Tabs组件">
-<meta property="og:url" content="http://xiaoxiaojing.github.io/2017/09/19/React Demo：Tabs组件/index.html">
+<meta property="og:title" content="ES6：解构">
+<meta property="og:url" content="http://xiaoxiaojing.github.io/2018/07/04/ES6：解构/index.html">
 <meta property="og:site_name" content="XIAOXIAOJING">
-<meta property="og:description" content="效果展示    设计思路 react的思想是数据驱动，所以将Tabs抽象成一份数据 1234const tabs_data = [  &amp;#123;label: &amp;quot;tab1&amp;quot;, content: &amp;apos;content1&amp;apos;&amp;#125;,  &amp;#123;label: &amp;quot;tab2&amp;quot;, content: &amp;apos;content2&amp;apos;&amp;#12">
+<meta property="og:description" content="Object Destructuring12345let node = &amp;#123;  type: &amp;apos;Identifier&amp;apos;,  name: &amp;apos;foo&amp;apos;&amp;#125;let &amp;#123;type, name&amp;#125; = node Destructuring Assignment注意：必须使用括号包裹Destructuring Assignment12345">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://xiaoxiaojing.github.io/2017/09/19/React%20Demo：Tabs组件/tab1.png">
-<meta property="og:updated_time" content="2018-06-23T09:07:17.797Z">
+<meta property="og:updated_time" content="2018-07-04T14:13:00.138Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React Demo：Tabs组件">
-<meta name="twitter:description" content="效果展示    设计思路 react的思想是数据驱动，所以将Tabs抽象成一份数据 1234const tabs_data = [  &amp;#123;label: &amp;quot;tab1&amp;quot;, content: &amp;apos;content1&amp;apos;&amp;#125;,  &amp;#123;label: &amp;quot;tab2&amp;quot;, content: &amp;apos;content2&amp;apos;&amp;#12">
-<meta name="twitter:image" content="http://xiaoxiaojing.github.io/2017/09/19/React%20Demo：Tabs组件/tab1.png">
+<meta name="twitter:title" content="ES6：解构">
+<meta name="twitter:description" content="Object Destructuring12345let node = &amp;#123;  type: &amp;apos;Identifier&amp;apos;,  name: &amp;apos;foo&amp;apos;&amp;#125;let &amp;#123;type, name&amp;#125; = node Destructuring Assignment注意：必须使用括号包裹Destructuring Assignment12345">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoxiaojing.github.io/2017/09/19/React Demo：Tabs组件/"/>
+  <link rel="canonical" href="http://xiaoxiaojing.github.io/2018/07/04/ES6：解构/"/>
 
 
 
 
 
-  <title>React Demo：Tabs组件 | XIAOXIAOJING</title>
+  <title>ES6：解构 | XIAOXIAOJING</title>
   
 
 
@@ -255,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2017/09/19/React Demo：Tabs组件/">
+    <link itemprop="mainEntityOfPage" href="http://xiaoxiaojing.github.io/2018/07/04/ES6：解构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TJ">
@@ -272,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">React Demo：Tabs组件</h1>
+          <h1 class="post-title" itemprop="name headline">ES6：解构</h1>
         
 
         <div class="post-meta">
@@ -284,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-19T13:59:06+08:00">
-                2017-09-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T22:09:37+08:00">
+                2018-07-04
               </time>
             
 
@@ -300,8 +298,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2018-06-23T17:07:17+08:00">
-                2018-06-23
+              <time title="Post modified" itemprop="dateModified" datetime="2018-07-04T22:13:00+08:00">
+                2018-07-04
               </time>
             
           </span>
@@ -319,8 +317,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React系列/" itemprop="url" rel="index">
-                    <span itemprop="name">React系列</span>
+                  <a href="/categories/ES6系列/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6系列</span>
                   </a>
                 </span>
 
@@ -356,58 +354,16 @@
       
 
       
-        <h2 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h2><div style="max-width: 250px"><br>  <img src="/2017/09/19/React%20Demo：Tabs组件/tab1.png" alt="tab1.png" title=""><br></div>
-
-<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><ol>
-<li><p>react的思想是数据驱动，所以将Tabs抽象成一份数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const tabs_data = [</div><div class="line">  &#123;label: &quot;tab1&quot;, content: &apos;content1&apos;&#125;,</div><div class="line">  &#123;label: &quot;tab2&quot;, content: &apos;content2&apos;&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
-</li>
-<li><p>数据最终渲染成的DOM结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;tabs&quot;&gt;</div><div class="line">  &lt;ul class=&quot;tab&quot;&gt;</div><div class="line">    &lt;li&gt;tab1&lt;/li&gt;</div><div class="line">    &lt;li&gt;tab2&lt;/li&gt;</div><div class="line">  &lt;/ul&gt;</div><div class="line">  &lt;ul class=&quot;tab-content&quot;&gt;</div><div class="line">    &lt;li&gt;content1&lt;/li&gt;</div><div class="line">    &lt;li&gt;content2&lt;/li&gt;</div><div class="line">  &lt;/ul&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>组件设计</p>
-<ul>
-<li><p>父组件<code>Tabs</code>，用来渲染Tabs的结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;tabs&quot;&gt;</div><div class="line">  &lt;ul class=&quot;tab&quot;&gt;</div><div class="line">    //...</div><div class="line">  &lt;/ul&gt;</div><div class="line">  &lt;ul class=&quot;tab-content&quot;&gt;</div><div class="line">    //...</div><div class="line">  &lt;/ul&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>子组件<code>Tab</code>，用来渲染Tabs的nav部分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;li&gt;tab1&lt;/li&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>子组件<code>TabContent</code>，用来渲染Tabs的content部分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;li&gt;content1&lt;/li&gt;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="组件实现"><a href="#组件实现" class="headerlink" title="组件实现"></a>组件实现</h2><ol>
-<li>子组件<code>Tab</code>和<code>TabContent</code>很容易编写，就是一个纯函数（只要注意控制标签的隐藏和显示）</li>
-<li><p>父组件<code>Tabs</code>的实现</p>
-<ul>
-<li><p>方法1：将数据<code>tabs_data</code>传递给父组件<code>Tabs</code>，然后对数据进行处理，构建出子组件。（不直观，如果数据不是需要的格式，还要进行一次数据构造）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Tabs data=&#123;tabs_data&#125;&gt;&lt;/Tabs&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>方法2：在父组件使用阶段，将数据<code>tabs_data</code>分解后传送给父组件。（直观，符合React的设计思想）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;Tabs&gt;</div><div class="line">  &lt;Tab label=&#123;tabs_data[0].label&#125;&gt;&#123;tabs_data[0].content&#125;&lt;Tab&gt;</div><div class="line">  &lt;Tab label=&#123;tabs_data[1].label&#125;&gt;&#123;tabs_data[1].content&#125;&lt;Tab&gt;</div><div class="line">&lt;/Tabs&gt;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>父组件的实现</p>
-<ul>
-<li><p>通过Children值构造nav</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">getTabs () &#123;</div><div class="line">    return React.Children.map(this.props.children, (item, index)=&gt;&#123;</div><div class="line">        return React.cloneElement(item, &#123;</div><div class="line">            key: index,</div><div class="line">            isChoose: index == this.props.currentIndex,</div><div class="line">            children: null,</div><div class="line">            onClick: this.props.onChange.bind(null, index)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>通过Children值构造content</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">getContents () &#123;</div><div class="line">    return React.Children.map(this.props.children, (item, index)=&gt;&#123;</div><div class="line">        return React.createElement(TabContent, &#123;</div><div class="line">            key: index,</div><div class="line">            isShow: index == this.props.currentIndex,</div><div class="line">            children: item.props.children</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>组装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div className=&quot;ui-tabs&quot;&gt;</div><div class="line">    &lt;div className=&quot;tabs&quot;&gt;</div><div class="line">        &#123;this.getTabs()&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;div className=&quot;contents&quot;&gt;</div><div class="line">        &#123;this.getContents()&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<p>源代码见：<a href="https://github.com/xiaoxiaojing/ToDoDo/tree/master/react/demo/src/Tabs" target="_blank" rel="external">https://github.com/xiaoxiaojing/ToDoDo/tree/master/react/demo/src/Tabs</a></p>
-
+        <h2 id="Object-Destructuring"><a href="#Object-Destructuring" class="headerlink" title="Object Destructuring"></a>Object Destructuring</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">let node = &#123;</div><div class="line">  type: &apos;Identifier&apos;,</div><div class="line">  name: &apos;foo&apos;</div><div class="line">&#125;</div><div class="line">let &#123;type, name&#125; = node</div></pre></td></tr></table></figure>
+<h3 id="Destructuring-Assignment"><a href="#Destructuring-Assignment" class="headerlink" title="Destructuring Assignment"></a>Destructuring Assignment</h3><p>注意：必须使用括号包裹<code>Destructuring Assignment</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let node = &#123;</div><div class="line">  type: &apos;Identifier&apos;,</div><div class="line">  name: &apos;foo&apos;</div><div class="line">&#125;,</div><div class="line">type = &apos;Literal&apos;,</div><div class="line">name = 5</div><div class="line"></div><div class="line">// assign different values using destructuring</div><div class="line">(&#123;type, name&#125; = node)</div></pre></td></tr></table></figure></p>
+<h3 id="Default-Values"><a href="#Default-Values" class="headerlink" title="Default Values"></a>Default Values</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let node = &#123;</div><div class="line">  type: &apos;Identifier&apos;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let &#123;type, name, value = true&#125; = node</div><div class="line"></div><div class="line">console.log(type) // &apos;Identifier&apos;</div><div class="line">console.log(name) // undefined</div><div class="line">console.log(value) // true</div></pre></td></tr></table></figure>
+<h3 id="Assigning-to-Different-Local-Variable-Names"><a href="#Assigning-to-Different-Local-Variable-Names" class="headerlink" title="Assigning to Different Local Variable Names"></a>Assigning to Different Local Variable Names</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">let node = &#123;</div><div class="line">  type: &apos;Identifier&apos;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let &#123;type: localType, name: nameType = true&#125; = node</div><div class="line"></div><div class="line">console.log(localType)  // &apos;Identifier&apos;</div><div class="line">console.log(nameType)  // true</div></pre></td></tr></table></figure>
+<h3 id="Nested-Object-Destructuring"><a href="#Nested-Object-Destructuring" class="headerlink" title="Nested Object Destructuring"></a>Nested Object Destructuring</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">let node = &#123;</div><div class="line">  type: &quot;Identifier&quot;,</div><div class="line">  name: &quot;foo&quot;,</div><div class="line">  loc: &#123;</div><div class="line">    start: &#123;</div><div class="line">      line: 1,</div><div class="line">      column: 1</div><div class="line">    &#125;,</div><div class="line">    end: &#123;</div><div class="line">      line: 1,</div><div class="line">      column: 4</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line">let &#123; loc: &#123; start, end: localEnd &#125;&#125; = node;</div></pre></td></tr></table></figure>
+<h2 id="Array-Destructuring"><a href="#Array-Destructuring" class="headerlink" title="Array Destructuring"></a>Array Destructuring</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">let colors = [&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;]</div><div class="line">let [firstColor] = colors</div><div class="line">let [,,thirdColor] = colors</div></pre></td></tr></table></figure>
+<p>(Default Value 和 Nested Array Destructuring和对象的一致)</p>
+<h3 id="Destructuring-Assignment-1"><a href="#Destructuring-Assignment-1" class="headerlink" title="Destructuring Assignment"></a>Destructuring Assignment</h3><p>可以不使用括号包裹<code>Destructuring Assignment</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">let colors = [&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;],</div><div class="line">    firstColor = &apos;black&apos;,</div><div class="line">    secondColor = &apos;purple&apos;</div><div class="line"></div><div class="line">[firstColor, secondColor] = colors</div></pre></td></tr></table></figure></p>
+<p>注意：可以用来交换两个变量的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let a = 1, b = 2</div><div class="line">[a, b] = [b, a]</div></pre></td></tr></table></figure></p>
+<h3 id="Rest-Items"><a href="#Rest-Items" class="headerlink" title="Rest Items"></a>Rest Items</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">let colors = [&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;]</div><div class="line">let [first, ...restColors] = colors</div><div class="line"></div><div class="line">console.log(first)  // &apos;red&apos;</div><div class="line">console.log(resColors) // [&apos;green&apos;, &apos;blue&apos;]</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -424,9 +380,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/react/" rel="tag"># react</a>
-          
-            <a href="/tags/tabs/" rel="tag"># tabs</a>
+            <a href="/tags/es6/" rel="tag"># es6</a>
           
         </div>
       
@@ -439,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/18/Statistics-with-R/" rel="next" title="概率论和统计学">
-                <i class="fa fa-chevron-left"></i> 概率论和统计学
+              <a href="/2018/07/03/ES6：对象/" rel="next" title="ES6：对象">
+                <i class="fa fa-chevron-left"></i> ES6：对象
               </a>
             
           </div>
@@ -449,8 +403,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/09/20/CSS-Modules/" rel="prev" title="CSS Modules">
-                CSS Modules <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/04/ES6：Symbol/" rel="prev" title="ES6：Symbol">
+                ES6：Symbol <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -605,7 +559,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#效果展示"><span class="nav-number">1.</span> <span class="nav-text">效果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-number">2.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件实现"><span class="nav-number">3.</span> <span class="nav-text">组件实现</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-Destructuring"><span class="nav-number">1.</span> <span class="nav-text">Object Destructuring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Destructuring-Assignment"><span class="nav-number">1.1.</span> <span class="nav-text">Destructuring Assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Default-Values"><span class="nav-number">1.2.</span> <span class="nav-text">Default Values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Assigning-to-Different-Local-Variable-Names"><span class="nav-number">1.3.</span> <span class="nav-text">Assigning to Different Local Variable Names</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nested-Object-Destructuring"><span class="nav-number">1.4.</span> <span class="nav-text">Nested Object Destructuring</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array-Destructuring"><span class="nav-number">2.</span> <span class="nav-text">Array Destructuring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Destructuring-Assignment-1"><span class="nav-number">2.1.</span> <span class="nav-text">Destructuring Assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rest-Items"><span class="nav-number">2.2.</span> <span class="nav-text">Rest Items</span></a></li></ol></li></ol></div>
             
 
           </div>
