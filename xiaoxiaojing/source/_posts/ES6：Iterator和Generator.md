@@ -1,5 +1,5 @@
 ---
-title: ES6学习：Iterator和Generator
+title: ES6：Iterator和Generator
 date: 2018-01-03 22:50:22
 tags: es6
 categories: ES6系列
@@ -64,8 +64,7 @@ iterator.next() // {value: 2, done: false}
 iterator.next() // {value: undefined, done: true}
 ```
 * 特点：每个`yield`执行后，函数会暂停直到再次调用`next()`
-> Perhaps the most interesting aspect of generator functions is that
-they stop execution after each yield statement
+> Perhaps the most interesting aspect of generator functions is that they stop execution after each yield statement
 
 ```js
 function *createIterator(items) {
@@ -82,17 +81,17 @@ iterator.next() // {value: 2, done: false}
 iterator.next() // {value: undefined, done: true}
 ```
 
-* 注意：**只能在生成器内使用`yield`**，在其他地方使用会有语法错误。即使在生成器中的函数内使用，也会有语法错误因为`yield`不能跨越函数边界（connot cross function boundaries）
+* 注意：**只能在生成器内使用`yield`**，在其他地方使用会有语法错误。即使在生成器中的函数内使用，也会有语法错误，因为`yield`不能跨越函数边界（connot cross function boundaries）
 
 ### 声明Generator
-1. 将普通函数定义为Generator
+1. 将普通函数定义为`Generator`
 ```
 function *generator() {
    yield 1
    yield 2
 }
 ```
-2. 将匿名函数定义为Generator
+2. 将匿名函数定义为`Generator`
 ```
 const generator = function *() {
   yield 1
@@ -107,7 +106,7 @@ const generator = function *() {
 const obj = {
 	generator: function *() {
 		yield 1
-   		yield 2
+   	yield 2
 	}
 }
 ```
@@ -117,7 +116,7 @@ const obj = {
 const obj = {
 	*generator() {
 		yield 1
-   		yield 2
+   	yield 2
 	}
 }
 ```
@@ -125,7 +124,8 @@ const obj = {
 ## 可迭代对象（Iterable）
 1. 定义：是一个有特殊属性(`Symbol.iterator`)的对象
   - `Symbol.iterator`：指向一个函数，这个函数会返回给定对象的**生成器（Generator）**
-2. ES6中的可迭代对象有
+2. Iterable被用于`for-of`循环
+3. ES6中的可迭代对象有
   - collection objects (arrays, sets, and maps)
   - strings
   - 通过Generator生成的Iterator
@@ -145,6 +145,24 @@ function isIterable(object) {
 ```
 
 3. 创建可迭代对象：给一个对象定义`Symbol.iterator`属性，并设置属性的值为一个`Generator`，这个对象就变成了可迭代对象
+```
+let collection = {
+  items: [],
+  *[Symbol.iterator]() {
+    for (let item of this.items) {
+      yield item;
+    }
+  }
+};
+
+collection.items.push(1);
+collection.items.push(2);
+collection.items.push(3);
+// 遍历自定义的可迭代对象
+for (let x of collection) {
+    console.log(x);
+}
+```
 
 ## Iterable的基本用法
 ### 使用for-of遍历Iterable
@@ -255,7 +273,7 @@ console.log(iterator.next());   // "{ value: 2, done: false }"
 console.log(iterator.next());   // "{ value: true, done: false }"
 console.log(iterator.next());   // "{ value: undefined, done: true }"
 ```
-* 例子2：内部Generator如果有返回值，则可以是用这个返回值
+* 例子2：内部Generator如果有返回值，则可以使用这个返回值
 ```
 function *createNumberIterator() {
     yield 1;
@@ -288,7 +306,7 @@ function *createCombinedIterator() {
 
 ### 字符串的迭代器（String Iterators）
 * 使用for循环遍历字符串存在的问题：无法处理双字节字符（double-byte characters）
-> 使用`[]`获取字符串中某个字符，但是`[]`是获取的是`code units`而不是`character`。但是某些`character`是由两个`code units`组成的。
+> 使用`[]`获取字符串中某个字符，但是`[]`获取的是`code units`而不是`character`。但是某些`character`是由两个`code units`组成的。
 
 ```
 var message = "A 𠮷 B";
@@ -322,3 +340,48 @@ for (let div of divs) {
 
 ### 使用Generator处理异步任务
 * 原理：Generator执行时，遇到yield会暂停，直到下一次调用next时，才会重新开始执行
+* task runner 示例
+```
+function run(taskDef) {
+  // create the iterator, make available elsewhere
+  let task = taskDef();
+
+  // start the task
+  let result = task.next();
+
+  // recursive function to keep calling next()
+  function step() {
+    // if there's more to do
+    if (!result.done) {
+      if (typeof result.value === "function") {
+        result.value(function(err, data) {
+          if (err) {
+            result = task.throw(err);
+            return;
+          }
+          result = task.next(data);
+          step();
+        });
+      } else {
+        result = task.next(result.value);
+        step();
+      }
+    }
+  }
+  // start the process
+  step();
+}
+
+let fs = require("fs");
+function readFile(filename) {
+  return function(callback) {
+    fs.readFile(filename, callback);
+  };
+}
+
+run(function*() {
+  let contents = yield readFile("config.json");
+  doSomethingWith(contents);
+  console.log("Done");
+});
+```
