@@ -13,6 +13,7 @@ categories: ES6系列
 
 #### in ES6
 ES6的默认参数：未提供参数或者参数是`undefined`时，会使用默认值
+
 ```
 function func(arg='test') {
   console.log(arg)
